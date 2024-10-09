@@ -3,9 +3,9 @@ package fvtc.edu.grocerylist;
 public class Item {
     private int Id;
     private String Description;
-    private boolean IsOnShoppingList;
-    private boolean IsInCart;
-    public Item(int id, String description, boolean isOnShoppingList, boolean isInCart){
+    private String IsOnShoppingList;
+    private String IsInCart;
+    public Item(int id, String description, String isOnShoppingList, String isInCart){
         Id = id;
         Description = description;
         IsOnShoppingList = isOnShoppingList;
@@ -14,38 +14,35 @@ public class Item {
     public Item(){
         Id = -1;
         Description = "";
-        IsOnShoppingList = false;
-        IsInCart = false;
+        IsOnShoppingList = "0";
+        IsInCart = "0";
     }
     public String toString(){ return Id + "|" + Description + "|" + IsOnShoppingList + "|" + IsInCart;}
+
     public String getDescription() {
         return Description;
     }
-
     public void setDescription(String description) {
         Description = description;
     }
 
-    public boolean isOnShoppingList() {
+    public String isOnShoppingList() {
         return IsOnShoppingList;
     }
-
-    public void setOnShoppingList(boolean onShoppingList) {
+    public void setOnShoppingList(String onShoppingList) {
         IsOnShoppingList = onShoppingList;
     }
 
-    public boolean isInCart() {
+    public String isInCart() {
         return IsInCart;
     }
-
-    public void setInCart(boolean inCart) {
+    public void setInCart(String inCart) {
         IsInCart = inCart;
     }
 
     public int getId() {
         return Id;
     }
-
     public void setId(int id) {
         Id = id;
     }

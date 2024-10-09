@@ -14,7 +14,7 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 public class FileIO {
-    public static final String TAG = "FileIOMethods";
+    public static final String TAG = "FileIO";
 
     public void writeFile(String filename, AppCompatActivity activity, String[] items) /*throws FileNotFoundException*/ {
         try {
@@ -22,15 +22,17 @@ public class FileIO {
             String line = "";
             for(int counter = 0; counter < items.length; counter++){
                 line = items[counter];
-                if(counter < items.length - 1) line += "\r\n";
+                if(counter < items.length - 1)
+                    line += "\r\n";
                 writer.write(line);
                 Log.d(TAG, "writeFile: " + line);
-                writer.close();
-            }
+
+            }writer.close();
         } catch (FileNotFoundException e) {
             Log.d(TAG, "WriteFile: FileNotFoundException" + e.getMessage());
         } catch (IOException e) {
             Log.d(TAG, "WriteFile: IOException" + e.getMessage());
+            e.printStackTrace();
         }
         catch (Exception e){
             Log.i(TAG, "WriteFile: " + e.getMessage());
