@@ -9,37 +9,12 @@
     android:background="@drawable/border_line"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/tvItem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:textSize="24dp"
-        android:layout_weight = "1"
-        android:padding="2dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvItems"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <CheckBox
-        android:id="@+id/chkOnShoppingList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CheckBox"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/chkInCart"
-        android:visibility="gone"/>
-
-    <CheckBox
-        android:id="@+id/chkInCart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CheckBox"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="@id/chkOnShoppingList"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="visible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
