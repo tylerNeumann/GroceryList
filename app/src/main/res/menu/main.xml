@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">>
+    <item
+        android:id="@+id/action_ShowMasterList"
+        android:orderInCategory="100"
+        android:title="Show Master List"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_ShowShoppingList"
+        android:orderInCategory="200"
+        android:title="Show Shopping List"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_AddItem"
+        android:orderInCategory="300"
+        android:title="Add Item"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_ClearAll"
+        android:orderInCategory="400"
+        android:title="Clear All"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_DeleteChecked"
+        android:orderInCategory="500"
+        android:title="Delete Checked"
+        app:showAsAction="never" />
+</menu>
