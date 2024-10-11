@@ -3,7 +3,6 @@ package fvtc.edu.grocerylist;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -123,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else if(id == R.id.action_ClearAll){
             Log.d(TAG, "onOptionsItemSelected: clear");
+            clearAll();
         }
         else {
             Log.d(TAG, "onOptionsItemSelected: delete");
@@ -208,6 +207,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void deleteChecked(){
+        boolean loopDone = false;
         if(getTitle() == "Master List"){
             items.removeIf(item -> item.isOnShoppingList().equals("1"));
         }
@@ -232,14 +232,16 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG, "deleteChecked: reset item: " + items.get(i));
                 }
                 else Log.d(TAG, "deleteChecked: failed if");
+
+                if(count == shoppingList.size()) loopDone = true;
             }
-
         }
-
+        FileIO.writeFile(FILENAME, this, createDataArray(items));
+        if(loopDone) shoppingList.removeIf(item -> item.isInCart().equals("1"));
+        rebind();
     }
-    // FileIO.writeFile(FILENAME, this, createDataArray(items));
-    //shoppingList.removeIf(item -> item.isInCart().equals("1"));
-    //rebind();
+
+
     public void rebind(){
         rvItems = findViewById(R.id.rvItems);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
@@ -258,6 +260,54 @@ public class MainActivity extends AppCompatActivity {
         rvItems.setAdapter(itemAdapter);
     }
     public void clearAll(){
+        if(getTitle() == "Master List"){
+            int i = 0;
+            Item item = new Item();
 
+            for(int count = 0; count < items.size(); count++) {
+                //Log.d(TAG, "deleteChecked: entered loop");
+                if (items.get(count).isOnShoppingList().equals("1")) {
+                   // Log.d(TAG, "deleteChecked: passed if");
+                    item = items.get(count);
+                   // Log.d(TAG, "deleteChecked: item: " + item);
+                    i = item.getId();
+                    //Log.d(TAG, "deleteChecked: i = " + i);
+                    i -= 1;
+                    //Log.d(TAG, "deleteChecked: item id: " + i);
+                    items.get(i).setOnShoppingList("0");
+                    Log.d(TAG, "deleteChecked: reset item: " + items.get(i));
+
+
+                } else Log.d(TAG, "deleteChecked: failed if");
+            }
+        }
+        if(getTitle() == "Shopping List"){
+            //Log.d(TAG, "deleteChecked: item removed");
+            //set deleted items isInShoppingList == "0"
+            int i = 0;
+            Item item = new Item();
+
+            for(int count = 0; count < shoppingList.size(); count++){
+                //Log.d(TAG, "deleteChecked: entered loop");
+                if(shoppingList.get(count).isInCart().equals("1")) {
+                    Log.d(TAG, "deleteChecked: passed if");
+                    item = shoppingList.get(count);
+                    Log.d(TAG, "deleteChecked: item: " + item);
+                    i = item.getId();
+                    Log.d(TAG, "deleteChecked: i = " + i);
+                    i -= 1;
+                    Log.d(TAG, "deleteChecked: item id: " + i);
+                    items.get(i).setInCart("0");
+                    items.get(i).setOnShoppingList("0");
+                    Log.d(TAG, "deleteChecked: reset item: " + items.get(i));
+
+
+                }
+                else Log.d(TAG, "deleteChecked: failed if");
+            }
+
+        }
+        FileIO.writeFile(FILENAME, this, createDataArray(items));
+        rebind();
     }
 }
