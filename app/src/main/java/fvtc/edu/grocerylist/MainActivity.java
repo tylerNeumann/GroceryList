@@ -76,8 +76,8 @@ public class MainActivity extends AppCompatActivity {
     private void createItems() {
         items = new ArrayList<Item>();
         items.add(new Item(1, "Protein Shake", "0", "0"));
-        items.add(new Item(2, "Pop Tarts", "1", "0"));
-        items.add(new Item(3, "Mtn Dew", "1", "0"));
+        items.add(new Item(2, "Pop Tarts", "0", "0"));
+        items.add(new Item(3, "Mtn Dew", "0", "0"));
         items.add(new Item(4, "Pretzels", "0", "0"));
         items.add(new Item(5, "Shampoo", "0", "0"));
         items.add(new Item(6, "Cheese", "0", "0"));
@@ -212,7 +212,21 @@ public class MainActivity extends AppCompatActivity {
             items.removeIf(item -> item.isOnShoppingList().equals("1"));
         }
         if(getTitle() == "Shopping List"){
-            items.removeIf(item -> item.isInCart().equals("1"));
+            shoppingList.removeIf(item -> item.isInCart().equals("1"));
+            Log.d(TAG, "deleteChecked: item removed");
+            //set deleted items isInShoppingList == "0"
+            for(int count = 0; count < items.size(); count++){
+                Log.d(TAG, "deleteChecked: entered loop");
+                if(items.get(count).isInCart().equals("1")) {
+                    Log.d(TAG, "deleteChecked: passed if");
+                    items.get(items.indexOf(items.get(count).isInCart().equals("1"))).setInCart("0");
+                    Log.d(TAG, "deleteChecked: task 1 passed");
+                    items.get(items.indexOf(items.get(count).isInCart().equals("1"))).setOnShoppingList("0");
+                    Log.d(TAG, "deleteChecked: task 2 passed");
+                }
+            }
+            FileIO.writeFile(FILENAME, this, createDataArray(items));
+            rebind();
         }
 
     }
@@ -232,5 +246,8 @@ public class MainActivity extends AppCompatActivity {
             itemAdapter.setOnItemCheckedChangeListener(onCheckedChangedListener);
         }
         rvItems.setAdapter(itemAdapter);
+    }
+    public void clearAll(){
+
     }
 }
