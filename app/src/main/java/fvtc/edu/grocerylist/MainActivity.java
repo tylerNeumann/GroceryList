@@ -298,7 +298,7 @@ public class MainActivity extends AppCompatActivity {
                     i -= 1;
                     Log.d(TAG, "deleteChecked: item id: " + i);
                     items.get(i).setInCart("0");
-                    items.get(i).setOnShoppingList("0");
+                    //items.get(i).setOnShoppingList("0");
                     Log.d(TAG, "deleteChecked: reset item: " + items.get(i));
 
 
