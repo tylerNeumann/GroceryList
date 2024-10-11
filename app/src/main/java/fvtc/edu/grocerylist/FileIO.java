@@ -17,6 +17,7 @@ public class FileIO {
     public static final String TAG = "FileIO";
 
     public static void writeFile(String filename, AppCompatActivity activity, String[] items) /*throws FileNotFoundException*/ {
+        Log.d(TAG, "writeFile: start");
         try {
             OutputStreamWriter writer = new OutputStreamWriter(activity.openFileOutput(filename, Context.MODE_PRIVATE));
             String line = "";
@@ -37,6 +38,7 @@ public class FileIO {
         catch (Exception e){
             Log.i(TAG, "WriteFile: " + e.getMessage());
         }
+        Log.d(TAG, "writeFile: end");
     }
 
     public ArrayList<String> readFile(String filename, AppCompatActivity activity){

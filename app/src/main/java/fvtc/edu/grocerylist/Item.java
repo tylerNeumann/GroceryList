@@ -1,23 +1,30 @@
 package fvtc.edu.grocerylist;
 
+import android.util.Log;
+
+import java.util.Objects;
+
 public class Item {
+    public static final String TAG = "ItemClass";
     private int Id;
     private String Description;
     private String IsOnShoppingList;
-    private String IsInCart;
+    private String IsInShoppingCart;
+    private boolean IsOnList = false;
+    private boolean IsInCart = false;
     public Item(int id, String description, String isOnShoppingList, String isInCart){
         Id = id;
         Description = description;
         IsOnShoppingList = isOnShoppingList;
-        IsInCart = isInCart;
+        IsInShoppingCart = isInCart;
     }
     public Item(){
         Id = -1;
         Description = "";
         IsOnShoppingList = "0";
-        IsInCart = "0";
+        IsInShoppingCart = "0";
     }
-    public String toString(){ return Id + "|" + Description + "|" + IsOnShoppingList + "|" + IsInCart;}
+    public String toString(){ return Id + "|" + Description + "|" + IsOnShoppingList + "|" + IsInShoppingCart;}
 
     public String getDescription() {
         return Description;
@@ -33,11 +40,11 @@ public class Item {
         IsOnShoppingList = onShoppingList;
     }
 
-    public String isInCart() {
-        return IsInCart;
+    public String isInShoppingCart() {
+        return IsInShoppingCart;
     }
-    public void setInCart(String inCart) {
-        IsInCart = inCart;
+    public void setInShoppingCart(String inCart) {
+        IsInShoppingCart = inCart;
     }
 
     public int getId() {
@@ -45,12 +52,34 @@ public class Item {
     }
     public void setId(int id) { Id = id; }
 
-    public boolean getIsOnShoppingList(){
-        if(isOnShoppingList() == "1") return true;
-        else return false;
+    public boolean getIsOnList(){
+        Log.d(TAG, "getIsOnList: hit");
+        if(Objects.equals(isOnShoppingList(), "1")) {
+            Log.d(TAG, "getIsOnList: = " + isOnShoppingList());
+            IsOnList = true;
+            Log.d(TAG, "getIsOnList: IsOnList = " + IsOnList);
+            return IsOnList;
+        }
+        else {
+            Log.d(TAG, "getIsOnList: failed");
+            IsOnList = false;
+            Log.d(TAG, "getIsOnList: IsOnList = " + IsOnList);
+            return IsOnList;
+        }
     }
     public boolean getIsInCart(){
-        if(isInCart() == "1") return true;
-        else return false;
+        Log.d(TAG, "getIsInCart: hit");
+        if(Objects.equals(isInShoppingCart(), "1")) {
+            Log.d(TAG, "getIsInCart: = " + isOnShoppingList());
+            IsInCart = true;
+            Log.d(TAG, "getIsInCart: IsInCart = " + IsInCart);
+            return IsInCart;
+        }
+        else {
+            Log.d(TAG, "getIsInCart: failed");
+            IsInCart = false;
+            Log.d(TAG, "getIsInCart: IsInCart = " + IsInCart);
+            return IsInCart;
+        }
     }
 }

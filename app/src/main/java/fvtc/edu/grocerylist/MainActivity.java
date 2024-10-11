@@ -38,16 +38,16 @@ public class MainActivity extends AppCompatActivity {
     private CompoundButton.OnCheckedChangeListener onCheckedChangedListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            RecyclerView.ViewHolder viewHolder;
-            viewHolder = (RecyclerView.ViewHolder) buttonView.getTag();
+            RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) buttonView.getTag();
+
             int position = viewHolder.getAdapterPosition();
             if(getTitle().equals("Master List")){
                 if(isChecked) items.get(position).setOnShoppingList("1");
                 else items.get(position).setOnShoppingList("0");
             }
             else{
-                if(isChecked) items.get(position).setInCart("1");
-                else items.get(position).setInCart("0");
+                if(isChecked) items.get(position).setInShoppingCart("1");
+                else items.get(position).setInShoppingCart("0");
 
             }
 
@@ -105,8 +105,7 @@ public class MainActivity extends AppCompatActivity {
             setTitle("Master List");
             title = "Master List";
             rebind();
-            CheckBox chkOnShoppingList = findViewById(R.id.chkOnShoppingList);
-            //chkOnShoppingList.setOnCheckedChangeListener();
+            //CheckBox chkOnShoppingList = findViewById(R.id.chkOnShoppingList);
         }
         else if (id == R.id.action_ShowShoppingList) {
             //Log.d(TAG, "onOptionsItemSelected: shopping list " + shoppingList.size());
@@ -126,20 +125,19 @@ public class MainActivity extends AppCompatActivity {
         else {
             Log.d(TAG, "onOptionsItemSelected: delete");
             deleteChecked();
-            //FileIO.writeFile(FILENAME,this,createDataArray(items));
-            //rebind();
+
         }
         return super.onOptionsItemSelected(item);
     }
 
     public void readFile() {
+        Log.d(TAG, "readFile: start");
         try {
             FileIO fileIO = new FileIO();
-            //Log.d(TAG, "readFile: start");
             ArrayList<String> strData = fileIO.readFile(FILENAME, this);
             if (getTitle() == "Master List") items = new ArrayList<Item>();
             if (getTitle() == "Shopping List") shoppingList = new ArrayList<Item>();
-            //Log.d(TAG, "readFile: " + getTitle());
+            Log.d(TAG, "readFile: " + getTitle());
             Log.d(TAG, "readFile: data size " + strData.size());
             for (String s : strData) {
                 //Log.d(TAG, "readFile: split string");
@@ -147,7 +145,8 @@ public class MainActivity extends AppCompatActivity {
 
                 if (getTitle() == "Master List") {
                     items.add(new Item(Integer.parseInt(data[0]), data[1], data[2], data[3]));
-                    Log.d(TAG, "ReadTextFile: " + items.get(items.size() - 1).getDescription());
+                    //Log.d(TAG, "ReadTextFile: " + items.get(items.size() - 1).getDescription());
+                    Log.d(TAG, "ReadTextFile: master list item: " + items.get(items.size() - 1).toString());
                 }
 
                 if (getTitle() == "Shopping List") {
@@ -156,13 +155,15 @@ public class MainActivity extends AppCompatActivity {
                     if(Objects.equals(data[2], "1")){
                         //Log.d(TAG, "ReadFile: add item to shopping list" + data[2]);
                         shoppingList.add(new Item(Integer.parseInt(data[0]), data[1], data[2], data[3]));
-                        Log.d(TAG, "ReadTextFile: " + shoppingList.get(shoppingList.size() - 1).getDescription());
+                        Log.d(TAG, "ReadTextFile: shopping list item: " + shoppingList.get(shoppingList.size() - 1).getDescription());
                     }
                 }
             }
+            Log.d(TAG, "readFile: end for loop");
         } catch (Exception e){
             Log.d(TAG, "ShowMasterList: error" + e.getMessage());
         }
+        Log.d(TAG, "readFile: end");
     }
     private void addItem() {
         LayoutInflater layoutInflater = LayoutInflater.from(this);
@@ -182,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
                                 Item item = new Item();
                                 item.setId(items.size() + 1);
                                 item.setDescription(etAddItem.getText().toString());
-                                item.setInCart("0");
+                                item.setInShoppingCart("0");
                                 if(getTitle() == "Master List"){
                                     item.setOnShoppingList("0");
                                 }
@@ -219,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
 
             for(int count = 0; count < shoppingList.size(); count++){
                 //Log.d(TAG, "deleteChecked: entered loop");
-                if(shoppingList.get(count).isInCart().equals("1")) {
+                if(shoppingList.get(count).isInShoppingCart().equals("1")) {
                     Log.d(TAG, "deleteChecked: passed if");
                     item = shoppingList.get(count);
                     Log.d(TAG, "deleteChecked: item: " + item);
@@ -227,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG, "deleteChecked: i = " + i);
                     i -= 1;
                     Log.d(TAG, "deleteChecked: item id: " + i);
-                    items.get(i).setInCart("0");
+                    items.get(i).setInShoppingCart("0");
                     items.get(i).setOnShoppingList("0");
                     Log.d(TAG, "deleteChecked: reset item: " + items.get(i));
                 }
@@ -237,12 +238,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         FileIO.writeFile(FILENAME, this, createDataArray(items));
-        if(loopDone) shoppingList.removeIf(item -> item.isInCart().equals("1"));
+        if(loopDone) shoppingList.removeIf(item -> item.isInShoppingCart().equals("1"));
         rebind();
     }
 
 
     public void rebind(){
+        Log.d(TAG, "rebind: start");
         rvItems = findViewById(R.id.rvItems);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rvItems.setLayoutManager(layoutManager);
@@ -258,6 +260,7 @@ public class MainActivity extends AppCompatActivity {
             itemAdapter.setOnItemCheckedChangeListener(onCheckedChangedListener);
         }
         rvItems.setAdapter(itemAdapter);
+        Log.d(TAG, "rebind: end");
     }
     public void clearAll(){
         if(getTitle() == "Master List"){
@@ -289,7 +292,7 @@ public class MainActivity extends AppCompatActivity {
 
             for(int count = 0; count < shoppingList.size(); count++){
                 //Log.d(TAG, "deleteChecked: entered loop");
-                if(shoppingList.get(count).isInCart().equals("1")) {
+                if(shoppingList.get(count).isInShoppingCart().equals("1")) {
                     Log.d(TAG, "deleteChecked: passed if");
                     item = shoppingList.get(count);
                     Log.d(TAG, "deleteChecked: item: " + item);
@@ -297,7 +300,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG, "deleteChecked: i = " + i);
                     i -= 1;
                     Log.d(TAG, "deleteChecked: item id: " + i);
-                    items.get(i).setInCart("0");
+                    items.get(i).setInShoppingCart("0");
                     items.get(i).setOnShoppingList("0");
                     Log.d(TAG, "deleteChecked: reset item: " + items.get(i));
 
