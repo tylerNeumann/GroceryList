@@ -127,8 +127,8 @@ public class MainActivity extends AppCompatActivity {
         else {
             Log.d(TAG, "onOptionsItemSelected: delete");
             deleteChecked();
-            FileIO.writeFile(FILENAME,this,createDataArray(items));
-            rebind();
+            //FileIO.writeFile(FILENAME,this,createDataArray(items));
+            //rebind();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -212,24 +212,34 @@ public class MainActivity extends AppCompatActivity {
             items.removeIf(item -> item.isOnShoppingList().equals("1"));
         }
         if(getTitle() == "Shopping List"){
-            shoppingList.removeIf(item -> item.isInCart().equals("1"));
-            Log.d(TAG, "deleteChecked: item removed");
+            //Log.d(TAG, "deleteChecked: item removed");
             //set deleted items isInShoppingList == "0"
-            for(int count = 0; count < items.size(); count++){
-                Log.d(TAG, "deleteChecked: entered loop");
-                if(items.get(count).isInCart().equals("1")) {
+            int i = 0;
+            Item item = new Item();
+
+            for(int count = 0; count < shoppingList.size(); count++){
+                //Log.d(TAG, "deleteChecked: entered loop");
+                if(shoppingList.get(count).isInCart().equals("1")) {
                     Log.d(TAG, "deleteChecked: passed if");
-                    items.get(items.indexOf(items.get(count).isInCart().equals("1"))).setInCart("0");
-                    Log.d(TAG, "deleteChecked: task 1 passed");
-                    items.get(items.indexOf(items.get(count).isInCart().equals("1"))).setOnShoppingList("0");
-                    Log.d(TAG, "deleteChecked: task 2 passed");
+                    item = shoppingList.get(count);
+                    Log.d(TAG, "deleteChecked: item: " + item);
+                    i = item.getId();
+                    Log.d(TAG, "deleteChecked: i = " + i);
+                    i -= 1;
+                    Log.d(TAG, "deleteChecked: item id: " + i);
+                    items.get(i).setInCart("0");
+                    items.get(i).setOnShoppingList("0");
+                    Log.d(TAG, "deleteChecked: reset item: " + items.get(i));
                 }
+                else Log.d(TAG, "deleteChecked: failed if");
             }
-            FileIO.writeFile(FILENAME, this, createDataArray(items));
-            rebind();
+
         }
 
     }
+    // FileIO.writeFile(FILENAME, this, createDataArray(items));
+    //shoppingList.removeIf(item -> item.isInCart().equals("1"));
+    //rebind();
     public void rebind(){
         rvItems = findViewById(R.id.rvItems);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
