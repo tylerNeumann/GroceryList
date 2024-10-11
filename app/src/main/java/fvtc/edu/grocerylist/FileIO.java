@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class FileIO {
     public static final String TAG = "FileIO";
 
-    public void writeFile(String filename, AppCompatActivity activity, String[] items) /*throws FileNotFoundException*/ {
+    public static void writeFile(String filename, AppCompatActivity activity, String[] items) /*throws FileNotFoundException*/ {
         try {
             OutputStreamWriter writer = new OutputStreamWriter(activity.openFileOutput(filename, Context.MODE_PRIVATE));
             String line = "";

@@ -10,6 +10,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.FileNotFoundException;
@@ -19,11 +20,10 @@ import java.util.ArrayList;
 
 public class ItemAdapter extends RecyclerView.Adapter {
     private ArrayList<Item> itemData;
-    private String activityTitle;
     private View.OnClickListener onItemClickListener;
+    private CompoundButton.OnCheckedChangeListener onItemCheckedChangeListener;
     public static final String TAG = "ItemAdapter";
     private Context parentContext;
-    public static final String FILENAME = "MasterList.txt";
     FileIO fileIO;
 
     public class ItemViewHolder extends RecyclerView.ViewHolder{
@@ -42,18 +42,24 @@ public class ItemAdapter extends RecyclerView.Adapter {
 
             itemView.setTag(this);
             itemView.setOnClickListener(onItemClickListener);
+            chkSelector.setOnCheckedChangeListener(onItemCheckedChangeListener);
         }
 
         public TextView getTvDescription(){ return tvDescription; }
-        public TextView getTvIsOnShoppingList(){return tvIsOnShoppingList; }
-        public TextView getTvIsInCart(){return tvIsInCart; }
+        public TextView getTvIsOnShoppingList(){ return tvIsOnShoppingList; }
+        public TextView getTvIsInCart(){ return tvIsInCart; }
+        public CheckBox getChkSelector(){ return chkSelector; }
 
     }
-    public ItemAdapter(ArrayList<Item> data, Context context, String activityTitle){
+    public ItemAdapter(ArrayList<Item> data, Context context){
         itemData = data;
         Log.d(TAG, "ItemAdapter: " + data.size());
-        this.activityTitle = activityTitle;
         parentContext = context;
+    }
+
+    public void setOnItemCheckedChangeListener(CompoundButton.OnCheckedChangeListener listener){
+        Log.d(TAG, "setOnItemCheckedChangeListener: ");
+        onItemCheckedChangeListener = listener;
     }
 
     public void setOnItemClickListener(View.OnClickListener itemClickListener){
@@ -76,94 +82,82 @@ public class ItemAdapter extends RecyclerView.Adapter {
         itemViewHolder.getTvDescription().setText(itemData.get(position).getDescription());
         itemViewHolder.getTvIsOnShoppingList().setText(itemData.get(position).isOnShoppingList());
         itemViewHolder.getTvIsInCart().setText(itemData.get(position).isInCart());
-        if(currentItem.isOnShoppingList() == "1")  checked = true;
-        else checked = false;
-        ((ItemViewHolder) holder).chkSelector.setChecked(checked);
+        itemViewHolder.getChkSelector().setChecked(itemData.get(position).getIsOnShoppingList());
+        itemViewHolder.getChkSelector().setTag(holder);
 
         itemViewHolder.chkSelector.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                onItemCheckedChangeListener.onCheckedChanged(buttonView, isChecked);
                 //itemViewHolder.chkSelector.setChecked(isChecked);
                 Log.d(TAG, "onCheckedChanged: checked: " + itemViewHolder.tvDescription.getText().toString());
-                checkBoxInteraction(currentItem, isChecked, activityTitle);
+                if (MainActivity.title.equals("Master List")) {
+                    // Perform specific action for "Master List"
+                    if (isChecked) {
+                        Log.d("ItemAdapter", "Item added to Master List: " + itemData.get(position).getDescription());
+                        // Add more logic like saving to a file, updating UI, etc.
+                        itemData.get(position).setOnShoppingList("1");
+
+                        Log.d(TAG, "checkBoxInteraction: " + itemData.get(position));
+                    } else {
+                        Log.d("ItemAdapter", "Item removed from Master List: " + itemData.get(position).getDescription());
+                        itemData.get(position).setOnShoppingList("0");
+                    }
+                }
+                else if (MainActivity.title.equals("Shopping List")) {
+                    // Perform specific action for "Shopping List"
+                    if (isChecked) {
+                        Log.d("ItemAdapter", "Item added to Shopping List: " + itemData.get(position).getDescription());
+                        // Add more logic for Shopping List like saving to file, updating UI, etc.
+                        itemData.get(position).setInCart("1");
+                    } else {
+                        Log.d("ItemAdapter", "Item removed from Shopping List: " + itemData.get(position).getDescription());
+                        itemData.get(position).setInCart("0");
+                    }
+                    Log.d(TAG, "checkBoxInteraction: item: " + itemData.get(position).toString());
+
+                }
+                else {
+                    // Default action if the title doesn't match known cases
+                    Log.d("ItemAdapter", "Unknown list title: " + MainActivity.title);
+                }
+                FileIO.writeFile(MainActivity.FILENAME, (AppCompatActivity) parentContext, MainActivity.createDataArray(itemData));
 
             }
         });
+
+        /*for(Item item : itemData){
+            if(currentItem.isOnShoppingList() == "1")  checked = true;
+            else checked = false;
+            if (MainActivity.title.equals("Master List")) {
+                // Perform specific action for "Master List"
+                if (checked) {
+                    Log.d("ItemAdapter", "Item added to Master List: " + item.getDescription());
+                    // Add more logic like saving to a file, updating UI, etc.
+                    ((ItemViewHolder) holder).chkSelector.setChecked(checked);
+                } else {
+                    Log.d("ItemAdapter", "Item removed from Master List: " + item.getDescription());
+                    ((ItemViewHolder) holder).chkSelector.setChecked(checked);
+                }
+            }
+            else if (MainActivity.title.equals("Shopping List")) {
+                // Perform specific action for "Shopping List"
+                if (checked) {
+                    Log.d("ItemAdapter", "Item added to Shopping List: " + item.getDescription());
+                    // Add more logic for Shopping List like saving to file, updating UI, etc.
+                    ((ItemViewHolder) holder).chkSelector.setChecked(checked);
+                } else {
+                    Log.d("ItemAdapter", "Item removed from Shopping List: " + item.getDescription());
+                    ((ItemViewHolder) holder).chkSelector.setChecked(checked);
+                }
+            }
+            else {
+                // Default action if the title doesn't match known cases
+                Log.d("ItemAdapter", "Unknown list title: " + MainActivity.title);
+            }
+        }*/
         Log.d(TAG, "onBindViewHolder: bound");
-    }
-    private void checkBoxSetup(Item item, boolean isChecked, String title){
-        if (title.equals("Master List")) {
-            // Perform specific action for "Master List"
-            if (isChecked) {
-                Log.d("ItemAdapter", "Item added to Master List: " + item.getDescription());
-                // Add more logic like saving to a file, updating UI, etc.
-            } else {
-                Log.d("ItemAdapter", "Item removed from Master List: " + item.getDescription());
-            }
-        } else if (title.equals("Shopping List")) {
-            // Perform specific action for "Shopping List"
-            if (isChecked) {
-                Log.d("ItemAdapter", "Item added to Shopping List: " + item.getDescription());
-                // Add more logic for Shopping List like saving to file, updating UI, etc.
-            } else {
-                Log.d("ItemAdapter", "Item removed from Shopping List: " + item.getDescription());
-            }
-        } else {
-            // Default action if the title doesn't match known cases
-            Log.d("ItemAdapter", "Unknown list title: " + title);
-        }
     }
     @Override
     public int getItemCount() { return itemData.size(); }
-    private void checkBoxInteraction(Item item, boolean isChecked, String title){
-        fileIO = new FileIO();
-        if (title.equals("Master List")) {
-            // Perform specific action for "Master List"
-            if (isChecked) {
-                Log.d("ItemAdapter", "Item added to Master List: " + item.getDescription());
-                // Add more logic like saving to a file, updating UI, etc.
-                item.setOnShoppingList("1");
-
-                Log.d(TAG, "checkBoxInteraction: " + item);
-            } else {
-                Log.d("ItemAdapter", "Item removed from Master List: " + item.getDescription());
-                item.setOnShoppingList("0");
-            }
-            writeItemToFile(item, FILENAME);
-        } else if (title.equals("Shopping List")) {
-            // Perform specific action for "Shopping List"
-            if (isChecked) {
-                Log.d("ItemAdapter", "Item added to Shopping List: " + item.getDescription());
-                // Add more logic for Shopping List like saving to file, updating UI, etc.
-                item.setInCart("1");
-            } else {
-                Log.d("ItemAdapter", "Item removed from Shopping List: " + item.getDescription());
-                item.setInCart("0");
-            }
-            writeItemToFile(item, FILENAME);
-        } else {
-            // Default action if the title doesn't match known cases
-            Log.d("ItemAdapter", "Unknown list title: " + title);
-        }
-    }
-    private void writeItemToFile(Item item, String filename) {
-        try {
-            // Open the file in append mode or update the file
-            OutputStreamWriter writer = new OutputStreamWriter(parentContext.openFileOutput(filename, Context.MODE_PRIVATE | Context.MODE_APPEND));
-
-            // Convert the item to a flat-file compatible format (like CSV)
-            String itemData = item.getId() + "," + item.getDescription() + "," + item.isOnShoppingList() + "," + item.isInCart() + "\r\n";
-
-            // Write the item data to the file
-            writer.write(itemData);
-
-            Log.d("FileIO", "Item written to file: " + itemData);
-            writer.close();
-        } catch (FileNotFoundException e) {
-            Log.e("FileIO", "FileNotFoundException: " + e.getMessage());
-        } catch (IOException e) {
-            Log.e("FileIO", "IOException: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
 }

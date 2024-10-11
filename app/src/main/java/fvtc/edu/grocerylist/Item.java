@@ -43,7 +43,14 @@ public class Item {
     public int getId() {
         return Id;
     }
-    public void setId(int id) {
-        Id = id;
+    public void setId(int id) { Id = id; }
+
+    public boolean getIsOnShoppingList(){
+        if(isOnShoppingList() == "1") return true;
+        else return false;
+    }
+    public boolean getIsInCart(){
+        if(isInCart() == "1") return true;
+        else return false;
     }
 }
