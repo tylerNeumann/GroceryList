@@ -125,37 +125,6 @@ public class ItemAdapter extends RecyclerView.Adapter {
 
             }
         });
-
-        /*for(Item item : itemData){
-            if(currentItem.isOnShoppingList() == "1")  checked = true;
-            else checked = false;
-            if (MainActivity.title.equals("Master List")) {
-                // Perform specific action for "Master List"
-                if (checked) {
-                    Log.d("ItemAdapter", "Item added to Master List: " + item.getDescription());
-                    // Add more logic like saving to a file, updating UI, etc.
-                    ((ItemViewHolder) holder).chkSelector.setChecked(checked);
-                } else {
-                    Log.d("ItemAdapter", "Item removed from Master List: " + item.getDescription());
-                    ((ItemViewHolder) holder).chkSelector.setChecked(checked);
-                }
-            }
-            else if (MainActivity.title.equals("Shopping List")) {
-                // Perform specific action for "Shopping List"
-                if (checked) {
-                    Log.d("ItemAdapter", "Item added to Shopping List: " + item.getDescription());
-                    // Add more logic for Shopping List like saving to file, updating UI, etc.
-                    ((ItemViewHolder) holder).chkSelector.setChecked(checked);
-                } else {
-                    Log.d("ItemAdapter", "Item removed from Shopping List: " + item.getDescription());
-                    ((ItemViewHolder) holder).chkSelector.setChecked(checked);
-                }
-            }
-            else {
-                // Default action if the title doesn't match known cases
-                Log.d("ItemAdapter", "Unknown list title: " + MainActivity.title);
-            }
-        }*/
         Log.d(TAG, "onBindViewHolder: bound");
     }
     @Override

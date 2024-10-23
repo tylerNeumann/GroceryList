@@ -132,38 +132,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /*public void readFile() {
-        try {
-            FileIO fileIO = new FileIO();
-            //Log.d(TAG, "readFile: start");
-            ArrayList<String> strData = fileIO.readFile(FILENAME, this);
-            if (getTitle() == "Master List") items = new ArrayList<Item>();
-            if (getTitle() == "Shopping List") shoppingList = new ArrayList<Item>();
-            //Log.d(TAG, "readFile: " + getTitle());
-            Log.d(TAG, "readFile: data size " + strData.size());
-            for (String s : strData) {
-                //Log.d(TAG, "readFile: split string");
-                String[] data = s.split("\\|");
 
-                if (getTitle() == "Master List") {
-                    items.add(new Item(Integer.parseInt(data[0]), data[1], data[2], data[3]));
-                    Log.d(TAG, "ReadTextFile: " + items.get(items.size() - 1).getDescription());
-                }
-
-                if (getTitle() == "Shopping List") {
-                    //Log.d(TAG, "readFile: start shopping list");
-                    //Log.d(TAG, "ReadFile: filling shopping list" + data[1] + ": " + data[2]);
-                    if(Objects.equals(data[2], "1")){
-                        //Log.d(TAG, "ReadFile: add item to shopping list" + data[2]);
-                        shoppingList.add(new Item(Integer.parseInt(data[0]), data[1], data[2], data[3]));
-                        Log.d(TAG, "ReadTextFile: " + shoppingList.get(shoppingList.size() - 1).getDescription());
-                    }
-                }
-            }
-        } catch (Exception e){
-            Log.d(TAG, "ShowMasterList: error" + e.getMessage());
-        }
-    }*/
     private void addItem() {
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         final View addItemView = layoutInflater.inflate(R.layout.additem,null);
@@ -246,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
         rvItems = findViewById(R.id.rvItems);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rvItems.setLayoutManager(layoutManager);
-        /*readFile();*/
+
         if(getTitle() == "Master List"){
             Log.d(TAG, "rebind: hit master list");
             itemAdapter = new ItemAdapter(items, this);

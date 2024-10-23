@@ -10,7 +10,7 @@ import android.util.Log;
 import java.util.ArrayList;
 
 public class GroceryListDataSource {
-    SQLiteDatabase database;
+    SQLiteDatabase db;
     DatabaseHelper dbHelper;
     ArrayList<Item> GroceryList = new ArrayList<Item>();
     public static final String TAG = "GroceryListDataSource";
@@ -30,8 +30,8 @@ public class GroceryListDataSource {
 
     public void open(boolean refresh)  throws SQLException{
 
-        database = dbHelper.getWritableDatabase();
-        Log.d(TAG, "open: " + database.isOpen());
+        db = dbHelper.getWritableDatabase();
+        Log.d(TAG, "open: " + db.isOpen());
         if(refresh) refreshData();
     }
 
@@ -65,9 +65,9 @@ public class GroceryListDataSource {
 
         try{
             String query = "Select * from tblItem where id = " + id;
-            Cursor cursor = database.rawQuery(query, null);
+            Cursor cursor = db.rawQuery(query, null);
 
-            //Cursor cursor = database.query("tblItem",null, null, null, null, null, null);
+            //Cursor cursor = db.query("tblItem",null, null, null, null, null, null);
 
             cursor.moveToFirst();
             while(!cursor.isAfterLast())
@@ -104,7 +104,7 @@ public class GroceryListDataSource {
 
         try {
             String sql = "SELECT * from tblItem ORDER BY " + sortBy + " " + sortOrder;
-            Cursor cursor = database.rawQuery(sql, null);
+            Cursor cursor = db.rawQuery(sql, null);
             Item item;
             cursor.moveToFirst();
 
@@ -138,7 +138,7 @@ public class GroceryListDataSource {
     {
         try{
 
-            return database.delete("tblItem", null, null);
+            return db.delete("tblItem", null, null);
         }
         catch(Exception e)
         {
@@ -169,8 +169,8 @@ public class GroceryListDataSource {
     {
         try{
             Log.d(TAG, "delete: Start : " + id);
-            Log.d(TAG, "delete: database" + database.isOpen());
-            return database.delete("tblItem", "id = " + id, null);
+            Log.d(TAG, "delete: database" + db.isOpen());
+            return db.delete("tblItem", "id = " + id, null);
         }
         catch(Exception e)
         {
@@ -186,7 +186,7 @@ public class GroceryListDataSource {
         try{
             // Get the highest id in the table and add 1
             String sql = "SELECT max(id) from tblItem";
-            Cursor cursor = database.rawQuery(sql, null);
+            Cursor cursor = db.rawQuery(sql, null);
             cursor.moveToFirst();
             newId = cursor.getInt(0) + 1;
             cursor.close();
@@ -216,7 +216,7 @@ public class GroceryListDataSource {
 
             String where = "id = " + item.getId();
 
-            rowsaffected = (int)database.update("tblItem", values, where, null);
+            rowsaffected = (int)db.update("tblItem", values, where, null);
         }
         catch(Exception e)
         {
@@ -238,7 +238,7 @@ public class GroceryListDataSource {
             //values.put("latitude", item.getLatitude());
             //values.put("longitude", item.getLongitude());
 
-            rowsaffected = (int)database.insert("tblItem", null, values);
+            rowsaffected = (int)db.insert("tblItem", null, values);
         }
         catch(Exception e)
         {
@@ -253,7 +253,7 @@ public class GroceryListDataSource {
 
         try {
             String sql = "SELECT * from tblItem WHERE IsOnShoppingList = 1 ORDER BY " + sortBy + " " + sortOrder;
-            Cursor cursor = database.rawQuery(sql, null);
+            Cursor cursor = db.rawQuery(sql, null);
             Item item;
             cursor.moveToFirst();
 
