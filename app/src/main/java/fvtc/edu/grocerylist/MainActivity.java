@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         parentContext = this;
         createItems();
         initDatabase();
+        fillDB();
         rebind();
         Log.d(TAG, "onCreate: started program");
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -98,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "createItems: items" + items.size());
 
         //FileIO.writeFile(FILENAME,this,createDataArray(items));
-        fillDB();
     }
     public void fillDB(){
         int results = 0;
