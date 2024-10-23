@@ -24,7 +24,7 @@ public class ItemAdapter extends RecyclerView.Adapter {
     private CompoundButton.OnCheckedChangeListener onItemCheckedChangeListener;
     public static final String TAG = "ItemAdapter";
     private Context parentContext;
-    FileIO fileIO;
+    //FileIO fileIO;
 
     public class ItemViewHolder extends RecyclerView.ViewHolder{
         public TextView tvDescription;
