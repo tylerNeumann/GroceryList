@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Item> shoppingList;
     private Context parentContext;
     public static String title;
-    GroceryListDataSource ds = new GroceryListDataSource(this);
+    GroceryListDataSource ds;
     private CompoundButton.OnCheckedChangeListener onCheckedChangedListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void initDatabase(){
 
-        //GroceryListDataSource ds = new GroceryListDataSource(this);
+        ds = new GroceryListDataSource(this);
         ds.open(false);
         ds.refreshData();
         Log.d(TAG, "initDatabase: start");
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "createItems: items" + items.size());
 
         //FileIO.writeFile(FILENAME,this,createDataArray(items));
-
+        fillDB();
     }
     public void fillDB(){
         int results = 0;
@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 Log.d(TAG, "onClick: add item: " + item);
                                 items.add(item);
-                                FileIO.writeFile(FILENAME,(AppCompatActivity) parentContext,createDataArray(items));
+                                //FileIO.writeFile(FILENAME,(AppCompatActivity) parentContext,createDataArray(items));
                                 rebind();
                             }
                         })
@@ -236,6 +236,12 @@ public class MainActivity extends AppCompatActivity {
     public void deleteChecked(){
         boolean loopDone = false;
         if(getTitle() == "Master List"){
+
+            for(Item item : items){
+                if(item.isOnShoppingList()){
+                    ds.delete(item.getId());
+                }
+            }
             //items.removeIf(item -> item.isOnShoppingList().equals("1"));
         }
         if(getTitle() == "Shopping List"){
@@ -247,15 +253,16 @@ public class MainActivity extends AppCompatActivity {
             for(int count = 0; count < shoppingList.size(); count++){
                 //Log.d(TAG, "deleteChecked: entered loop");
                 if(shoppingList.get(count).isInCart()) {
-                    Log.d(TAG, "deleteChecked: passed if");
+                    //Log.d(TAG, "deleteChecked: passed if");
                     item = shoppingList.get(count);
-                    Log.d(TAG, "deleteChecked: item: " + item);
+                    //Log.d(TAG, "deleteChecked: item: " + item);
                     i = item.getId();
-                    Log.d(TAG, "deleteChecked: i = " + i);
+                    //Log.d(TAG, "deleteChecked: i = " + i);
                     i -= 1;
-                    Log.d(TAG, "deleteChecked: item id: " + i);
+                    //Log.d(TAG, "deleteChecked: item id: " + i);
                     items.get(i).setInCart(false);
                     items.get(i).setOnShoppingList(false);
+                    ds.update(item);
                     Log.d(TAG, "deleteChecked: reset item: " + items.get(i));
                 }
                 else Log.d(TAG, "deleteChecked: failed if");
@@ -263,7 +270,7 @@ public class MainActivity extends AppCompatActivity {
                 if(count == shoppingList.size()) loopDone = true;
             }
         }
-        FileIO.writeFile(FILENAME, this, createDataArray(items));
+        //FileIO.writeFile(FILENAME, this, createDataArray(items));
         //if(loopDone) shoppingList.removeIf(Item::isInCart);
         rebind();
     }
@@ -334,7 +341,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
-        FileIO.writeFile(FILENAME, this, createDataArray(items));
+        //FileIO.writeFile(FILENAME, this, createDataArray(items));
         rebind();
     }
 }
