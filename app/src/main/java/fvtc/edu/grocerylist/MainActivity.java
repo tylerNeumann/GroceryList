@@ -3,6 +3,8 @@ package fvtc.edu.grocerylist;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     private Context parentContext;
     public static String title;
     GroceryListDataSource ds;
+    DatabaseHelper dbHelper;
+    SQLiteDatabase db;
     private CompoundButton.OnCheckedChangeListener onCheckedChangedListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -53,7 +57,14 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
-
+    private void createDB(){
+        Log.d(TAG, "createDB: ");
+        dbHelper = new DatabaseHelper(this,
+                "grocerylist.db",
+                null,
+                dbHelper.DATABASE_VERSION);
+        db = dbHelper.getWritableDatabase();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
         setTitle("Master List");
         title = "Master List";
         parentContext = this;
-        createItems();
         initDatabase();
         fillDB();
         rebind();
@@ -74,10 +84,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     private void initDatabase(){
-
+        //createDB();
         ds = new GroceryListDataSource(this);
-        ds.open(false);
-        ds.refreshData();
+        //ds.open(false);
+        //ds.refreshData();
         Log.d(TAG, "initDatabase: start");
         String sortBy = getSharedPreferences("grocerylistpreferences",
                 Context.MODE_PRIVATE)
@@ -96,19 +106,22 @@ public class MainActivity extends AppCompatActivity {
         items.add(new Item(4, "Pretzels", false, false));
         items.add(new Item(5, "Shampoo", false, false));
         items.add(new Item(6, "Cheese", false, false));
+
         Log.d(TAG, "createItems: items" + items.size());
 
         //FileIO.writeFile(FILENAME,this,createDataArray(items));
     }
     public void fillDB(){
         int results = 0;
+        createItems();
+        Log.d(TAG, "fillDB: items count: " + items.size());
         for(Item item : items){
-            results += ds.insert(item);
-        }
-        Log.d(TAG, "refreshData: End: " + results + " rows...");
-    }
-    public void loadMasterList(){
+            Log.d(TAG, "fillDB: start for loop");
 
+            results += ds.insert(item);
+            Log.d(TAG, "fillDB: " + item);
+        }
+        Log.d(TAG, "fillDB: End: " + results + " rows...");
     }
     public static String[] createDataArray(ArrayList<Item> items){
             String[] data = new String[items.size()];
@@ -239,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
 
             for(Item item : items){
                 if(item.isOnShoppingList()){
-                    ds.delete(item.getId());
+                    //ds.delete(item.getId());
                 }
             }
             //items.removeIf(item -> item.isOnShoppingList().equals("1"));
@@ -262,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
                     //Log.d(TAG, "deleteChecked: item id: " + i);
                     items.get(i).setInCart(false);
                     items.get(i).setOnShoppingList(false);
-                    ds.update(item);
+                    //ds.update(item);
                     Log.d(TAG, "deleteChecked: reset item: " + items.get(i));
                 }
                 else Log.d(TAG, "deleteChecked: failed if");
@@ -281,6 +294,8 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rvItems.setLayoutManager(layoutManager);
         /*readFile();*/
+        getItemsFromDB();
+       // ds.get("Description", "ASC");
         if(getTitle() == "Master List"){
             Log.d(TAG, "rebind: hit master list");
             itemAdapter = new ItemAdapter(items, this);
@@ -343,5 +358,11 @@ public class MainActivity extends AppCompatActivity {
         }
         //FileIO.writeFile(FILENAME, this, createDataArray(items));
         rebind();
+    }
+    public void getItemsFromDB(){
+        Log.d(TAG, "getItemsFromDB: start");
+        //ds.open(true);
+        items = ds.get("Description", "ASC");
+        Log.d(TAG, "getItemsFromDB: end");
     }
 }

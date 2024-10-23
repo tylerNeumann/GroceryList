@@ -161,7 +161,7 @@ public class ItemAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() { return itemData.size(); }
 
-    private void deleteItem(int position) {
+    /*private void deleteItem(int position) {
         Log.d(TAG, "deleteItem: " + position);
         Item Item = itemData.get(position);
         itemData.remove(position);
@@ -179,5 +179,5 @@ public class ItemAdapter extends RecyclerView.Adapter {
         Log.d(TAG, "deleteItem: " + didDelete);
         notifyDataSetChanged();
 
-    }
+    }*/
 }

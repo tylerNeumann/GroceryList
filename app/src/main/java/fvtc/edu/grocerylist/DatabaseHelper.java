@@ -8,13 +8,13 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    public static final String TAG = "DatabaseHelper1";
+    public static final String TAG = "DatabaseHelper";
     public static final String DATABASE_NAME = "grocerylist.db";
     public static final int DATABASE_VERSION = 1;
     public static final String CREATE_GROCERYLIST_SQL =
             "CREATE TABLE IF NOT EXISTS tblGroceryList(Id integer primary key autoincrement,"
                     + "Description text,"
-                    + "IsOnShoppingList int"
+                    + "IsOnShoppingList int,"
                     + "IsInCart int);";
 
     public DatabaseHelper(@Nullable Context context,
