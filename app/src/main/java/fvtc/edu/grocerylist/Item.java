@@ -3,9 +3,9 @@ package fvtc.edu.grocerylist;
 public class Item {
     private int Id;
     private String Description;
-    private String IsOnShoppingList;
-    private String IsInCart;
-    public Item(int id, String description, String isOnShoppingList, String isInCart){
+    private boolean IsOnShoppingList;
+    private boolean IsInCart;
+    public Item(int id, String description, boolean isOnShoppingList, boolean isInCart){
         Id = id;
         Description = description;
         IsOnShoppingList = isOnShoppingList;
@@ -14,8 +14,8 @@ public class Item {
     public Item(){
         Id = -1;
         Description = "";
-        IsOnShoppingList = "0";
-        IsInCart = "0";
+        IsOnShoppingList = false;
+        IsInCart = false;
     }
     public String toString(){ return Id + "|" + Description + "|" + IsOnShoppingList + "|" + IsInCart;}
 
@@ -26,17 +26,17 @@ public class Item {
         Description = description;
     }
 
-    public String isOnShoppingList() {
+    public boolean isOnShoppingList() {
         return IsOnShoppingList;
     }
-    public void setOnShoppingList(String onShoppingList) {
+    public void setOnShoppingList(boolean onShoppingList) {
         IsOnShoppingList = onShoppingList;
     }
 
-    public String isInCart() {
+    public boolean isInCart() {
         return IsInCart;
     }
-    public void setInCart(String inCart) {
+    public void setInCart(boolean inCart) {
         IsInCart = inCart;
     }
 
@@ -45,12 +45,12 @@ public class Item {
     }
     public void setId(int id) { Id = id; }
 
-    public boolean getIsOnShoppingList(){
+    /*public boolean getIsOnShoppingList(){
         if(isOnShoppingList() == "1") return true;
         else return false;
     }
     public boolean getIsInCart(){
         if(isInCart() == "1") return true;
         else return false;
-    }
+    }*/
 }

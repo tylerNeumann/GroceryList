@@ -80,9 +80,9 @@ public class ItemAdapter extends RecyclerView.Adapter {
         Log.d(TAG, "onBindViewHolder: " + itemData.get(position));
         ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
         itemViewHolder.getTvDescription().setText(itemData.get(position).getDescription());
-        itemViewHolder.getTvIsOnShoppingList().setText(itemData.get(position).isOnShoppingList());
-        itemViewHolder.getTvIsInCart().setText(itemData.get(position).isInCart());
-        itemViewHolder.getChkSelector().setChecked(itemData.get(position).getIsOnShoppingList());
+        //itemViewHolder.getTvIsOnShoppingList().setText(itemData.get(position).isOnShoppingList());
+        //itemViewHolder.getTvIsInCart().setText(itemData.get(position).isInCart());
+        itemViewHolder.getChkSelector().setChecked(itemData.get(position).isOnShoppingList());
         itemViewHolder.getChkSelector().setTag(holder);
 
         itemViewHolder.chkSelector.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -96,12 +96,12 @@ public class ItemAdapter extends RecyclerView.Adapter {
                     if (isChecked) {
                         Log.d("ItemAdapter", "Item added to Master List: " + itemData.get(position).getDescription());
                         // Add more logic like saving to a file, updating UI, etc.
-                        itemData.get(position).setOnShoppingList("1");
+                        itemData.get(position).setOnShoppingList(true);
 
                         Log.d(TAG, "checkBoxInteraction: " + itemData.get(position));
                     } else {
                         Log.d("ItemAdapter", "Item removed from Master List: " + itemData.get(position).getDescription());
-                        itemData.get(position).setOnShoppingList("0");
+                        itemData.get(position).setOnShoppingList(false);
                     }
                 }
                 else if (MainActivity.title.equals("Shopping List")) {
@@ -109,10 +109,10 @@ public class ItemAdapter extends RecyclerView.Adapter {
                     if (isChecked) {
                         Log.d("ItemAdapter", "Item added to Shopping List: " + itemData.get(position).getDescription());
                         // Add more logic for Shopping List like saving to file, updating UI, etc.
-                        itemData.get(position).setInCart("1");
+                        itemData.get(position).setInCart(true);
                     } else {
                         Log.d("ItemAdapter", "Item removed from Shopping List: " + itemData.get(position).getDescription());
-                        itemData.get(position).setInCart("0");
+                        itemData.get(position).setInCart(false);
                     }
                     Log.d(TAG, "checkBoxInteraction: item: " + itemData.get(position).toString());
 
