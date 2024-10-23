@@ -26,13 +26,13 @@ public class GroceryListDataSource {
         db = dbHelper.getWritableDatabase();
     }
 
- /*   public Item get(int id)
+    public Item get(int id)
     {
         Item item = null;
 
         try{
             String query = "Select * from tblGroceryList where id = " + id;
-            Cursor cursor = database.rawQuery(query, null);
+            Cursor cursor = db.rawQuery(query, null);
 
             //Cursor cursor = database.query("tblGroceryList",null, null, null, null, null, null);
 
@@ -63,7 +63,7 @@ public class GroceryListDataSource {
             e.printStackTrace();
         }
         return item;
-    }*/
+    }
 
     public ArrayList<Item> get(String sortBy, String sortOrder)
     {
@@ -104,11 +104,11 @@ public class GroceryListDataSource {
         return GroceryList;
     }
 
-    /*public int deleteAll()
+    public int deleteAll()
     {
         try{
 
-            return database.delete("tblGroceryList", null, null);
+            return db.delete("tblGroceryList", null, null);
         }
         catch(Exception e)
         {
@@ -139,8 +139,8 @@ public class GroceryListDataSource {
     {
         try{
             Log.d(TAG, "delete: Start : " + id);
-            Log.d(TAG, "delete: database" + database.isOpen());
-            return database.delete("tblGroceryList", "id = " + id, null);
+            Log.d(TAG, "delete: database" + db.isOpen());
+            return db.delete("tblGroceryList", "id = " + id, null);
         }
         catch(Exception e)
         {
@@ -156,7 +156,7 @@ public class GroceryListDataSource {
         try{
             // Get the highest id in the table and add 1
             String sql = "SELECT max(id) from tblGroceryList";
-            Cursor cursor = database.rawQuery(sql, null);
+            Cursor cursor = db.rawQuery(sql, null);
             cursor.moveToFirst();
             newId = cursor.getInt(0) + 1;
             cursor.close();
@@ -186,7 +186,7 @@ public class GroceryListDataSource {
 
             String where = "id = " + item.getId();
 
-            rowsaffected = (int)database.update("tblGroceryList", values, where, null);
+            rowsaffected = (int)db.update("tblGroceryList", values, where, null);
         }
         catch(Exception e)
         {
@@ -194,7 +194,7 @@ public class GroceryListDataSource {
             e.printStackTrace();
         }
         return rowsaffected;
-    }*/
+    }
     public int insert(Item item)
     {
         Log.d(TAG, "insert: Start");
@@ -228,13 +228,13 @@ public class GroceryListDataSource {
         }
         return rowsaffected;
     }
-    /*public ArrayList<Item> getShoppingList(String sortBy, String sortOrder)
+    public ArrayList<Item> getShoppingList(String sortBy, String sortOrder)
     {
         Log.d(TAG, "get: get shopping list Start");
 
         try {
             String sql = "SELECT * from tblGroceryList WHERE IsOnShoppingList = 1 ORDER BY " + sortBy + " " + sortOrder;
-            Cursor cursor = database.rawQuery(sql, null);
+            Cursor cursor = db.rawQuery(sql, null);
             Item item;
             cursor.moveToFirst();
 
@@ -262,9 +262,5 @@ public class GroceryListDataSource {
         }
 
         return GroceryList;
-    }*/
-    /*public void initialDBFill(){
-        String sql = "SELECT * from tblGroceryList";
-        database.execSQL("ISNULL('sql',)");
-    }*/
+    }
 }

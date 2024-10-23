@@ -88,6 +88,7 @@ public class ItemAdapter extends RecyclerView.Adapter {
         itemViewHolder.chkSelector.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Log.d(TAG, "onCheckedChanged: start");
                 onItemCheckedChangeListener.onCheckedChanged(buttonView, isChecked);
                 //itemViewHolder.chkSelector.setChecked(isChecked);
                 Log.d(TAG, "onCheckedChanged: checked: " + itemViewHolder.tvDescription.getText().toString());

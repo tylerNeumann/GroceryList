@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private CompoundButton.OnCheckedChangeListener onCheckedChangedListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            Log.d(TAG, "onCheckedChanged: ");
             RecyclerView.ViewHolder viewHolder;
             viewHolder = (RecyclerView.ViewHolder) buttonView.getTag();
             int position = viewHolder.getAdapterPosition();
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate: ");
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
@@ -88,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         ds = new GroceryListDataSource(this);
         //ds.open(false);
         //ds.refreshData();
-        Log.d(TAG, "initDatabase: start");
+        //Log.d(TAG, "initDatabase: start");
         String sortBy = getSharedPreferences("grocerylistpreferences",
                 Context.MODE_PRIVATE)
                 .getString("sortby", "description");
@@ -96,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 Context.MODE_PRIVATE)
                 .getString("sortorder", "ASC");
         items = ds.get(sortBy, sortOrder);
-        Log.d(TAG, "initDatabase: Groceries: " + items.size());
+        //Log.d(TAG, "initDatabase: Groceries: " + items.size());
     }
     private void createItems() {
         items = new ArrayList<Item>();
@@ -107,21 +109,21 @@ public class MainActivity extends AppCompatActivity {
         items.add(new Item(5, "Shampoo", false, false));
         items.add(new Item(6, "Cheese", false, false));
 
-        Log.d(TAG, "createItems: items" + items.size());
+        //Log.d(TAG, "createItems: items" + items.size());
 
         //FileIO.writeFile(FILENAME,this,createDataArray(items));
     }
     public void fillDB(){
         int results = 0;
         createItems();
-        Log.d(TAG, "fillDB: items count: " + items.size());
+        //Log.d(TAG, "fillDB: items count: " + items.size());
         for(Item item : items){
-            Log.d(TAG, "fillDB: start for loop");
+           // Log.d(TAG, "fillDB: start for loop");
 
             results += ds.insert(item);
-            Log.d(TAG, "fillDB: " + item);
+            //Log.d(TAG, "fillDB: " + item);
         }
-        Log.d(TAG, "fillDB: End: " + results + " rows...");
+        //Log.d(TAG, "fillDB: End: " + results + " rows...");
     }
     public static String[] createDataArray(ArrayList<Item> items){
             String[] data = new String[items.size()];
@@ -293,16 +295,15 @@ public class MainActivity extends AppCompatActivity {
         rvItems = findViewById(R.id.rvItems);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rvItems.setLayoutManager(layoutManager);
-        /*readFile();*/
-        getItemsFromDB();
-       // ds.get("Description", "ASC");
         if(getTitle() == "Master List"){
             Log.d(TAG, "rebind: hit master list");
+            items = ds.get("Description", "ASC");
             itemAdapter = new ItemAdapter(items, this);
             itemAdapter.setOnItemCheckedChangeListener(onCheckedChangedListener);
         }
         if(getTitle() == "Shopping List"){
             Log.d(TAG, "rebind: hit shopping list");
+            shoppingList = ds.
             itemAdapter = new ItemAdapter(shoppingList, this);
             itemAdapter.setOnItemCheckedChangeListener(onCheckedChangedListener);
         }
@@ -358,11 +359,5 @@ public class MainActivity extends AppCompatActivity {
         }
         //FileIO.writeFile(FILENAME, this, createDataArray(items));
         rebind();
-    }
-    public void getItemsFromDB(){
-        Log.d(TAG, "getItemsFromDB: start");
-        //ds.open(true);
-        items = ds.get("Description", "ASC");
-        Log.d(TAG, "getItemsFromDB: end");
     }
 }
