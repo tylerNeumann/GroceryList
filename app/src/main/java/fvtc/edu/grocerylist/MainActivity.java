@@ -303,7 +303,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if(getTitle() == "Shopping List"){
             Log.d(TAG, "rebind: hit shopping list");
-            shoppingList = ds.
+            shoppingList = ds.getShoppingList("Description", "ASC");
             itemAdapter = new ItemAdapter(shoppingList, this);
             itemAdapter.setOnItemCheckedChangeListener(onCheckedChangedListener);
         }

@@ -185,7 +185,6 @@ public class GroceryListDataSource {
             //values.put("longitude", item.getLongitude());
 
             String where = "id = " + item.getId();
-
             rowsaffected = (int)db.update("tblGroceryList", values, where, null);
         }
         catch(Exception e)
