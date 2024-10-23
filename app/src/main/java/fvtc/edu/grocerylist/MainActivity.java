@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Item> shoppingList;
     private Context parentContext;
     public static String title;
-
+    GroceryListDataSource ds = new GroceryListDataSource(this);
     private CompoundButton.OnCheckedChangeListener onCheckedChangedListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         title = "Master List";
         parentContext = this;
         createItems();
+        initDatabase();
         rebind();
         Log.d(TAG, "onCreate: started program");
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -70,6 +71,21 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+    private void initDatabase(){
+
+        //GroceryListDataSource ds = new GroceryListDataSource(this);
+        ds.open(false);
+        ds.refreshData();
+        Log.d(TAG, "initDatabase: start");
+        String sortBy = getSharedPreferences("grocerylistpreferences",
+                Context.MODE_PRIVATE)
+                .getString("sortby", "description");
+        String sortOrder = getSharedPreferences("grocerylistpreferences",
+                Context.MODE_PRIVATE)
+                .getString("sortorder", "ASC");
+        items = ds.get(sortBy, sortOrder);
+        Log.d(TAG, "initDatabase: Groceries: " + items.size());
     }
     private void createItems() {
         items = new ArrayList<Item>();
@@ -81,7 +97,18 @@ public class MainActivity extends AppCompatActivity {
         items.add(new Item(6, "Cheese", false, false));
         Log.d(TAG, "createItems: items" + items.size());
 
-        FileIO.writeFile(FILENAME,this,createDataArray(items));
+        //FileIO.writeFile(FILENAME,this,createDataArray(items));
+
+    }
+    public void fillDB(){
+        int results = 0;
+        for(Item item : items){
+            results += ds.insert(item);
+        }
+        Log.d(TAG, "refreshData: End: " + results + " rows...");
+    }
+    public void loadMasterList(){
+
     }
     public static String[] createDataArray(ArrayList<Item> items){
             String[] data = new String[items.size()];
