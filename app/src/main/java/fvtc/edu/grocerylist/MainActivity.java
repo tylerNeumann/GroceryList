@@ -177,8 +177,7 @@ public class MainActivity extends AppCompatActivity {
                                     rvItems.setAdapter(itemAdapter);
                                 }
                                 Log.d(TAG, "onClick: add item: " + item);
-                                items.add(item);
-                                FileIO.writeFile(FILENAME,(AppCompatActivity) parentContext,createDataArray(items));
+                                ds.insert(item);
                                 rebind();
                             }
                         })
