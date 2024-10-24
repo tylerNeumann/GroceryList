@@ -92,6 +92,9 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d(TAG, "createItems: items" + items.size());
         initDatabase();
+
+        if(items.isEmpty()) fillItemsArray();
+
         int results = 0;
         for(Item item : items){
             // Log.d(TAG, "fillDB: start for loop");
@@ -148,7 +151,14 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
+    public void fillItemsArray(){
+        items.add(new Item(1, "Protein Shake", false, false));
+        items.add(new Item(2, "Pop Tarts", false, false));
+        items.add(new Item(3, "Mtn Dew", false, false));
+        items.add(new Item(4, "Pretzels", false, false));
+        items.add(new Item(5, "Shampoo", false, false));
+        items.add(new Item(6, "Cheese", false, false));
+    }
 
     private void addItem() {
         LayoutInflater layoutInflater = LayoutInflater.from(this);

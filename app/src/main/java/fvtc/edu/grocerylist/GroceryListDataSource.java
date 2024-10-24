@@ -44,8 +44,8 @@ public class GroceryListDataSource {
         if(!GroceryList.isEmpty()){
             Log.d(TAG, "refreshData: Start");
             GroceryList.add(new Item(1, "Protein Shake", false, false));
-            GroceryList.add(new Item(2, "Pop Tarts", true, false));
-            GroceryList.add(new Item(3, "Mtn Dew", true, false));
+            GroceryList.add(new Item(2, "Pop Tarts", false, false));
+            GroceryList.add(new Item(3, "Mtn Dew", false, false));
             GroceryList.add(new Item(4, "Pretzels", false, false));
             GroceryList.add(new Item(5, "Shampoo", false, false));
             GroceryList.add(new Item(6, "Cheese", false, false));
