@@ -143,11 +143,12 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "onOptionsItemSelected: clear");
             clearAll();
         }
-        else {
+        else if(id == R.id.action_DeleteChecked){
             Log.d(TAG, "onOptionsItemSelected: delete");
             deleteChecked();
-            //FileIO.writeFile(FILENAME,this,createDataArray(items));
-            //rebind();
+        }
+        else {
+            deleteAll();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -311,6 +312,12 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
+        rebind();
+    }
+    public void deleteAll(){
+        ds.deleteAll();
+        items.removeAll(items);
+        fillItemsArray();
         rebind();
     }
 }
