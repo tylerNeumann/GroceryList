@@ -231,14 +231,18 @@ public class GroceryListDataSource {
         int rowsaffected = 0;
 
         try{
-            ContentValues values = new ContentValues();
-            values.put("description", item.getDescription());
-            values.put("isOnShoppingList", item.isOnShoppingList());
-            values.put("isInCart", item.isInCart());
-            //values.put("latitude", item.getLatitude());
-            //values.put("longitude", item.getLongitude());
+            if(db != null) {
+                ContentValues values = new ContentValues();
+                values.put("description", item.getDescription());
+                values.put("isOnShoppingList", item.isOnShoppingList());
+                values.put("isInCart", item.isInCart());
+                //values.put("latitude", item.getLatitude());
+                //values.put("longitude", item.getLongitude());
 
-            rowsaffected = (int)db.insert("tblItem", null, values);
+                rowsaffected = (int)db.insert("tblItem", null, values);
+            }
+            else Log.d(TAG, "insert: db is null");
+            
         }
         catch(Exception e)
         {
