@@ -71,6 +71,21 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
     }
+    private void initDatabase(){
+        //createDB();
+        ds = new GroceryListDataSource(this);
+        //ds.open(false);
+        //ds.refreshData();
+        //Log.d(TAG, "initDatabase: start");
+        String sortBy = getSharedPreferences("grocerylistpreferences",
+                Context.MODE_PRIVATE)
+                .getString("sortby", "description");
+        String sortOrder = getSharedPreferences("grocerylistpreferences",
+                Context.MODE_PRIVATE)
+                .getString("sortorder", "ASC");
+        items = ds.get(sortBy, sortOrder);
+        //Log.d(TAG, "initDatabase: Groceries: " + items.size());
+    }
     private void createItems() {
         items = new ArrayList<Item>();
         items.add(new Item(1, "Protein Shake", false, false));
@@ -80,6 +95,8 @@ public class MainActivity extends AppCompatActivity {
         items.add(new Item(5, "Shampoo", false, false));
         items.add(new Item(6, "Cheese", false, false));
         Log.d(TAG, "createItems: items" + items.size());
+
+        initDatabase();
 
         int results = 0;
         for(Item item : items){
