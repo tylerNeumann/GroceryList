@@ -138,6 +138,7 @@ public class GroceryListDataSource {
 
     public int deleteAll()
     {
+        Log.d(TAG, "deleteAll: ");
         try{
             return db.delete("tblGroceryList", null, null);
         }
@@ -151,7 +152,7 @@ public class GroceryListDataSource {
 
     public int delete(Item item)
     {
-        Log.d(TAG, "delete: Start");
+        Log.d(TAG, "delete: Start item");
         try{
             int id = item.getId();
             if(id < 1)
@@ -161,7 +162,7 @@ public class GroceryListDataSource {
         }
         catch(Exception e)
         {
-            Log.d(TAG, "Delete: " + e.getMessage());
+            Log.d(TAG, "Delete: failed: " + e.getMessage());
             e.printStackTrace();
         }
         return 0;
@@ -170,12 +171,14 @@ public class GroceryListDataSource {
     {
         try{
             Log.d(TAG, "delete: Start : " + id);
-            Log.d(TAG, "delete: database" + db.isOpen());
-            return db.delete("tblGroceryList", "id = " + id, null);
+            Log.d(TAG, "delete: database " + db.isOpen());
+            int rowsaffected = db.delete("tblGroceryList", "id = " + id, null);
+            Log.d(TAG, "delete: rowsaffected: " + rowsaffected);
+            return rowsaffected;
         }
         catch(Exception e)
         {
-            Log.d(TAG, "Delete: " + e.getMessage());
+            Log.d(TAG, "Delete: error" + e.getMessage());
             e.printStackTrace();
         }
         return 0;
