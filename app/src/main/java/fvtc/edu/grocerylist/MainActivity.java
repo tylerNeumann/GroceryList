@@ -81,7 +81,13 @@ public class MainActivity extends AppCompatActivity {
         items.add(new Item(6, "Cheese", false, false));
         Log.d(TAG, "createItems: items" + items.size());
 
-        if(db)
+        int results = 0;
+        for(Item item : items){
+            // Log.d(TAG, "fillDB: start for loop");
+
+            results += ds.insert(item);
+            //Log.d(TAG, "fillDB: " + item);
+        }
     }
     public static String[] createDataArray(ArrayList<Item> items){
             String[] data = new String[items.size()];
