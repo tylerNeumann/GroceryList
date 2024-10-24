@@ -239,8 +239,6 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG, "deleteChecked: reset item: " + items.get(i));
                 }
                 else Log.d(TAG, "deleteChecked: failed if");
-
-                if(count == shoppingList.size()) loopDone = true;
             }
         }
         //rebind();
