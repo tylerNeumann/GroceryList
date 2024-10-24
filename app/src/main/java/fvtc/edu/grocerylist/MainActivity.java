@@ -66,7 +66,9 @@ public class MainActivity extends AppCompatActivity {
         title = "Master List";
         parentContext = this;
         createItems();
-        rebind();
+        //rebind();
+        deleteAll();
+
         Log.d(TAG, "onCreate: started program");
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
