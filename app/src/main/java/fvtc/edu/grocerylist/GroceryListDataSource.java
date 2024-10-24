@@ -42,6 +42,7 @@ public class GroceryListDataSource {
     public void refreshData()
     {
         if(!GroceryList.isEmpty()){
+            deleteAll();
             Log.d(TAG, "refreshData: Start");
             GroceryList.add(new Item(1, "Protein Shake", false, false));
             GroceryList.add(new Item(2, "Pop Tarts", false, false));
@@ -137,7 +138,6 @@ public class GroceryListDataSource {
     public int deleteAll()
     {
         try{
-
             return db.delete("tblGroceryList", null, null);
         }
         catch(Exception e)
@@ -200,7 +200,7 @@ public class GroceryListDataSource {
 
     public int update(Item item)
     {
-        Log.d(TAG, "update: Start" + item.toString());
+        Log.d(TAG, "update: Start " + item.toString());
         int rowsaffected = 0;
 
         if(item.getId() < 1)
@@ -208,9 +208,9 @@ public class GroceryListDataSource {
 
         try{
             ContentValues values = new ContentValues();
-            values.put("name", item.getDescription());
-            values.put("city", item.isOnShoppingList());
-            values.put("imgId", item.isInCart());
+            values.put("description", item.getDescription());
+            values.put("isOnShoppingList", item.isOnShoppingList());
+            values.put("isInCart", item.isInCart());
             //values.put("latitude", item.getLatitude());
             //values.put("longitude", item.getLongitude());
 

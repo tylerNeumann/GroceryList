@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
                 items.get(position).setInCart(true);
                 ds.update(items.get(position));
             }
-
         }
     };
 

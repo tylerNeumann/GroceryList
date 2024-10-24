@@ -90,7 +90,6 @@ public class ItemAdapter extends RecyclerView.Adapter {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 onItemCheckedChangeListener.onCheckedChanged(buttonView, isChecked);
                 //itemViewHolder.chkSelector.setChecked(isChecked);
-                Log.d(TAG, "onCheckedChanged: checked: " + itemViewHolder.tvDescription.getText().toString());
                 if (MainActivity.title.equals("Master List")) {
                     // Perform specific action for "Master List"
                     if (isChecked) {
@@ -121,8 +120,6 @@ public class ItemAdapter extends RecyclerView.Adapter {
                     // Default action if the title doesn't match known cases
                     Log.d("ItemAdapter", "Unknown list title: " + MainActivity.title);
                 }
-                FileIO.writeFile(MainActivity.FILENAME, (AppCompatActivity) parentContext, MainActivity.createDataArray(itemData));
-
             }
         });
         Log.d(TAG, "onBindViewHolder: bound");
