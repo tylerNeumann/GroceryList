@@ -1,7 +1,12 @@
 <resources>
     <string name="app_name">GroceryLIst</string>
     <string name="type_in_an_item">Type in an item</string>
-    <string name="add_item">add item</string>
     <string name="cancel">Cancel</string>
     <string name="ok">Ok</string>
+    <string name="delete_all">Delete All</string>
+    <string name="delete_checked">Delete Checked</string>
+    <string name="clear_all">Clear All</string>
+    <string name="show_shopping_list">Show Shopping List</string>
+    <string name="show_master_list">Show Master List</string>
+    <string name="add_item">Add Item</string>
 </resources>

@@ -5,26 +5,31 @@
     <item
         android:id="@+id/action_ShowMasterList"
         android:orderInCategory="100"
-        android:title="Show Master List"
+        android:title="@string/show_master_list"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_ShowShoppingList"
         android:orderInCategory="200"
-        android:title="Show Shopping List"
+        android:title="@string/show_shopping_list"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_AddItem"
         android:orderInCategory="300"
-        android:title="Add Item"
+        android:title="@string/add_item"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_ClearAll"
         android:orderInCategory="400"
-        android:title="Clear All"
+        android:title="@string/clear_all"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_DeleteChecked"
         android:orderInCategory="500"
-        android:title="Delete Checked"
+        android:title="@string/delete_checked"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_DeleteAll"
+        android:orderInCategory="600"
+        android:title="@string/delete_all"
         app:showAsAction="never" />
 </menu>
