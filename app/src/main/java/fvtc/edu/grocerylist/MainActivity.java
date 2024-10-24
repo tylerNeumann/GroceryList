@@ -163,6 +163,11 @@ public class MainActivity extends AppCompatActivity {
         items.add(new Item(5, "Shampoo", false, false));
         items.add(new Item(6, "Cheese", false, false));
     }
+    public void fillDB(){
+        for(Item item : items){
+            ds.insert(item);
+        }
+    }
 
     private void addItem() {
         LayoutInflater layoutInflater = LayoutInflater.from(this);
