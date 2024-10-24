@@ -95,15 +95,16 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "createItems: items: " + items.size());
         initDatabase();
 
-        if(items.isEmpty()) fillItemsArray();
-
-        int results = 0;
-        for(Item item : items){
-            // Log.d(TAG, "fillDB: start for loop");
-            results += ds.insert(item);
-            //Log.d(TAG, "fillDB: " + item);
+        if(items.isEmpty()) {
+            fillItemsArray();
+            int results = 0;
+            for(Item item : items){
+                // Log.d(TAG, "fillDB: start for loop");
+                results += ds.insert(item);
+                //Log.d(TAG, "fillDB: " + item);
+            }
         }
-
+        else items = ds.get("Description", "ASC");
     }
     public static String[] createDataArray(ArrayList<Item> items){
             String[] data = new String[items.size()];
