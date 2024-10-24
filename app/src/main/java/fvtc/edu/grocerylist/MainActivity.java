@@ -241,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
                 else Log.d(TAG, "deleteChecked: failed if");
             }
         }
-        //rebind();
+        rebind();
     }
 
 
