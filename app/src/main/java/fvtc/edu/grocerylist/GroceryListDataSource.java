@@ -23,7 +23,44 @@ public class GroceryListDataSource {
                 null,
                 DatabaseHelper.DATABASE_VERSION);
 
+<<<<<<< HEAD
         db = dbHelper.getWritableDatabase();
+=======
+    public void open() throws SQLException {
+        open(false);
+    }
+
+    public void open(boolean refresh)  throws SQLException{
+
+        db = dbHelper.getWritableDatabase();
+        Log.d(TAG, "open: " + db.isOpen());
+        if(refresh) refreshData();
+    }
+
+    public void close()
+    {
+        dbHelper.close();
+    }
+    public void refreshData()
+    {
+        if(!GroceryList.isEmpty()){
+            deleteAll();
+            Log.d(TAG, "refreshData: Start");
+            GroceryList.add(new Item(1, "Protein Shake", false, false));
+            GroceryList.add(new Item(2, "Pop Tarts", false, false));
+            GroceryList.add(new Item(3, "Mtn Dew", false, false));
+            GroceryList.add(new Item(4, "Pretzels", false, false));
+            GroceryList.add(new Item(5, "Shampoo", false, false));
+            GroceryList.add(new Item(6, "Cheese", false, false));
+
+            // Delete and reinsert all the GroceryList
+            int results = 0;
+            for(Item item : GroceryList){
+                results += insert(item);
+            }
+            Log.d(TAG, "refreshData: End: " + results + " rows...");
+        }
+>>>>>>> test4
     }
 
     public Item get(int id)
@@ -34,7 +71,11 @@ public class GroceryListDataSource {
             String query = "Select * from tblGroceryList where id = " + id;
             Cursor cursor = db.rawQuery(query, null);
 
+<<<<<<< HEAD
             //Cursor cursor = database.query("tblGroceryList",null, null, null, null, null, null);
+=======
+            //Cursor cursor = db.query("tblGroceryList",null, null, null, null, null, null);
+>>>>>>> test4
 
             cursor.moveToFirst();
             while(!cursor.isAfterLast())
@@ -70,7 +111,10 @@ public class GroceryListDataSource {
         Log.d(TAG, "get: Start");
 
         try {
+<<<<<<< HEAD
             Log.d(TAG, "get: entered try block");
+=======
+>>>>>>> test4
             String sql = "SELECT * from tblGroceryList ORDER BY " + sortBy + " " + sortOrder;
             Cursor cursor = db.rawQuery(sql, null);
             Item item;
@@ -107,7 +151,10 @@ public class GroceryListDataSource {
     public int deleteAll()
     {
         try{
+<<<<<<< HEAD
 
+=======
+>>>>>>> test4
             return db.delete("tblGroceryList", null, null);
         }
         catch(Exception e)
@@ -170,7 +217,7 @@ public class GroceryListDataSource {
 
     public int update(Item item)
     {
-        Log.d(TAG, "update: Start" + item.toString());
+        Log.d(TAG, "update: Start " + item.toString());
         int rowsaffected = 0;
 
         if(item.getId() < 1)
@@ -178,13 +225,17 @@ public class GroceryListDataSource {
 
         try{
             ContentValues values = new ContentValues();
-            values.put("name", item.getDescription());
-            values.put("city", item.isOnShoppingList());
-            values.put("imgId", item.isInCart());
+            values.put("description", item.getDescription());
+            values.put("isOnShoppingList", item.isOnShoppingList());
+            values.put("isInCart", item.isInCart());
             //values.put("latitude", item.getLatitude());
             //values.put("longitude", item.getLongitude());
 
             String where = "id = " + item.getId();
+<<<<<<< HEAD
+=======
+
+>>>>>>> test4
             rowsaffected = (int)db.update("tblGroceryList", values, where, null);
         }
         catch(Exception e)
@@ -200,6 +251,7 @@ public class GroceryListDataSource {
         int rowsaffected = 0;
         String rowAffected;
         try{
+<<<<<<< HEAD
             if(db != null){
                 Log.d(TAG, "insert: try block");
                 ContentValues values = new ContentValues();
@@ -209,13 +261,23 @@ public class GroceryListDataSource {
                 Log.d(TAG, "insert: " + values);
                 values.put("isInCart", item.isInCart());
                 Log.d(TAG, "insert: " + values);
+=======
+            if(db != null) {
+                ContentValues values = new ContentValues();
+                values.put("description", item.getDescription());
+                values.put("isOnShoppingList", item.isOnShoppingList());
+                values.put("isInCart", item.isInCart());
+>>>>>>> test4
                 //values.put("latitude", item.getLatitude());
                 //values.put("longitude", item.getLongitude());
 
                 rowsaffected = (int)db.insert("tblGroceryList", null, values);
+<<<<<<< HEAD
 
                 Log.d(TAG, "insert: end try block: " );
                 Log.d(TAG, "insert: " + values);
+=======
+>>>>>>> test4
             }
             else Log.d(TAG, "insert: db is null");
             

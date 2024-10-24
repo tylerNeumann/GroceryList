@@ -37,8 +37,11 @@ public class MainActivity extends AppCompatActivity {
     private Context parentContext;
     public static String title;
     GroceryListDataSource ds;
+<<<<<<< HEAD
     DatabaseHelper dbHelper;
     SQLiteDatabase db;
+=======
+>>>>>>> test4
     private CompoundButton.OnCheckedChangeListener onCheckedChangedListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -47,15 +50,15 @@ public class MainActivity extends AppCompatActivity {
             viewHolder = (RecyclerView.ViewHolder) buttonView.getTag();
             int position = viewHolder.getAdapterPosition();
             if(getTitle().equals("Master List")){
-                if(isChecked) items.get(position).setOnShoppingList(true);
-                else items.get(position).setOnShoppingList(false);
+                if(isChecked){
+                    items.get(position).setOnShoppingList(true);
+                    ds.update(items.get(position));
+                }
             }
             else{
-                if(isChecked) items.get(position).setInCart(true);
-                else items.get(position).setInCart(false);
-
+                items.get(position).setInCart(true);
+                ds.update(items.get(position));
             }
-
         }
     };
     private void createDB(){
@@ -88,8 +91,8 @@ public class MainActivity extends AppCompatActivity {
     private void initDatabase(){
         //createDB();
         ds = new GroceryListDataSource(this);
-        //ds.open(false);
-        //ds.refreshData();
+        ds.open(false);
+        ds.refreshData();
         //Log.d(TAG, "initDatabase: start");
         String sortBy = getSharedPreferences("grocerylistpreferences",
                 Context.MODE_PRIVATE)
@@ -102,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void createItems() {
         items = new ArrayList<Item>();
+<<<<<<< HEAD
         items.add(new Item(1, "Protein Shake", false, false));
         items.add(new Item(2, "Pop Tarts", false, false));
         items.add(new Item(3, "Mtn Dew", false, false));
@@ -119,11 +123,25 @@ public class MainActivity extends AppCompatActivity {
         //Log.d(TAG, "fillDB: items count: " + items.size());
         for(Item item : items){
            // Log.d(TAG, "fillDB: start for loop");
+=======
+
+        Log.d(TAG, "createItems: items" + items.size());
+        initDatabase();
+
+        if(items.isEmpty()) fillItemsArray();
+
+        int results = 0;
+        for(Item item : items){
+            // Log.d(TAG, "fillDB: start for loop");
+>>>>>>> test4
 
             results += ds.insert(item);
             //Log.d(TAG, "fillDB: " + item);
         }
+<<<<<<< HEAD
         //Log.d(TAG, "fillDB: End: " + results + " rows...");
+=======
+>>>>>>> test4
     }
     public static String[] createDataArray(ArrayList<Item> items){
             String[] data = new String[items.size()];
@@ -173,39 +191,15 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    public void fillItemsArray(){
+        items.add(new Item(1, "Protein Shake", false, false));
+        items.add(new Item(2, "Pop Tarts", false, false));
+        items.add(new Item(3, "Mtn Dew", false, false));
+        items.add(new Item(4, "Pretzels", false, false));
+        items.add(new Item(5, "Shampoo", false, false));
+        items.add(new Item(6, "Cheese", false, false));
+    }
 
-    /*public void readFile() {
-        try {
-            FileIO fileIO = new FileIO();
-            //Log.d(TAG, "readFile: start");
-            ArrayList<String> strData = fileIO.readFile(FILENAME, this);
-            if (getTitle() == "Master List") items = new ArrayList<Item>();
-            if (getTitle() == "Shopping List") shoppingList = new ArrayList<Item>();
-            //Log.d(TAG, "readFile: " + getTitle());
-            Log.d(TAG, "readFile: data size " + strData.size());
-            for (String s : strData) {
-                //Log.d(TAG, "readFile: split string");
-                String[] data = s.split("\\|");
-
-                if (getTitle() == "Master List") {
-                    items.add(new Item(Integer.parseInt(data[0]), data[1], data[2], data[3]));
-                    Log.d(TAG, "ReadTextFile: " + items.get(items.size() - 1).getDescription());
-                }
-
-                if (getTitle() == "Shopping List") {
-                    //Log.d(TAG, "readFile: start shopping list");
-                    //Log.d(TAG, "ReadFile: filling shopping list" + data[1] + ": " + data[2]);
-                    if(Objects.equals(data[2], "1")){
-                        //Log.d(TAG, "ReadFile: add item to shopping list" + data[2]);
-                        shoppingList.add(new Item(Integer.parseInt(data[0]), data[1], data[2], data[3]));
-                        Log.d(TAG, "ReadTextFile: " + shoppingList.get(shoppingList.size() - 1).getDescription());
-                    }
-                }
-            }
-        } catch (Exception e){
-            Log.d(TAG, "ShowMasterList: error" + e.getMessage());
-        }
-    }*/
     private void addItem() {
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         final View addItemView = layoutInflater.inflate(R.layout.additem,null);
@@ -234,8 +228,12 @@ public class MainActivity extends AppCompatActivity {
                                     rvItems.setAdapter(itemAdapter);
                                 }
                                 Log.d(TAG, "onClick: add item: " + item);
+<<<<<<< HEAD
                                 items.add(item);
                                 //FileIO.writeFile(FILENAME,(AppCompatActivity) parentContext,createDataArray(items));
+=======
+                                ds.insert(item);
+>>>>>>> test4
                                 rebind();
                             }
                         })
@@ -295,8 +293,15 @@ public class MainActivity extends AppCompatActivity {
         rvItems = findViewById(R.id.rvItems);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rvItems.setLayoutManager(layoutManager);
+<<<<<<< HEAD
         if(getTitle() == "Master List"){
             Log.d(TAG, "rebind: hit master list");
+=======
+
+        if(getTitle() == "Master List"){
+            Log.d(TAG, "rebind: hit master list");
+            Log.d(TAG, "rebind: " + items.size());
+>>>>>>> test4
             items = ds.get("Description", "ASC");
             itemAdapter = new ItemAdapter(items, this);
             itemAdapter.setOnItemCheckedChangeListener(onCheckedChangedListener);
