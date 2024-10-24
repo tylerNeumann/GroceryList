@@ -323,8 +323,9 @@ public class MainActivity extends AppCompatActivity {
     }
     public void deleteAll(){
         ds.deleteAll();
-        items.removeAll(items);
         fillItemsArray();
+        fillDB();
+        items.removeAll(items);
         rebind();
     }
 }
