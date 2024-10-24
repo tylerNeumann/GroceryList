@@ -211,10 +211,11 @@ public class MainActivity extends AppCompatActivity {
 
             for(Item item : items){
                 if(item.isOnShoppingList()){
-                    //ds.delete(item.getId());
+                    ds.delete(item);
                 }
             }
-            //items.removeIf(item -> item.isOnShoppingList().equals("1"));
+            items = ds.get("Description", "ASC");
+            Log.d(TAG, "deleteChecked: size: " + items.size());
         }
         if(getTitle() == "Shopping List"){
             //Log.d(TAG, "deleteChecked: item removed");
@@ -242,9 +243,7 @@ public class MainActivity extends AppCompatActivity {
                 if(count == shoppingList.size()) loopDone = true;
             }
         }
-        //FileIO.writeFile(FILENAME, this, createDataArray(items));
-        //if(loopDone) shoppingList.removeIf(Item::isInCart);
-        rebind();
+        //rebind();
     }
 
 
