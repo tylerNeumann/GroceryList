@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
 
             for(Item item : items){
                 if(item.isOnShoppingList()){
-                    ds.delete(item);
+                    ds.delete(item.getId());
                 }
             }
             items = ds.get("Description", "ASC");
