@@ -74,8 +74,8 @@ public class MainActivity extends AppCompatActivity {
     private void initDatabase(){
         //createDB();
         ds = new GroceryListDataSource(this);
-        //ds.open(false);
-        //ds.refreshData();
+        ds.open(false);
+        ds.refreshData();
         //Log.d(TAG, "initDatabase: start");
         String sortBy = getSharedPreferences("grocerylistpreferences",
                 Context.MODE_PRIVATE)
@@ -88,16 +88,9 @@ public class MainActivity extends AppCompatActivity {
     }
     private void createItems() {
         items = new ArrayList<Item>();
-        items.add(new Item(1, "Protein Shake", false, false));
-        items.add(new Item(2, "Pop Tarts", false, false));
-        items.add(new Item(3, "Mtn Dew", false, false));
-        items.add(new Item(4, "Pretzels", false, false));
-        items.add(new Item(5, "Shampoo", false, false));
-        items.add(new Item(6, "Cheese", false, false));
+
         Log.d(TAG, "createItems: items" + items.size());
-
         initDatabase();
-
         int results = 0;
         for(Item item : items){
             // Log.d(TAG, "fillDB: start for loop");

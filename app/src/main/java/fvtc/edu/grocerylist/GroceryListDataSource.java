@@ -64,10 +64,10 @@ public class GroceryListDataSource {
         Item item = null;
 
         try{
-            String query = "Select * from tblItem where id = " + id;
+            String query = "Select * from tblGroceryList where id = " + id;
             Cursor cursor = db.rawQuery(query, null);
 
-            //Cursor cursor = db.query("tblItem",null, null, null, null, null, null);
+            //Cursor cursor = db.query("tblGroceryList",null, null, null, null, null, null);
 
             cursor.moveToFirst();
             while(!cursor.isAfterLast())
@@ -103,7 +103,7 @@ public class GroceryListDataSource {
         Log.d(TAG, "get: Start");
 
         try {
-            String sql = "SELECT * from tblItem ORDER BY " + sortBy + " " + sortOrder;
+            String sql = "SELECT * from tblGroceryList ORDER BY " + sortBy + " " + sortOrder;
             Cursor cursor = db.rawQuery(sql, null);
             Item item;
             cursor.moveToFirst();
@@ -138,7 +138,7 @@ public class GroceryListDataSource {
     {
         try{
 
-            return db.delete("tblItem", null, null);
+            return db.delete("tblGroceryList", null, null);
         }
         catch(Exception e)
         {
@@ -170,7 +170,7 @@ public class GroceryListDataSource {
         try{
             Log.d(TAG, "delete: Start : " + id);
             Log.d(TAG, "delete: database" + db.isOpen());
-            return db.delete("tblItem", "id = " + id, null);
+            return db.delete("tblGroceryList", "id = " + id, null);
         }
         catch(Exception e)
         {
@@ -185,7 +185,7 @@ public class GroceryListDataSource {
         int newId =-1;
         try{
             // Get the highest id in the table and add 1
-            String sql = "SELECT max(id) from tblItem";
+            String sql = "SELECT max(id) from tblGroceryList";
             Cursor cursor = db.rawQuery(sql, null);
             cursor.moveToFirst();
             newId = cursor.getInt(0) + 1;
@@ -216,7 +216,7 @@ public class GroceryListDataSource {
 
             String where = "id = " + item.getId();
 
-            rowsaffected = (int)db.update("tblItem", values, where, null);
+            rowsaffected = (int)db.update("tblGroceryList", values, where, null);
         }
         catch(Exception e)
         {
@@ -239,7 +239,7 @@ public class GroceryListDataSource {
                 //values.put("latitude", item.getLatitude());
                 //values.put("longitude", item.getLongitude());
 
-                rowsaffected = (int)db.insert("tblItem", null, values);
+                rowsaffected = (int)db.insert("tblGroceryList", null, values);
             }
             else Log.d(TAG, "insert: db is null");
             
@@ -256,7 +256,7 @@ public class GroceryListDataSource {
         Log.d(TAG, "get: get shopping list Start");
 
         try {
-            String sql = "SELECT * from tblItem WHERE IsOnShoppingList = 1 ORDER BY " + sortBy + " " + sortOrder;
+            String sql = "SELECT * from tblGroceryList WHERE IsOnShoppingList = 1 ORDER BY " + sortBy + " " + sortOrder;
             Cursor cursor = db.rawQuery(sql, null);
             Item item;
             cursor.moveToFirst();
