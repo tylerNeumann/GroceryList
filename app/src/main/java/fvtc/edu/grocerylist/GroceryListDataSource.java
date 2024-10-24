@@ -254,6 +254,7 @@ public class GroceryListDataSource {
     }
     public ArrayList<Item> getShoppingList(String sortBy, String sortOrder)
     {
+        ArrayList<Item> shoppingList = new ArrayList<>();
         Log.d(TAG, "get: get shopping list Start");
 
         try {
@@ -261,20 +262,20 @@ public class GroceryListDataSource {
             Cursor cursor = db.rawQuery(sql, null);
             Item item;
             cursor.moveToFirst();
-
+            Log.d(TAG, "getShoppingList: cursor " + cursor.moveToFirst());
             while(!cursor.isAfterLast())
             {
+                Log.d(TAG, "getShoppingList: entered while loop");
                 item = new Item();
                 item.setId(cursor.getInt(0));
                 item.setDescription(cursor.getString(1));
-                boolean onShoppingList = cursor.getInt(2) == 1;
-                item.setOnShoppingList(onShoppingList);
-                boolean inCart = cursor.getInt(3) == 1;
+                item.setOnShoppingList(true);
+                boolean inCart = (cursor.getInt(3) == 1);
                 item.setInCart(inCart);
-
-
-                GroceryList.add(item);
                 Log.d(TAG, "get: " + item.toString());
+
+                shoppingList.add(item);
+
                 cursor.moveToNext();
             }
 
@@ -285,6 +286,7 @@ public class GroceryListDataSource {
             e.printStackTrace();
         }
 
-        return GroceryList;
+        Log.d(TAG, "getShoppingList: " + shoppingList.size());
+        return shoppingList;
     }
 }
