@@ -42,13 +42,14 @@ public class MainActivity extends AppCompatActivity {
             viewHolder = (RecyclerView.ViewHolder) buttonView.getTag();
             int position = viewHolder.getAdapterPosition();
             if(getTitle().equals("Master List")){
-                if(isChecked) items.get(position).setOnShoppingList(true);
-                else items.get(position).setOnShoppingList(false);
+                if(isChecked){
+                    items.get(position).setOnShoppingList(true);
+                    ds.update(items.get(position));
+                }
             }
             else{
-                if(isChecked) items.get(position).setInCart(true);
-                else items.get(position).setInCart(false);
-
+                items.get(position).setInCart(true);
+                ds.update(items.get(position));
             }
 
         }
