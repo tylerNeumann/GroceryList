@@ -15,17 +15,14 @@ public class GroceryListDataSource {
     ArrayList<Item> GroceryList = new ArrayList<Item>();
     public static final String TAG = "GroceryListDataSource";
 
-    public GroceryListDataSource(Context context)
-    {
+    public GroceryListDataSource(Context context) {
         Log.d(TAG, "GroceryListDataSource: ");
         dbHelper = new DatabaseHelper(context,
                 DatabaseHelper.DATABASE_NAME,
                 null,
                 DatabaseHelper.DATABASE_VERSION);
-
-<<<<<<< HEAD
-        db = dbHelper.getWritableDatabase();
-=======
+        open();
+    }
     public void open() throws SQLException {
         open(false);
     }
@@ -60,7 +57,6 @@ public class GroceryListDataSource {
             }
             Log.d(TAG, "refreshData: End: " + results + " rows...");
         }
->>>>>>> test4
     }
 
     public Item get(int id)
@@ -71,11 +67,7 @@ public class GroceryListDataSource {
             String query = "Select * from tblGroceryList where id = " + id;
             Cursor cursor = db.rawQuery(query, null);
 
-<<<<<<< HEAD
-            //Cursor cursor = database.query("tblGroceryList",null, null, null, null, null, null);
-=======
             //Cursor cursor = db.query("tblGroceryList",null, null, null, null, null, null);
->>>>>>> test4
 
             cursor.moveToFirst();
             while(!cursor.isAfterLast())
@@ -111,10 +103,6 @@ public class GroceryListDataSource {
         Log.d(TAG, "get: Start");
 
         try {
-<<<<<<< HEAD
-            Log.d(TAG, "get: entered try block");
-=======
->>>>>>> test4
             String sql = "SELECT * from tblGroceryList ORDER BY " + sortBy + " " + sortOrder;
             Cursor cursor = db.rawQuery(sql, null);
             Item item;
@@ -151,10 +139,6 @@ public class GroceryListDataSource {
     public int deleteAll()
     {
         try{
-<<<<<<< HEAD
-
-=======
->>>>>>> test4
             return db.delete("tblGroceryList", null, null);
         }
         catch(Exception e)
@@ -232,10 +216,6 @@ public class GroceryListDataSource {
             //values.put("longitude", item.getLongitude());
 
             String where = "id = " + item.getId();
-<<<<<<< HEAD
-=======
-
->>>>>>> test4
             rowsaffected = (int)db.update("tblGroceryList", values, where, null);
         }
         catch(Exception e)
