@@ -14,7 +14,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String CREATE_GROCERYLIST_SQL =
             "CREATE TABLE IF NOT EXISTS tblGroceryList(Id integer primary key autoincrement,"
                     + "Description text,"
-                    + "IsOnShoppingList int"
+                    + "IsOnShoppingList int,"
                     + "IsInCart int);";
 
     public DatabaseHelper(@Nullable Context context,

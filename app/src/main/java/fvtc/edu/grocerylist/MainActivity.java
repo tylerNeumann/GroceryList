@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Item> shoppingList;
     private Context parentContext;
     public static String title;
-
+    GroceryListDataSource ds;
     private CompoundButton.OnCheckedChangeListener onCheckedChangedListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         items.add(new Item(6, "Cheese", false, false));
         Log.d(TAG, "createItems: items" + items.size());
 
-        FileIO.writeFile(FILENAME,this,createDataArray(items));
+        if(db)
     }
     public static String[] createDataArray(ArrayList<Item> items){
             String[] data = new String[items.size()];
@@ -218,11 +218,14 @@ public class MainActivity extends AppCompatActivity {
 
         if(getTitle() == "Master List"){
             Log.d(TAG, "rebind: hit master list");
+            Log.d(TAG, "rebind: " + items.size());
+            items = ds.get("Description", "ASC");
             itemAdapter = new ItemAdapter(items, this);
             itemAdapter.setOnItemCheckedChangeListener(onCheckedChangedListener);
         }
         if(getTitle() == "Shopping List"){
             Log.d(TAG, "rebind: hit shopping list");
+            shoppingList = ds.getShoppingList("Description", "ASC");
             itemAdapter = new ItemAdapter(shoppingList, this);
             itemAdapter.setOnItemCheckedChangeListener(onCheckedChangedListener);
         }
