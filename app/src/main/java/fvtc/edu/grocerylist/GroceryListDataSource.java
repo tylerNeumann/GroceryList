@@ -231,33 +231,13 @@ public class GroceryListDataSource {
         int rowsaffected = 0;
         String rowAffected;
         try{
-<<<<<<< HEAD
-            if(db != null){
-                Log.d(TAG, "insert: try block");
-                ContentValues values = new ContentValues();
-                values.put("description", item.getDescription());
-                Log.d(TAG, "insert: " + values);
-                values.put("isOnShoppingList", item.isOnShoppingList());
-                Log.d(TAG, "insert: " + values);
-                values.put("isInCart", item.isInCart());
-                Log.d(TAG, "insert: " + values);
-=======
             if(db != null) {
                 ContentValues values = new ContentValues();
                 values.put("description", item.getDescription());
                 values.put("isOnShoppingList", item.isOnShoppingList());
                 values.put("isInCart", item.isInCart());
->>>>>>> test4
-                //values.put("latitude", item.getLatitude());
-                //values.put("longitude", item.getLongitude());
 
                 rowsaffected = (int)db.insert("tblGroceryList", null, values);
-<<<<<<< HEAD
-
-                Log.d(TAG, "insert: end try block: " );
-                Log.d(TAG, "insert: " + values);
-=======
->>>>>>> test4
             }
             else Log.d(TAG, "insert: db is null");
             
