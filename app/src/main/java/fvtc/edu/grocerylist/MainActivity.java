@@ -37,11 +37,6 @@ public class MainActivity extends AppCompatActivity {
     private Context parentContext;
     public static String title;
     GroceryListDataSource ds;
-<<<<<<< HEAD
-    DatabaseHelper dbHelper;
-    SQLiteDatabase db;
-=======
->>>>>>> test4
     private CompoundButton.OnCheckedChangeListener onCheckedChangedListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -61,14 +56,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
-    private void createDB(){
-        Log.d(TAG, "createDB: ");
-        dbHelper = new DatabaseHelper(this,
-                "grocerylist.db",
-                null,
-                dbHelper.DATABASE_VERSION);
-        db = dbHelper.getWritableDatabase();
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate: ");
@@ -78,8 +65,7 @@ public class MainActivity extends AppCompatActivity {
         setTitle("Master List");
         title = "Master List";
         parentContext = this;
-        initDatabase();
-        fillDB();
+        createItems();
         rebind();
         Log.d(TAG, "onCreate: started program");
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -89,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     private void initDatabase(){
-        //createDB();
         ds = new GroceryListDataSource(this);
         ds.open(false);
         ds.refreshData();
@@ -105,27 +90,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void createItems() {
         items = new ArrayList<Item>();
-<<<<<<< HEAD
-        items.add(new Item(1, "Protein Shake", false, false));
-        items.add(new Item(2, "Pop Tarts", false, false));
-        items.add(new Item(3, "Mtn Dew", false, false));
-        items.add(new Item(4, "Pretzels", false, false));
-        items.add(new Item(5, "Shampoo", false, false));
-        items.add(new Item(6, "Cheese", false, false));
-
-        //Log.d(TAG, "createItems: items" + items.size());
-
-        //FileIO.writeFile(FILENAME,this,createDataArray(items));
-    }
-    public void fillDB(){
-        int results = 0;
-        createItems();
-        //Log.d(TAG, "fillDB: items count: " + items.size());
-        for(Item item : items){
-           // Log.d(TAG, "fillDB: start for loop");
-=======
-
-        Log.d(TAG, "createItems: items" + items.size());
+        Log.d(TAG, "createItems: items: " + items.size());
         initDatabase();
 
         if(items.isEmpty()) fillItemsArray();
@@ -133,15 +98,10 @@ public class MainActivity extends AppCompatActivity {
         int results = 0;
         for(Item item : items){
             // Log.d(TAG, "fillDB: start for loop");
->>>>>>> test4
-
             results += ds.insert(item);
             //Log.d(TAG, "fillDB: " + item);
         }
-<<<<<<< HEAD
-        //Log.d(TAG, "fillDB: End: " + results + " rows...");
-=======
->>>>>>> test4
+
     }
     public static String[] createDataArray(ArrayList<Item> items){
             String[] data = new String[items.size()];
@@ -228,12 +188,7 @@ public class MainActivity extends AppCompatActivity {
                                     rvItems.setAdapter(itemAdapter);
                                 }
                                 Log.d(TAG, "onClick: add item: " + item);
-<<<<<<< HEAD
-                                items.add(item);
-                                //FileIO.writeFile(FILENAME,(AppCompatActivity) parentContext,createDataArray(items));
-=======
                                 ds.insert(item);
->>>>>>> test4
                                 rebind();
                             }
                         })
@@ -293,15 +248,9 @@ public class MainActivity extends AppCompatActivity {
         rvItems = findViewById(R.id.rvItems);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rvItems.setLayoutManager(layoutManager);
-<<<<<<< HEAD
-        if(getTitle() == "Master List"){
-            Log.d(TAG, "rebind: hit master list");
-=======
 
         if(getTitle() == "Master List"){
             Log.d(TAG, "rebind: hit master list");
-            Log.d(TAG, "rebind: " + items.size());
->>>>>>> test4
             items = ds.get("Description", "ASC");
             itemAdapter = new ItemAdapter(items, this);
             itemAdapter.setOnItemCheckedChangeListener(onCheckedChangedListener);
@@ -362,7 +311,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
-        //FileIO.writeFile(FILENAME, this, createDataArray(items));
         rebind();
     }
 }
