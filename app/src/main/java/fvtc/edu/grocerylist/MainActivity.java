@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void createItems() {
         items = new ArrayList<Item>();
+        shoppingList = new ArrayList<>();
         Log.d(TAG, "createItems: items: " + items.size());
         initDatabase();
 
@@ -279,7 +280,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if(getTitle() == "Shopping List"){
             Log.d(TAG, "rebind: hit shopping list");
-            shoppingList.removeAll(shoppingList);
+            if(!shoppingList.isEmpty()) shoppingList.removeAll(shoppingList);
             shoppingList = ds.getShoppingList("Description", "ASC");
             itemAdapter = new ItemAdapter(shoppingList, this);
             itemAdapter.setOnItemCheckedChangeListener(onCheckedChangedListener);
