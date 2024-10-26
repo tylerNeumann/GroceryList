@@ -28,10 +28,12 @@ public class GroceryListDataSource {
     }
 
     public void open(boolean refresh)  throws SQLException{
-
+        boolean freshApp = true;
         db = dbHelper.getWritableDatabase();
         Log.d(TAG, "open: " + db.isOpen());
-        if(refresh) refreshData();
+        if(!freshApp) refreshData();
+        //if(refresh) refreshData();
+
     }
 
     public void close()

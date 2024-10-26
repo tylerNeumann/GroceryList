@@ -27,9 +27,4 @@
         android:orderInCategory="500"
         android:title="@string/delete_checked"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/action_DeleteAll"
-        android:orderInCategory="600"
-        android:title="@string/delete_all"
-        app:showAsAction="never" />
 </menu>

@@ -79,8 +79,8 @@ public class MainActivity extends AppCompatActivity {
         title = "Master List";
         parentContext = this;
         createItems();
-        //rebind();
-        deleteAll();
+        rebind();
+        //deleteAll();
 
         Log.d(TAG, "onCreate: started program");
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
     private void initDatabase(){
         ds = new GroceryListDataSource(this);
         ds.open(false);
-        ds.refreshData();
+        //ds.refreshData();
         //Log.d(TAG, "initDatabase: start");
         String sortBy = getSharedPreferences("grocerylistpreferences",
                 Context.MODE_PRIVATE)
@@ -159,12 +159,9 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "onOptionsItemSelected: clear");
             clearAll();
         }
-        else if(id == R.id.action_DeleteChecked){
+        else {
             Log.d(TAG, "onOptionsItemSelected: delete");
             deleteChecked();
-        }
-        else {
-            deleteAll();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -283,11 +280,14 @@ public class MainActivity extends AppCompatActivity {
         rvItems.setAdapter(itemAdapter);
     }
     public void clearAll(){
+        Log.i(TAG, "clearAll: hit");
         if(getTitle() == "Master List"){
-            int i = 0;
+            Log.i(TAG, "clearAll: master list");
+            int i = 7;
             Item item = new Item();
 
             for(int count = 0; count < items.size(); count++) {
+                Log.i(TAG, "clearAll: master list for loop");
                 //Log.d(TAG, "deleteChecked: entered loop");
                 if (items.get(count).isOnShoppingList()) {
                    // Log.d(TAG, "deleteChecked: passed if");
@@ -300,37 +300,38 @@ public class MainActivity extends AppCompatActivity {
                     items.get(i).setOnShoppingList(false);
                     ds.update(items.get(i));
 
-                    Log.d(TAG, "deleteChecked: reset item: " + items.get(i));
+                    Log.d(TAG, "clearAll: reset item: " + items.get(i));
 
 
-                } else Log.d(TAG, "deleteChecked: failed if");
+                } else Log.d(TAG, "clearAll: failed if");
             }
         }
         if(getTitle() == "Shopping List"){
+            Log.i(TAG, "clearAll: shopping list");
             //Log.d(TAG, "deleteChecked: item removed");
             //set deleted items isInShoppingList == "0"
             int i = 0;
             Item item = new Item();
 
             for(int count = 0; count < shoppingList.size(); count++){
+                Log.i(TAG, "clearAll: shopping list for loop");
                 //Log.d(TAG, "deleteChecked: entered loop");
                 if(shoppingList.get(count).isInCart()) {
-                    Log.d(TAG, "deleteChecked: passed if");
+                    Log.i(TAG, "clearAll: clearAll: shopping list for loop if entered");
                     item = shoppingList.get(count);
-                    Log.d(TAG, "deleteChecked: item: " + item);
+                    Log.i(TAG, "clearAll: item: " + item);
                     i = item.getId();
-                    Log.d(TAG, "deleteChecked: i = " + i);
+                    Log.i(TAG, "clearAll: i = " + i);
                     i -= 1;
-                    Log.d(TAG, "deleteChecked: item id: " + i);
+                    Log.d(TAG, "clearAll: item id: " + i);
                     items.get(i).setInCart(false);
                     //items.get(i).setOnShoppingList("0");
-                    Log.d(TAG, "deleteChecked: reset item: " + items.get(i));
+                    Log.d(TAG, "clearAll: reset item: " + items.get(i));
 
 
                 }
-                else Log.d(TAG, "deleteChecked: failed if");
+                else Log.d(TAG, "clearAll: failed if");
             }
-
         }
         rebind();
     }
