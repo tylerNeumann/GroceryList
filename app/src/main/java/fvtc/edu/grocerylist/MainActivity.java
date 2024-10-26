@@ -41,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             Log.d(TAG, "onCheckedChanged: ");
+            /*itemAdapter = new ItemAdapter(items, parentContext);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(parentContext);
+            rvItems.setLayoutManager(layoutManager);*/
             RecyclerView.ViewHolder viewHolder;
             viewHolder = (RecyclerView.ViewHolder) buttonView.getTag();
             int position = viewHolder.getAdapterPosition();
@@ -49,10 +52,20 @@ public class MainActivity extends AppCompatActivity {
                     items.get(position).setOnShoppingList(true);
                     ds.update(items.get(position));
                 }
+                else {
+                    items.get(position).setOnShoppingList(false);
+                    ds.update(items.get(position));
+                }
             }
-            else{
-                items.get(position).setInCart(true);
-                ds.update(items.get(position));
+            else if(getTitle().equals("Shopping List")){
+                if(isChecked){
+                    items.get(position).setInCart(true);
+                    ds.update(items.get(position));
+                }
+                else {
+                    items.get(position).setInCart(false);
+                    ds.update(items.get(position));
+                }
             }
         }
     };
