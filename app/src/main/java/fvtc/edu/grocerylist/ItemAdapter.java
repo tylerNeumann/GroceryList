@@ -24,6 +24,7 @@ public class ItemAdapter extends RecyclerView.Adapter {
     private CompoundButton.OnCheckedChangeListener onItemCheckedChangeListener;
     public static final String TAG = "ItemAdapter";
     private Context parentContext;
+    int itemPosition;
     //FileIO fileIO;
 
     public class ItemViewHolder extends RecyclerView.ViewHolder{
@@ -76,54 +77,43 @@ public class ItemAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        itemPosition = position;
         Item currentItem = itemData.get(position);
         Log.d(TAG, "onBindViewHolder: " + itemData.get(position));
         ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
         itemViewHolder.getTvDescription().setText(itemData.get(position).getDescription());
-        //itemViewHolder.getTvIsOnShoppingList().setText(itemData.get(position).isOnShoppingList());
-        //itemViewHolder.getTvIsInCart().setText(itemData.get(position).isInCart());
 
         itemViewHolder.getChkSelector().setOnCheckedChangeListener(null);
-        itemViewHolder.getChkSelector().setChecked(itemData.get(position).isOnShoppingList());
+
+        if (MainActivity.title.equals("Master List")) {
+            itemViewHolder.getChkSelector().setChecked(currentItem.isOnShoppingList());
+        } else if (MainActivity.title.equals("Shopping List")) {
+            itemViewHolder.getChkSelector().setChecked(currentItem.isInCart());
+        } else {
+            itemViewHolder.getChkSelector().setChecked(false);
+        }
+
         itemViewHolder.getChkSelector().setTag(holder);
+
+        GroceryListDataSource ds = new GroceryListDataSource(parentContext);
         itemViewHolder.chkSelector.setOnCheckedChangeListener((buttonView, isChecked) -> {
             Log.d(TAG, "onCheckedChanged: start");
             //itemViewHolder.chkSelector.setChecked(isChecked);
-            GroceryListDataSource ds = new GroceryListDataSource(parentContext);
+
             if (MainActivity.title.equals("Master List")) {
-                // Perform specific action for "Master List"
-                if (isChecked) {
-                    Log.d("ItemAdapter", "Item added to Master List: " + itemData.get(position).getDescription());
-                    // Add more logic like saving to a file, updating UI, etc.
-
-                    Log.d(TAG, "checkBoxInteraction: " + itemData.get(position));
-                } else {
-                    Log.d("ItemAdapter", "Item removed from Master List: " + itemData.get(position).getDescription());
-
-                }
-                ds.update(itemData.get(position));
-                notifyItemChanged(itemData.indexOf(itemData.get(position)));
-                onItemCheckedChangeListener.onCheckedChanged(buttonView, isChecked);
+                currentItem.setOnShoppingList(isChecked);
+                Log.d(TAG, "Item " + (isChecked ? "added to" : "removed from") + " Master List: " + currentItem.getDescription());
+            } else if (MainActivity.title.equals("Shopping List")) {
+                currentItem.setInCart(isChecked);
+                Log.d(TAG, "Item " + (isChecked ? "added to" : "removed from") + " Shopping List: " + currentItem.getDescription());
+            } else {
+                Log.d(TAG, "Unknown list title: " + MainActivity.title);
             }
-            else if (MainActivity.title.equals("Shopping List")) {
-                // Perform specific action for "Shopping List"
-                if (isChecked) {
-                    Log.d("ItemAdapter", "Item added to Shopping List: " + itemData.get(position).getDescription());
-                    // Add more logic for Shopping List like saving to file, updating UI, etc.
 
-                } else {
-                    Log.d("ItemAdapter", "Item removed from Shopping List: " + itemData.get(position).getDescription());
+            ds.update(currentItem);
+            notifyItemChanged(position);
 
-                }
-                Log.d(TAG, "checkBoxInteraction: item: " + itemData.get(position).toString());
-                ds.update(itemData.get(position));
-                notifyItemChanged(itemData.indexOf(itemData.get(position)));
-
-            }
-            else {
-                // Default action if the title doesn't match known cases
-                Log.d("ItemAdapter", "Unknown list title: " + MainActivity.title);
-            }
+            onItemCheckedChangeListener.onCheckedChanged(buttonView, checkedState());
         });
         Log.d(TAG, "onBindViewHolder: bound");
     }
@@ -148,4 +138,20 @@ public class ItemAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
 
     }*/
+    private boolean checkedState(){
+        boolean checked = false;
+        if(MainActivity.title.equals("Master List")){
+            if(itemData.get(itemPosition).isOnShoppingList()) checked = true;
+            else checked = false;
+            Log.d(TAG, "checkedState masterList: " + checked);
+        }
+        else if(MainActivity.title.equals("Shopping List")){
+            if(itemData.get(itemPosition).isInCart()) checked = true;
+            else checked = false;
+            Log.d(TAG, "checkedState shoppingList: " + checked);
+        }
+        else checked = false;
+        Log.d(TAG, "checkedState: " + checked);
+        return checked;
+    }
 }
