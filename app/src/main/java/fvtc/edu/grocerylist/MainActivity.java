@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 if(isChecked){
                     items.get(position).setOnShoppingList(true);
                     ds.update(items.get(position));
+                    Log.i(TAG, "onCheckedChanged: " + items.get(position));
                 }
                 else {
                     items.get(position).setOnShoppingList(false);
@@ -117,7 +118,10 @@ public class MainActivity extends AppCompatActivity {
                 //Log.d(TAG, "fillDB: " + item);
             }
         }
-        else items = ds.get("Description", "ASC");
+        else {
+            items.removeAll(items);
+            items = ds.get("Description", "ASC");
+        }
     }
     public static String[] createDataArray(ArrayList<Item> items){
             String[] data = new String[items.size()];
@@ -229,6 +233,7 @@ public class MainActivity extends AppCompatActivity {
                     ds.delete(item.getId());
                 }
             }
+            items.removeAll(items);
             items = ds.get("Description", "ASC");
             Log.d(TAG, "deleteChecked: size: " + items.size());
         }
@@ -267,12 +272,14 @@ public class MainActivity extends AppCompatActivity {
 
         if(getTitle() == "Master List"){
             Log.d(TAG, "rebind: hit master list");
+            items.removeAll(items);
             items = ds.get("Description", "ASC");
             itemAdapter = new ItemAdapter(items, this);
             itemAdapter.setOnItemCheckedChangeListener(onCheckedChangedListener);
         }
         if(getTitle() == "Shopping List"){
             Log.d(TAG, "rebind: hit shopping list");
+            shoppingList.removeAll(shoppingList);
             shoppingList = ds.getShoppingList("Description", "ASC");
             itemAdapter = new ItemAdapter(shoppingList, this);
             itemAdapter.setOnItemCheckedChangeListener(onCheckedChangedListener);
@@ -283,27 +290,31 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, "clearAll: hit");
         if(getTitle() == "Master List"){
             Log.i(TAG, "clearAll: master list");
-            int i = 7;
+            //int i = 0;
+            //Log.i(TAG, "clearAll: " + i);
             Item item = new Item();
 
             for(int count = 0; count < items.size(); count++) {
                 Log.i(TAG, "clearAll: master list for loop");
                 //Log.d(TAG, "deleteChecked: entered loop");
                 if (items.get(count).isOnShoppingList()) {
+                    Log.i(TAG, "clearAll: " + count);
                    // Log.d(TAG, "deleteChecked: passed if");
-                    item = items.get(count);
+                    /*item = items.get(count);
                    // Log.d(TAG, "deleteChecked: item: " + item);
                     i = item.getId();
                     //Log.d(TAG, "deleteChecked: i = " + i);
-                    i -= 1;
+                    i -= 1;*/
                     //Log.d(TAG, "deleteChecked: item id: " + i);
-                    items.get(i).setOnShoppingList(false);
-                    ds.update(items.get(i));
+                    items.get(count).setOnShoppingList(false);
+                    ds.update(items.get(count));
 
-                    Log.d(TAG, "clearAll: reset item: " + items.get(i));
+                    Log.d(TAG, "clearAll: reset item: " + items.get(count));
 
 
-                } else Log.d(TAG, "clearAll: failed if");
+                } else {
+                    Log.d(TAG, "clearAll: failed if on " + items.get(count));
+                }
             }
         }
         if(getTitle() == "Shopping List"){
