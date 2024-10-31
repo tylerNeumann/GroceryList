@@ -56,16 +56,21 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     items.get(position).setOnShoppingList(false);
                     ds.update(items.get(position));
+                    Log.i(TAG, "onCheckedChanged: " + items.get(position));
                 }
             }
             else if(getTitle().equals("Shopping List")){
                 if(isChecked){
+                    Log.i(TAG, "onCheckedChanged: shopping list checked");
                     items.get(position).setInCart(true);
                     ds.update(items.get(position));
+                    Log.i(TAG, "onCheckedChanged: " + items.get(position));
                 }
                 else {
+                    Log.i(TAG, "onCheckedChanged: shopping list unchecked");
                     items.get(position).setInCart(false);
                     ds.update(items.get(position));
+                    Log.i(TAG, "onCheckedChanged: " + items.get(position));
                 }
             }
         }
@@ -288,7 +293,7 @@ public class MainActivity extends AppCompatActivity {
         rvItems.setAdapter(itemAdapter);
     }
     public void clearAll(){
-        Log.i(TAG, "clearAll: hit");
+        //Log.i(TAG, "clearAll: hit");
         if(getTitle() == "Master List"){
             Log.i(TAG, "clearAll: master list");
             //int i = 0;
@@ -319,7 +324,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         if(getTitle() == "Shopping List"){
-            Log.i(TAG, "clearAll: shopping list");
+            //Log.i(TAG, "clearAll: shopping list");
             //Log.d(TAG, "deleteChecked: item removed");
             //set deleted items isInShoppingList == "0"
             int i = 0;
@@ -332,7 +337,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.i(TAG, "clearAll: clearAll: shopping list for loop if entered");
                     item = shoppingList.get(count);
                     Log.i(TAG, "clearAll: item: " + item);
-                    i = item.getId();
+                    /*i = item.getId();
                     Log.i(TAG, "clearAll: i = " + i);
                     i -= 1;
                     Log.d(TAG, "clearAll: item id: " + i);
@@ -342,7 +347,9 @@ public class MainActivity extends AppCompatActivity {
 
 
                 }
-                else Log.d(TAG, "clearAll: failed if");
+                else {
+                    Log.d(TAG, "clearAll: failed if on " + item);
+                }
             }
         }
         rebind();
