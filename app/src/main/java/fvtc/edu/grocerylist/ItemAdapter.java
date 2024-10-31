@@ -79,7 +79,7 @@ public class ItemAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         itemPosition = position;
         Item currentItem = itemData.get(position);
-        Log.d(TAG, "onBindViewHolder: " + itemData.get(position));
+        Log.i(TAG, "onBindViewHolder: " + itemData.get(position));
         ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
         itemViewHolder.getTvDescription().setText(itemData.get(position).getDescription());
 
@@ -89,6 +89,7 @@ public class ItemAdapter extends RecyclerView.Adapter {
             itemViewHolder.getChkSelector().setChecked(currentItem.isOnShoppingList());
         } else if (MainActivity.title.equals("Shopping List")) {
             itemViewHolder.getChkSelector().setChecked(currentItem.isInCart());
+            Log.i(TAG, "onBindViewHolder: isInCart hit");
         } else {
             itemViewHolder.getChkSelector().setChecked(false);
         }
@@ -97,7 +98,7 @@ public class ItemAdapter extends RecyclerView.Adapter {
 
         GroceryListDataSource ds = new GroceryListDataSource(parentContext);
         itemViewHolder.chkSelector.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            Log.d(TAG, "onCheckedChanged: start");
+            Log.i(TAG, "onCheckedChanged: start");
             //itemViewHolder.chkSelector.setChecked(isChecked);
 
             if (MainActivity.title.equals("Master List")) {
@@ -105,7 +106,7 @@ public class ItemAdapter extends RecyclerView.Adapter {
                 Log.d(TAG, "Item " + (isChecked ? "added to" : "removed from") + " Master List: " + currentItem.getDescription());
             } else if (MainActivity.title.equals("Shopping List")) {
                 currentItem.setInCart(isChecked);
-                Log.d(TAG, "Item " + (isChecked ? "added to" : "removed from") + " Shopping List: " + currentItem.getDescription());
+                Log.i(TAG, "Item " + (isChecked ? "added to" : "removed from") + " Shopping List: " + currentItem.getDescription());
             } else {
                 Log.d(TAG, "Unknown list title: " + MainActivity.title);
             }
