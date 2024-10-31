@@ -331,19 +331,23 @@ public class MainActivity extends AppCompatActivity {
             Item item = new Item();
 
             for(int count = 0; count < shoppingList.size(); count++){
-                Log.i(TAG, "clearAll: shopping list for loop");
+                item = shoppingList.get(count);
+                //Log.i(TAG, "clearAll: shopping list for loop");
                 //Log.d(TAG, "deleteChecked: entered loop");
                 if(shoppingList.get(count).isInCart()) {
-                    Log.i(TAG, "clearAll: clearAll: shopping list for loop if entered");
-                    item = shoppingList.get(count);
+                    //Log.i(TAG, "clearAll: clearAll: shopping list for loop if entered");
+
                     Log.i(TAG, "clearAll: item: " + item);
                     /*i = item.getId();
                     Log.i(TAG, "clearAll: i = " + i);
-                    i -= 1;
-                    Log.d(TAG, "clearAll: item id: " + i);
-                    items.get(i).setInCart(false);
+                    i -= 1;*/
+                    //Log.d(TAG, "clearAll: item id: " + item.getId());
+                    items.get(item.getId()).setInCart(false);
                     //items.get(i).setOnShoppingList("0");
-                    Log.d(TAG, "clearAll: reset item: " + items.get(i));
+                    //Log.i(TAG, "clearAll: items size: " + items.size());
+                    Log.i(TAG, "clearAll: reset item: " + items.get(item.getId()));
+                    //Log.d(TAG, "clearAll: reset item: " + items.get(i));
+                    ds.update(items.get(item.getId()));
 
 
                 }
