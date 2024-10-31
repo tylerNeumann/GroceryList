@@ -222,12 +222,15 @@ public class GroceryListDataSource {
 
             String where = "id = " + item.getId();
             rowsaffected = (int)db.update("tblGroceryList", values, where, null);
+            Log.i(TAG, "update: end");
         }
         catch(Exception e)
         {
+            Log.i(TAG, "update: hit error");
             Log.d(TAG, "get: " + e.getMessage());
             e.printStackTrace();
         }
+        Log.d(TAG, "update: rowsaffected: " + rowsaffected);
         return rowsaffected;
     }
     public int insert(Item item)
