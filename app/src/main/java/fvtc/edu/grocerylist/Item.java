@@ -1,6 +1,9 @@
 package fvtc.edu.grocerylist;
 
+import android.util.Log;
+
 public class Item {
+    public static final String TAG = "Item";
     private int Id;
     private String Description;
     private boolean IsOnShoppingList;
@@ -38,6 +41,7 @@ public class Item {
     }
     public void setInCart(boolean inCart) {
         IsInCart = inCart;
+        Log.d(TAG, "setInCart: IsInCart = " + IsInCart);
     }
 
     public int getId() {
