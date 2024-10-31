@@ -56,16 +56,21 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     items.get(position).setOnShoppingList(false);
                     ds.update(items.get(position));
+                    Log.i(TAG, "onCheckedChanged: " + items.get(position));
                 }
             }
             else if(getTitle().equals("Shopping List")){
                 if(isChecked){
+                    Log.i(TAG, "onCheckedChanged: shopping list checked");
                     items.get(position).setInCart(true);
                     ds.update(items.get(position));
+                    Log.i(TAG, "onCheckedChanged: " + items.get(position));
                 }
                 else {
+                    Log.i(TAG, "onCheckedChanged: shopping list unchecked");
                     items.get(position).setInCart(false);
                     ds.update(items.get(position));
+                    Log.i(TAG, "onCheckedChanged: " + items.get(position));
                 }
             }
         }
@@ -288,7 +293,7 @@ public class MainActivity extends AppCompatActivity {
         rvItems.setAdapter(itemAdapter);
     }
     public void clearAll(){
-        Log.i(TAG, "clearAll: hit");
+        //Log.i(TAG, "clearAll: hit");
         if(getTitle() == "Master List"){
             Log.i(TAG, "clearAll: master list");
             //int i = 0;
@@ -319,30 +324,36 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         if(getTitle() == "Shopping List"){
-            Log.i(TAG, "clearAll: shopping list");
+            //Log.i(TAG, "clearAll: shopping list");
             //Log.d(TAG, "deleteChecked: item removed");
             //set deleted items isInShoppingList == "0"
             int i = 0;
             Item item = new Item();
 
             for(int count = 0; count < shoppingList.size(); count++){
-                Log.i(TAG, "clearAll: shopping list for loop");
+                item = shoppingList.get(count);
+                //Log.i(TAG, "clearAll: shopping list for loop");
                 //Log.d(TAG, "deleteChecked: entered loop");
                 if(shoppingList.get(count).isInCart()) {
-                    Log.i(TAG, "clearAll: clearAll: shopping list for loop if entered");
-                    item = shoppingList.get(count);
+                    //Log.i(TAG, "clearAll: clearAll: shopping list for loop if entered");
+
                     Log.i(TAG, "clearAll: item: " + item);
-                    i = item.getId();
+                    /*i = item.getId();
                     Log.i(TAG, "clearAll: i = " + i);
-                    i -= 1;
-                    Log.d(TAG, "clearAll: item id: " + i);
-                    items.get(i).setInCart(false);
+                    i -= 1;*/
+                    //Log.d(TAG, "clearAll: item id: " + item.getId());
+                    items.get(item.getId()).setInCart(false);
                     //items.get(i).setOnShoppingList("0");
-                    Log.d(TAG, "clearAll: reset item: " + items.get(i));
+                    //Log.i(TAG, "clearAll: items size: " + items.size());
+                    Log.i(TAG, "clearAll: reset item: " + items.get(item.getId()));
+                    //Log.d(TAG, "clearAll: reset item: " + items.get(i));
+                    ds.update(items.get(item.getId()));
 
 
                 }
-                else Log.d(TAG, "clearAll: failed if");
+                else {
+                    Log.d(TAG, "clearAll: failed if on " + item);
+                }
             }
         }
         rebind();
