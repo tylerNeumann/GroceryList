@@ -47,8 +47,6 @@ public class ItemAdapter extends RecyclerView.Adapter {
         }
 
         public TextView getTvDescription(){ return tvDescription; }
-        public TextView getTvIsOnShoppingList(){ return tvIsOnShoppingList; }
-        public TextView getTvIsInCart(){ return tvIsInCart; }
         public CheckBox getChkSelector(){ return chkSelector; }
 
     }
@@ -120,25 +118,6 @@ public class ItemAdapter extends RecyclerView.Adapter {
     }
     @Override
     public int getItemCount() { return itemData.size(); }
-    /*private void deleteItem(int position) {
-        Log.d(TAG, "deleteItem: " + position);
-        Item Item = itemData.get(position);
-        itemData.remove(position);
-
-        //FileIO.writeFile(ItemsListActivity.FILENAME,
-        //                (AppCompatActivity) parentContext.getApplicationContext(),
-        //                ItemsListActivity.createDataArray(ItemData));
-        //                ItemsListActivity.createDataArray(ItemData));
-        //                notifyDataSetChanged();
-
-        Log.d(TAG, "deleteItem: parentContext: " + parentContext);
-        GroceryListDataSource ds = new GroceryListDataSource(parentContext);
-        Log.d(TAG, "deleteItem: " + Item.toString());
-        boolean didDelete = ds.delete(Item) > 0;
-        Log.d(TAG, "deleteItem: " + didDelete);
-        notifyDataSetChanged();
-
-    }*/
     private boolean checkedState(){
         boolean checked = false;
         if(MainActivity.title.equals("Master List")){
