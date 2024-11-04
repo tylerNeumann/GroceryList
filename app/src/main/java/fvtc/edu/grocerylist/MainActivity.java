@@ -3,6 +3,7 @@ package fvtc.edu.grocerylist;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
@@ -77,15 +78,19 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) v.getTag();
             int position = viewHolder.getAdapterPosition();
+            Item item = new Item();
             if(getTitle() == "Master List"){
-                Item item = items.get(position);
+                item = items.get(position);
                 Log.i(TAG, "onClick: " + item.getDescription());
             }
             if(getTitle() == "Shopping List"){
-                Item item = shoppingList.get(position);
+                item = shoppingList.get(position);
                 Log.i(TAG, "onClick: " + item.getDescription());
             }
-
+            Intent intent = new Intent(MainActivity.this, ItemEditer.class);
+            intent.putExtra("itemId", item.getId());
+            intent.putExtra("itemDescription", item.getDescription());
+            startActivity(intent);
         }
     };
     @Override
@@ -295,6 +300,7 @@ public class MainActivity extends AppCompatActivity {
             items = ds.get("Description", "ASC");
             itemAdapter = new ItemAdapter(items, this);
             itemAdapter.setOnItemCheckedChangeListener(onCheckedChangedListener);
+            itemAdapter.setOnItemClickListener(onClickListener);
         }
         if(getTitle() == "Shopping List"){
             Log.d(TAG, "rebind: hit shopping list");
@@ -302,6 +308,7 @@ public class MainActivity extends AppCompatActivity {
             shoppingList = ds.getShoppingList("Description", "ASC");
             itemAdapter = new ItemAdapter(shoppingList, this);
             itemAdapter.setOnItemCheckedChangeListener(onCheckedChangedListener);
+            itemAdapter.setOnItemClickListener(onClickListener);
         }
         rvItems.setAdapter(itemAdapter);
     }
