@@ -8,17 +8,24 @@ public class Item {
     private String Description;
     private boolean IsOnShoppingList;
     private boolean IsInCart;
-    public Item(int id, String description, boolean isOnShoppingList, boolean isInCart){
+    private int imgId;
+    public Item(int id,
+                String description,
+                boolean isOnShoppingList,
+                boolean isInCart,
+                int imgId){
         Id = id;
         Description = description;
         IsOnShoppingList = isOnShoppingList;
         IsInCart = isInCart;
+        this.imgId = imgId;
     }
     public Item(){
         Id = -1;
         Description = "";
         IsOnShoppingList = false;
         IsInCart = false;
+        this.imgId = 0;
     }
     public String toString(){ return Id + "|" + Description + "|" + IsOnShoppingList + "|" + IsInCart;}
 
@@ -49,12 +56,8 @@ public class Item {
     }
     public void setId(int id) { Id = id; }
 
-    /*public boolean getIsOnShoppingList(){
-        if(isOnShoppingList() == "1") return true;
-        else return false;
+    public int getImgId() {
+        return imgId;
     }
-    public boolean getIsInCart(){
-        if(isInCart() == "1") return true;
-        else return false;
-    }*/
+    public void setImgId(int imgId) { this.imgId = imgId; }
 }

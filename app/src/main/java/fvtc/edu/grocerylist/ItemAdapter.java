@@ -84,6 +84,7 @@ public class ItemAdapter extends RecyclerView.Adapter {
         Log.i(TAG, "onBindViewHolder: " + itemData.get(position));
         ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
         itemViewHolder.getTvDescription().setText(itemData.get(position).getDescription());
+        itemViewHolder.getImageButtonPhoto().setImageResource(itemData.get(position).getImgId());
 
         itemViewHolder.getChkSelector().setOnCheckedChangeListener(null);
 

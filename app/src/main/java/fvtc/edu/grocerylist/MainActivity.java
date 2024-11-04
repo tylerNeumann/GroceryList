@@ -189,12 +189,12 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     public void fillItemsArray(){
-        items.add(new Item(1, "Protein Shake", false, false));
-        items.add(new Item(2, "Pop Tarts", false, false));
-        items.add(new Item(3, "Mtn Dew", false, false));
-        items.add(new Item(4, "Pretzels", false, false));
-        items.add(new Item(5, "Shampoo", false, false));
-        items.add(new Item(6, "Cheese", false, false));
+        items.add(new Item(1, "Protein Shake", false, false, R.drawable.protein_shake));
+        items.add(new Item(2, "Pop Tarts", false, false, R.drawable.pop_tarts));
+        items.add(new Item(3, "Mtn Dew", false, false, R.drawable.mtn_dew));
+        items.add(new Item(4, "Pretzels", false, false, R.drawable.pretzels));
+        items.add(new Item(5, "Shampoo", false, false, R.drawable.shampoo));
+        items.add(new Item(6, "Cheese", false, false, R.drawable.cheese));
     }
     public void fillDB(){
         for(Item item : items){
