@@ -41,9 +41,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             Log.d(TAG, "onCheckedChanged: ");
-            /*itemAdapter = new ItemAdapter(items, parentContext);
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(parentContext);
-            rvItems.setLayoutManager(layoutManager);*/
             RecyclerView.ViewHolder viewHolder;
             viewHolder = (RecyclerView.ViewHolder) buttonView.getTag();
             int position = viewHolder.getAdapterPosition();
