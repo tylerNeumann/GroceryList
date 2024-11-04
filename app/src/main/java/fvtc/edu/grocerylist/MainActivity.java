@@ -113,6 +113,11 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
     }
+    @Override
+    public void onResume(){
+        super.onResume();
+        rebind();
+    }
     private void initDatabase(){
         ds = new GroceryListDataSource(this);
         ds.open(false);
