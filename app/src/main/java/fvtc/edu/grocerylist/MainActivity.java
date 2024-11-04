@@ -293,63 +293,29 @@ public class MainActivity extends AppCompatActivity {
         rvItems.setAdapter(itemAdapter);
     }
     public void clearAll(){
-        //Log.i(TAG, "clearAll: hit");
         if(getTitle() == "Master List"){
             Log.i(TAG, "clearAll: master list");
-            //int i = 0;
-            //Log.i(TAG, "clearAll: " + i);
-            Item item = new Item();
-
             for(int count = 0; count < items.size(); count++) {
-                Log.i(TAG, "clearAll: master list for loop");
-                //Log.d(TAG, "deleteChecked: entered loop");
                 if (items.get(count).isOnShoppingList()) {
                     Log.i(TAG, "clearAll: " + count);
-                   // Log.d(TAG, "deleteChecked: passed if");
-                    /*item = items.get(count);
-                   // Log.d(TAG, "deleteChecked: item: " + item);
-                    i = item.getId();
-                    //Log.d(TAG, "deleteChecked: i = " + i);
-                    i -= 1;*/
-                    //Log.d(TAG, "deleteChecked: item id: " + i);
                     items.get(count).setOnShoppingList(false);
                     ds.update(items.get(count));
-
                     Log.d(TAG, "clearAll: reset item: " + items.get(count));
-
-
                 } else {
                     Log.d(TAG, "clearAll: failed if on " + items.get(count));
                 }
             }
         }
         if(getTitle() == "Shopping List"){
-            //Log.i(TAG, "clearAll: shopping list");
-            //Log.d(TAG, "deleteChecked: item removed");
-            //set deleted items isInShoppingList == "0"
-            int i = 0;
             Item item = new Item();
-
             for(int count = 0; count < shoppingList.size(); count++){
                 item = shoppingList.get(count);
-                //Log.i(TAG, "clearAll: shopping list for loop");
-                //Log.d(TAG, "deleteChecked: entered loop");
                 if(shoppingList.get(count).isInCart()) {
-                    //Log.i(TAG, "clearAll: clearAll: shopping list for loop if entered");
 
                     Log.i(TAG, "clearAll: item: " + item);
-                    /*i = item.getId();
-                    Log.i(TAG, "clearAll: i = " + i);
-                    i -= 1;*/
-                    //Log.d(TAG, "clearAll: item id: " + item.getId());
                     items.get(item.getId()).setInCart(false);
-                    //items.get(i).setOnShoppingList("0");
-                    //Log.i(TAG, "clearAll: items size: " + items.size());
                     Log.i(TAG, "clearAll: reset item: " + items.get(item.getId()));
-                    //Log.d(TAG, "clearAll: reset item: " + items.get(i));
                     ds.update(items.get(item.getId()));
-
-
                 }
                 else {
                     Log.d(TAG, "clearAll: failed if on " + item);
