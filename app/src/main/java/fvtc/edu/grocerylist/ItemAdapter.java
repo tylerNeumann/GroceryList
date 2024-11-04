@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,6 +34,7 @@ public class ItemAdapter extends RecyclerView.Adapter {
         public TextView tvIsOnShoppingList;
         public TextView tvIsInCart;
         public CheckBox chkSelector;
+        public ImageView imgPhoto;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -39,6 +42,7 @@ public class ItemAdapter extends RecyclerView.Adapter {
             tvIsOnShoppingList = itemView.findViewById(R.id.tvIsOnShoppingList);
             tvIsInCart = itemView.findViewById(R.id.tvIsInCart);
             chkSelector = itemView.findViewById(R.id.chkOnShoppingList);
+            imgPhoto = itemView.findViewById(R.id.imgView);
             //code involved with clicking an item in the list
 
             itemView.setTag(this);
@@ -48,7 +52,7 @@ public class ItemAdapter extends RecyclerView.Adapter {
 
         public TextView getTvDescription(){ return tvDescription; }
         public CheckBox getChkSelector(){ return chkSelector; }
-
+        public ImageView getImageButtonPhoto() { return imgPhoto; }
     }
     public ItemAdapter(ArrayList<Item> data, Context context){
         itemData = data;
