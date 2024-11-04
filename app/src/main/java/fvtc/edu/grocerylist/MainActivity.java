@@ -72,6 +72,22 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+    private View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) v.getTag();
+            int position = viewHolder.getAdapterPosition();
+            if(getTitle() == "Master List"){
+                Item item = items.get(position);
+                Log.i(TAG, "onClick: " + item.getDescription());
+            }
+            if(getTitle() == "Shopping List"){
+                Item item = shoppingList.get(position);
+                Log.i(TAG, "onClick: " + item.getDescription());
+            }
+
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate: ");
