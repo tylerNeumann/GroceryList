@@ -13,10 +13,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
     public static final String CREATE_GROCERYLIST_SQL =
             "CREATE TABLE IF NOT EXISTS tblGroceryList(Id integer primary key autoincrement,"
-                    + "Description text,"
-                    + "IsOnShoppingList int,"
-                    + "IsInCart int);";
-
+                    + "Description text not null,"
+                    + "IsOnShoppingList int not null,"
+                    + "IsInCart int not null,"
+                    + "imgId int not null);";
     public DatabaseHelper(@Nullable Context context,
                           @Nullable String name,
                           @Nullable SQLiteDatabase.CursorFactory factory,
