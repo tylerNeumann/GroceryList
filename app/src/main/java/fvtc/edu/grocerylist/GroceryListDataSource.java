@@ -220,7 +220,7 @@ public class GroceryListDataSource {
             values.put("isOnShoppingList", item.isOnShoppingList());
             values.put("isInCart", item.isInCart());
             values.put("imgId", item.getImgId());
-            //values.put("longitude", item.getLongitude());
+
 
             String where = "id = " + item.getId();
             rowsaffected = (int)db.update("tblGroceryList", values, where, null);

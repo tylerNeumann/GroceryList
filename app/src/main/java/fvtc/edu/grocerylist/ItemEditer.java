@@ -40,7 +40,7 @@ public class ItemEditer extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         itemId = extras.getInt("itemId");
         itemDescription = extras.getString("itemDescription");
-
+        Log.i(TAG, "onCreate: id = " + itemId);
         this.setTitle(itemDescription);
         initItems(itemId);
 

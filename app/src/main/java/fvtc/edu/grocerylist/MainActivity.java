@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                 Context.MODE_PRIVATE)
                 .getString("sortorder", "ASC");
         items = ds.get(sortBy, sortOrder);
-        //Log.d(TAG, "initDatabase: Groceries: " + items.size());
+        Log.d(TAG, "initDatabase: Groceries: " + items.size());
     }
     private void createItems() {
         items = new ArrayList<Item>();
@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
             for(Item item : items){
                 // Log.d(TAG, "fillDB: start for loop");
                 results += ds.insert(item);
-                //Log.d(TAG, "fillDB: " + item);
+                Log.i(TAG, "fillDB: " + item);
             }
         }
         else {
@@ -242,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
                                     item.setOnShoppingList(false);
                                 }
                                 else{
-                                        item.setOnShoppingList(true);
+                                    item.setOnShoppingList(true);
                                     shoppingList.add(item);
                                     rvItems.setAdapter(itemAdapter);
                                 }
@@ -324,6 +324,7 @@ public class MainActivity extends AppCompatActivity {
             itemAdapter.setOnItemClickListener(onClickListener);
         }
         rvItems.setAdapter(itemAdapter);
+        Log.i(TAG, "rebind: " + items.toString() + " " + items.size());
     }
     public void clearAll(){
         if(getTitle().equals("Master List for " + owner) ){
