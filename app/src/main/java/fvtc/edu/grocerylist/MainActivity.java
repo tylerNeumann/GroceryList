@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private Context parentContext;
     public static String title;
     GroceryListDataSource ds;
+    public static String owner = null;
     private CompoundButton.OnCheckedChangeListener onCheckedChangedListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -45,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             RecyclerView.ViewHolder viewHolder;
             viewHolder = (RecyclerView.ViewHolder) buttonView.getTag();
             int position = viewHolder.getAdapterPosition();
-            if(getTitle().equals("Master List")){
+            if(getTitle().equals("Master List for " + owner)){
                 if(isChecked){
                     items.get(position).setOnShoppingList(true);
                     ds.update(items.get(position));
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.i(TAG, "onCheckedChanged: " + items.get(position));
                 }
             }
-            else if(getTitle().equals("Shopping List")){
+            else if(getTitle().equals("Shopping List for " + owner)){
                 if(isChecked){
                     Log.i(TAG, "onCheckedChanged: shopping list checked");
                     items.get(position).setInCart(true);
@@ -79,11 +81,11 @@ public class MainActivity extends AppCompatActivity {
             RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) v.getTag();
             int position = viewHolder.getAdapterPosition();
             Item item = new Item();
-            if(getTitle() == "Master List"){
+            if(getTitle().equals("Master List for " + owner)){
                 item = items.get(position);
                 Log.i(TAG, "onClick: " + item.getDescription());
             }
-            if(getTitle() == "Shopping List"){
+            if(getTitle().equals("Shopping List for " + owner)){
                 item = shoppingList.get(position);
                 Log.i(TAG, "onClick: " + item.getDescription());
             }
@@ -99,9 +101,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        setTitle("Master List");
-        title = "Master List";
+        SharedPreferences preferences = getApplication().getSharedPreferences("myprefs", MODE_PRIVATE);
+        owner = preferences.getString("owner", "");
+        setTitle("Master List for " + owner);
+        title = "Master List for " + owner;
         parentContext = this;
+        if(owner == null){
+            startActivity(new Intent(MainActivity.this, SetOwner.class));
+        }
         createItems();
         rebind();
         //deleteAll();
@@ -171,16 +178,16 @@ public class MainActivity extends AppCompatActivity {
         if(id == R.id.action_ShowMasterList)
         {
             Log.d(TAG, "onOptionsItemSelected: master list");
-            setTitle("Master List");
-            title = "Master List";
+            setTitle("Master List for " + owner);
+            title = "Master List for " + owner;
             rebind();
             CheckBox chkOnShoppingList = findViewById(R.id.chkOnShoppingList);
             //chkOnShoppingList.setOnCheckedChangeListener();
         }
         else if (id == R.id.action_ShowShoppingList) {
             //Log.d(TAG, "onOptionsItemSelected: shopping list " + shoppingList.size());
-            setTitle("Shopping List");
-            title = "Shopping List";
+            setTitle("Shopping List for " + owner);
+            title = "Shopping List for " + owner;
             rebind();
             Log.d(TAG, "ShowShoppingList: " + shoppingList.size());
         }
@@ -231,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
                                 item.setId(items.size() + 1);
                                 item.setDescription(etAddItem.getText().toString());
                                 item.setInCart(false);
-                                if(getTitle() == "Master List"){
+                                if(getTitle().equals("Master List for " + owner) ){
                                     item.setOnShoppingList(false);
                                 }
                                 else{
@@ -255,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void deleteChecked(){
         boolean loopDone = false;
-        if(getTitle() == "Master List"){
+        if(getTitle().equals("Master List for " + owner) ){
 
             for(Item item : items){
                 if(item.isOnShoppingList()){
@@ -266,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
             items = ds.get("Description", "ASC");
             Log.d(TAG, "deleteChecked: size: " + items.size());
         }
-        if(getTitle() == "Shopping List"){
+        if(getTitle().equals("Shopping List for " + owner) ){
             //Log.d(TAG, "deleteChecked: item removed");
             //set deleted items isInShoppingList == "0"
             int i = 0;
@@ -300,6 +307,7 @@ public class MainActivity extends AppCompatActivity {
         rvItems.setLayoutManager(layoutManager);
 
         if(getTitle() == "Master List"){
+        if(getTitle().equals("Master List for " + owner) ){
             Log.d(TAG, "rebind: hit master list");
             items.removeAll(items);
             items = ds.get("Description", "ASC");
@@ -307,7 +315,7 @@ public class MainActivity extends AppCompatActivity {
             itemAdapter.setOnItemCheckedChangeListener(onCheckedChangedListener);
             itemAdapter.setOnItemClickListener(onClickListener);
         }
-        if(getTitle() == "Shopping List"){
+        if(getTitle().equals("Shopping List for " + owner) ){
             Log.d(TAG, "rebind: hit shopping list");
             if(!shoppingList.isEmpty()) shoppingList.removeAll(shoppingList);
             shoppingList = ds.getShoppingList("Description", "ASC");
@@ -318,7 +326,7 @@ public class MainActivity extends AppCompatActivity {
         rvItems.setAdapter(itemAdapter);
     }
     public void clearAll(){
-        if(getTitle() == "Master List"){
+        if(getTitle().equals("Master List for " + owner) ){
             Log.i(TAG, "clearAll: master list");
             for(int count = 0; count < items.size(); count++) {
                 if (items.get(count).isOnShoppingList()) {
@@ -331,7 +339,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-        if(getTitle() == "Shopping List"){
+        if(getTitle().equals("Shopping List for " + owner) ){
             Item item = new Item();
             for(int count = 0; count < shoppingList.size(); count++){
                 item = shoppingList.get(count);
