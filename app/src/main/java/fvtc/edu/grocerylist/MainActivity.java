@@ -306,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rvItems.setLayoutManager(layoutManager);
 
-        if(getTitle() == "Master List"){
+        Log.i(TAG, "rebind: " + getTitle());
         if(getTitle().equals("Master List for " + owner) ){
             Log.d(TAG, "rebind: hit master list");
             items.removeAll(items);
