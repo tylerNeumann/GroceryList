@@ -122,7 +122,7 @@ public class GroceryListDataSource {
                 boolean inCart = cursor.getInt(3) == 1;
                 item.setInCart(inCart);
                 item.setImgId(cursor.getInt(4));
-
+                if(item.getImgId() == 0) item.setImgId(R.drawable.photoicon);
 
                 GroceryList.add(item);
                 Log.d(TAG, "get: " + item.toString());
