@@ -55,9 +55,15 @@ public class ItemEditer extends AppCompatActivity {
         });
     }
     private void initItems(int itemId){
-        items = ds.get("Description", "ASC");
-
-        item = items.get(itemId-1);
+        try {
+            GroceryListDataSource ds = new GroceryListDataSource(ItemEditer.this);
+            ds.open();
+            item = ds.get(itemId);
+            ds.close();
+            Log.i(TAG, "initItems: " + item.toString());
+        }catch (Exception e){
+            Log.d(TAG, "initItems: " + e.getMessage());
+        }
         rebindItem();
     }
 
@@ -88,12 +94,13 @@ public class ItemEditer extends AppCompatActivity {
     }
     private void initSaveButton()  {
         Button btnSave = findViewById(R.id.btnSave);
-
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
+                GroceryListDataSource ds = new GroceryListDataSource(ItemEditer.this);
+                ds.open();
+                ds.update(item);
+                ds.close();
                 startActivity(new Intent(ItemEditer.this, MainActivity.class));
             }
         });
