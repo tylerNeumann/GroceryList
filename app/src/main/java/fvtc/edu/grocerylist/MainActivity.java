@@ -103,12 +103,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        if(owner == null){
-            startActivity(new Intent(MainActivity.this, SetOwner.class));
-        }
         initialSetup();
-        rebind();
-
         Log.d(TAG, "onCreate: started program");
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -122,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
         rebind();
     }
     private void initialSetup() {
+        Log.i(TAG, "initialSetup: start");
         items = new ArrayList<Item>();
         shoppingList = new ArrayList<>();
         SharedPreferences preferences = getApplication().getSharedPreferences("myprefs", MODE_PRIVATE);
@@ -129,6 +125,13 @@ public class MainActivity extends AppCompatActivity {
         setTitle("Master List for " + owner);
         title = "Master List for " + owner;
         parentContext = this;
+        if(owner == null){
+            startActivity(new Intent(MainActivity.this, SetOwner.class));
+        }
+        ds = new GroceryListDataSource(this);
+        ds.open(false);
+        rebind();
+        Log.i(TAG, "initialSetup: end");
     }
     public static String[] createDataArray(ArrayList<Item> items){
             String[] data = new String[items.size()];
@@ -266,18 +269,18 @@ public class MainActivity extends AppCompatActivity {
         rvItems.setLayoutManager(layoutManager);
 
         Log.i(TAG, "rebind: " + getTitle());
-        if(getTitle().equals("Master List for " + owner) ){
+        if(getTitle().equals("Master List for " + owner)){
             Log.d(TAG, "rebind: hit master list");
-            items.removeAll(items);
-            items = ds.get("Description", "ASC");
+            if(!items.isEmpty()) items.removeAll(items);
+            if(items.isEmpty()) items = ds.get("Description", "ASC");
             itemAdapter = new ItemAdapter(items, this);
             itemAdapter.setOnItemCheckedChangeListener(onCheckedChangedListener);
             itemAdapter.setOnItemClickListener(onClickListener);
         }
-        if(getTitle().equals("Shopping List for " + owner) ){
+        if(getTitle().equals("Shopping List for " + owner)){
             Log.d(TAG, "rebind: hit shopping list");
             if(!shoppingList.isEmpty()) shoppingList.removeAll(shoppingList);
-            shoppingList = ds.getShoppingList("Description", "ASC");
+            if(shoppingList.isEmpty()) shoppingList = ds.getShoppingList("Description", "ASC");
             itemAdapter = new ItemAdapter(shoppingList, this);
             itemAdapter.setOnItemCheckedChangeListener(onCheckedChangedListener);
             itemAdapter.setOnItemClickListener(onClickListener);
