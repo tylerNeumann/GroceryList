@@ -54,6 +54,16 @@ public class ItemEditer extends AppCompatActivity {
     }
     private void initItems(int itemId){
         try {
+            APIEnd = MainActivity.owner + "/" + item.getId();
+            RestClient.execGetOneRequest(getString(R.string.APIURL) + APIEnd,
+                    this,
+                    new VolleyCallback() {
+                        @Override
+                        public void onSuccess(ArrayList<Item> result) {
+                            item = result.get(0);
+                            rebindItem();
+                        }
+                    });
             Log.i(TAG, "initItems: " + item.toString());
         }catch (Exception e){
             Log.d(TAG, "initItems: " + e.getMessage());
