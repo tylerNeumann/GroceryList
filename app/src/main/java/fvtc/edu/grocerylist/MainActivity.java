@@ -54,7 +54,14 @@ public class MainActivity extends AppCompatActivity {
                 if(isChecked) item.setInCart(true);
                 else item.setInCart(false);
             }
-            ds.update(item);
+            APIEnd = owner + "/" + item.getId();
+            RestClient.execPutRequest(item, getString(R.string.APIURL) + APIEnd, parentContext, new VolleyCallback() {
+                @Override
+                public void onSuccess(ArrayList<Item> result) {
+
+                    Log.d(TAG, "onSuccess: Put" + item.getId());
+                }
+            });
             Log.i(TAG, "onCheckedChanged: " + item);
         }
     };
@@ -278,8 +285,15 @@ public class MainActivity extends AppCompatActivity {
                 if (item.isOnShoppingList()) {
                     Log.i(TAG, "clearAll: " + count);
                     item.setOnShoppingList(false);
-                    ds.update(item);
-                    Log.d(TAG, "clearAll: reset item: " + items.get(count));
+                    APIEnd = owner + "/" + item.getId();
+                    RestClient.execPutRequest(item, getString(R.string.APIURL) + APIEnd, parentContext, new VolleyCallback() {
+                        @Override
+                        public void onSuccess(ArrayList<Item> result) {
+
+                            Log.d(TAG, "onSuccess: Put" + item.getId());
+                        }
+                    });
+                    Log.d(TAG, "clearAll: reset item: " + item);
                 } else {
                     Log.d(TAG, "clearAll: failed if on " + items.get(count));
                 }
@@ -292,8 +306,14 @@ public class MainActivity extends AppCompatActivity {
 
                     Log.i(TAG, "clearAll: item: " + item);
                     item.setInCart(false);
-                    Log.i(TAG, "clearAll: reset item: " + items.get(item.getId()));
-                    ds.update(item);
+                    APIEnd = owner + "/" + item.getId();
+                    RestClient.execPutRequest(item, getString(R.string.APIURL) + APIEnd, parentContext, new VolleyCallback() {
+                        @Override
+                        public void onSuccess(ArrayList<Item> result) {
+
+                            Log.d(TAG, "onSuccess: Put" + item.getId());
+                        }
+                    });
                 }
                 else {
                     Log.d(TAG, "clearAll: failed if on " + item);
