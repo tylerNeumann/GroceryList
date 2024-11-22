@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     public static String title;
     GroceryListDataSource ds;
     public static String owner = null;
+    private String APIEnd;
     Item item;
     private CompoundButton.OnCheckedChangeListener onCheckedChangedListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
@@ -265,10 +266,16 @@ public class MainActivity extends AppCompatActivity {
     public void deleteChecked(){
         boolean loopDone = false;
         if(getTitle().equals("Master List for " + owner) ){
-
-            for(Item item : items){
-                if(item.isOnShoppingList()){
-                    ds.delete(item.getId());
+            for(Item currentItem : items){
+                APIEnd = owner + "/" + currentItem.getId();
+                if(currentItem.isOnShoppingList()){
+                    RestClient.execDeleteRequest(currentItem, getString(R.string.APIURL) + APIEnd, this,
+                            new VolleyCallback() {
+                                @Override
+                                public void onSuccess(ArrayList<Item> result) {
+                                    Log.i(TAG, "onSuccess: delete " + currentItem.getDescription());
+                                }
+                            });
                 }
             }
             items.removeAll(items);
