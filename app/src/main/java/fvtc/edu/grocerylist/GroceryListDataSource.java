@@ -45,12 +45,12 @@ public class GroceryListDataSource {
         if(!GroceryList.isEmpty()){
             deleteAll();
             Log.d(TAG, "refreshData: Start");
-            GroceryList.add(new Item(1, "Protein Shake", false, false, R.drawable.protein_shake));
-            GroceryList.add(new Item(2, "Pop Tarts", false, false, R.drawable.pop_tarts));
-            GroceryList.add(new Item(3, "Mtn Dew", false, false, R.drawable.mtn_dew));
-            GroceryList.add(new Item(4, "Pretzels", false, false, R.drawable.pretzels));
-            GroceryList.add(new Item(5, "Shampoo", false, false, R.drawable.shampoo));
-            GroceryList.add(new Item(6, "Cheese", false, false, R.drawable.cheese));
+            GroceryList.add(new Item(1, "Protein Shake", false, false, MainActivity.owner, R.drawable.protein_shake));
+            GroceryList.add(new Item(2, "Pop Tarts", false, false, MainActivity.owner, R.drawable.pop_tarts));
+            GroceryList.add(new Item(3, "Mtn Dew", false, false, MainActivity.owner, R.drawable.mtn_dew));
+            GroceryList.add(new Item(4, "Pretzels", false, false, MainActivity.owner, R.drawable.pretzels));
+            GroceryList.add(new Item(5, "Shampoo", false, false, MainActivity.owner, R.drawable.shampoo));
+            GroceryList.add(new Item(6, "Cheese", false, false, MainActivity.owner, R.drawable.cheese));
 
             // Delete and reinsert all the GroceryList
             int results = 0;
