@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
@@ -143,8 +142,6 @@ public class MainActivity extends AppCompatActivity {
             setTitle("Master List for " + owner);
             title = "Master List for " + owner;
             rebind();
-            CheckBox chkOnShoppingList = findViewById(R.id.chkOnShoppingList);
-            //chkOnShoppingList.setOnCheckedChangeListener();
         }
         else if (id == R.id.action_ShowShoppingList) {
             //Log.d(TAG, "onOptionsItemSelected: shopping list " + shoppingList.size());
@@ -215,7 +212,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void deleteChecked(){
-        boolean loopDone = false;
         if(getTitle().equals("Master List for " + owner) ){
             for(Item currentItem : items){
                 APIEnd = owner + "/" + currentItem.getId();
@@ -253,8 +249,6 @@ public class MainActivity extends AppCompatActivity {
         rebind();
         Log.d(TAG, "deleteChecked: size: " + items.size());
     }
-
-
     public void rebind(){
         rvItems = findViewById(R.id.rvItems);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
@@ -283,7 +277,6 @@ public class MainActivity extends AppCompatActivity {
             for(int count = 0; count < items.size(); count++) {
                 item = items.get(count);
                 if (item.isOnShoppingList()) {
-                    Log.i(TAG, "clearAll: " + count);
                     item.setOnShoppingList(false);
                     APIEnd = owner + "/" + item.getId();
                     RestClient.execPutRequest(item, getString(R.string.APIURL) + APIEnd, parentContext, new VolleyCallback() {
@@ -295,7 +288,7 @@ public class MainActivity extends AppCompatActivity {
                     });
                     Log.d(TAG, "clearAll: reset item: " + item);
                 } else {
-                    Log.d(TAG, "clearAll: failed if on " + items.get(count));
+                    Log.d(TAG, "clearAll: failed if on " + item);
                 }
             }
         }
