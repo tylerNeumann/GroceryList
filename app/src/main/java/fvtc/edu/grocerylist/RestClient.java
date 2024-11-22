@@ -43,6 +43,7 @@ public class RestClient {
                                 item.setDescription(object.getString("Description"));
                                 item.setOnShoppingList(object.getBoolean("IsOnShoppingList"));
                                 item.setInCart(object.getBoolean("IsInCart"));
+                                item.setOwner(object.getString("Owner"));
                                 item.setImgId(object.getInt("ImgId"));
 
                                 /*String jsonPhoto = object.getString("photo");
@@ -107,6 +108,7 @@ public class RestClient {
                                     item.setDescription(object.getString("Description"));
                                     item.setOnShoppingList(object.getBoolean("IsOnShoppingList"));
                                     item.setInCart(object.getBoolean("IsInCart"));
+                                    item.setOwner(object.getString("Owner"));
                                     item.setImgId(object.getInt("ImgId"));
 
                                     items.add(item);
