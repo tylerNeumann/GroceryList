@@ -8,7 +8,7 @@ public class Item {
     private String Description;
     private boolean IsOnShoppingList;
     private boolean IsInCart;
-    private int imgId;
+    private int ImgId;
     public Item(int id,
                 String description,
                 boolean isOnShoppingList,
@@ -18,14 +18,14 @@ public class Item {
         Description = description;
         IsOnShoppingList = isOnShoppingList;
         IsInCart = isInCart;
-        this.imgId = imgId;
+        ImgId = imgId;
     }
     public Item(){
         Id = -1;
         Description = "";
         IsOnShoppingList = false;
         IsInCart = false;
-        this.imgId = 0;
+        ImgId = 0;
     }
     public String toString(){ return Id + "|" + Description + "|" + IsOnShoppingList + "|" + IsInCart;}
 
@@ -57,7 +57,7 @@ public class Item {
     public void setId(int id) { Id = id; }
 
     public int getImgId() {
-        return imgId;
+        return ImgId;
     }
-    public void setImgId(int imgId) { this.imgId = imgId; }
+    public void setImgId(int imgId) { ImgId = imgId; }
 }
