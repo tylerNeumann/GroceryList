@@ -103,17 +103,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        SharedPreferences preferences = getApplication().getSharedPreferences("myprefs", MODE_PRIVATE);
-        owner = preferences.getString("owner", "");
-        setTitle("Master List for " + owner);
-        title = "Master List for " + owner;
-        parentContext = this;
         if(owner == null){
             startActivity(new Intent(MainActivity.this, SetOwner.class));
         }
-        createItems();
+        initialSetup();
         rebind();
-        //deleteAll();
 
         Log.d(TAG, "onCreate: started program");
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -127,39 +121,14 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         rebind();
     }
-    private void initDatabase(){
-        ds = new GroceryListDataSource(this);
-        ds.open(false);
-        //ds.refreshData();
-        //Log.d(TAG, "initDatabase: start");
-        String sortBy = getSharedPreferences("grocerylistpreferences",
-                Context.MODE_PRIVATE)
-                .getString("sortby", "description");
-        String sortOrder = getSharedPreferences("grocerylistpreferences",
-                Context.MODE_PRIVATE)
-                .getString("sortorder", "ASC");
-        items = ds.get(sortBy, sortOrder);
-        Log.d(TAG, "initDatabase: Groceries: " + items.size());
-    }
-    private void createItems() {
+    private void initialSetup() {
         items = new ArrayList<Item>();
         shoppingList = new ArrayList<>();
-        Log.d(TAG, "createItems: items: " + items.size());
-        initDatabase();
-
-        if(items.isEmpty()) {
-            fillItemsArray();
-            int results = 0;
-            for(Item item : items){
-                // Log.d(TAG, "fillDB: start for loop");
-                results += ds.insert(item);
-                Log.i(TAG, "fillDB: " + item);
-            }
-        }
-        else {
-            items.removeAll(items);
-            items = ds.get("Description", "ASC");
-        }
+        SharedPreferences preferences = getApplication().getSharedPreferences("myprefs", MODE_PRIVATE);
+        owner = preferences.getString("owner", "");
+        setTitle("Master List for " + owner);
+        title = "Master List for " + owner;
+        parentContext = this;
     }
     public static String[] createDataArray(ArrayList<Item> items){
             String[] data = new String[items.size()];
@@ -207,20 +176,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    public void fillItemsArray(){
-        items.add(new Item(1, "Protein Shake", false, false, R.drawable.protein_shake));
-        items.add(new Item(2, "Pop Tarts", false, false, R.drawable.pop_tarts));
-        items.add(new Item(3, "Mtn Dew", false, false, R.drawable.mtn_dew));
-        items.add(new Item(4, "Pretzels", false, false, R.drawable.pretzels));
-        items.add(new Item(5, "Shampoo", false, false, R.drawable.shampoo));
-        items.add(new Item(6, "Cheese", false, false, R.drawable.cheese));
-    }
-    public void fillDB(){
-        for(Item item : items){
-            ds.insert(item);
-        }
-    }
-
     private void addItem() {
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         final View addItemView = layoutInflater.inflate(R.layout.additem,null);
@@ -278,9 +233,6 @@ public class MainActivity extends AppCompatActivity {
                             });
                 }
             }
-            items.removeAll(items);
-            items = ds.get("Description", "ASC");
-            Log.d(TAG, "deleteChecked: size: " + items.size());
         }
         if(getTitle().equals("Shopping List for " + owner) ){
             item = new Item();
@@ -304,6 +256,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         rebind();
+        Log.d(TAG, "deleteChecked: size: " + items.size());
     }
 
 
@@ -362,13 +315,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-        rebind();
-    }
-    public void deleteAll(){
-        ds.deleteAll();
-        fillItemsArray();
-        fillDB();
-        items.removeAll(items);
         rebind();
     }
 }
