@@ -194,7 +194,6 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d(TAG, "onClick: OK");
                                 //get the new item
                                 EditText etAddItem = addItemView.findViewById(R.id.etAddItem);
-                                item = new Item();
                                 item.setId(items.size() + 1);
                                 item.setDescription(etAddItem.getText().toString());
                                 item.setInCart(false);
@@ -238,7 +237,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         if(getTitle().equals("Shopping List for " + owner) ){
-            item = new Item();
 
             for(int count = 0; count < shoppingList.size(); count++){
                 if(shoppingList.get(count).isInCart()) {
