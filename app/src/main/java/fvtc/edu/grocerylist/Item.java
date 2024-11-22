@@ -4,6 +4,7 @@ import android.util.Log;
 
 public class Item {
     public static final String TAG = "Item";
+    private String Owner;
     private int Id;
     private String Description;
     private boolean IsOnShoppingList;
@@ -13,11 +14,13 @@ public class Item {
                 String description,
                 boolean isOnShoppingList,
                 boolean isInCart,
+                String owner,
                 int imgId){
         Id = id;
         Description = description;
         IsOnShoppingList = isOnShoppingList;
         IsInCart = isInCart;
+        Owner = owner;
         ImgId = imgId;
     }
     public Item(){
@@ -25,6 +28,7 @@ public class Item {
         Description = "";
         IsOnShoppingList = false;
         IsInCart = false;
+        Owner = null;
         ImgId = 0;
     }
     public String toString(){ return Id + "|" + Description + "|" + IsOnShoppingList + "|" + IsInCart;}
