@@ -50,15 +50,15 @@ public class Item {
     public boolean isInCart() {
         return IsInCart;
     }
-    public void setInCart(boolean inCart) {
-        IsInCart = inCart;
-        Log.d(TAG, "setInCart: IsInCart = " + IsInCart);
-    }
+    public void setInCart(boolean inCart) { IsInCart = inCart; }
 
     public int getId() {
         return Id;
     }
     public void setId(int id) { Id = id; }
+
+    public String getOwner() { return Owner; }
+    public void setOwner(String owner) { Owner = owner; }
 
     public int getImgId() {
         return ImgId;
