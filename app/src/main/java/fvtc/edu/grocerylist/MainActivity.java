@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,11 +24,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
-    public static final String FILENAME = "MasterList.txt";
 
     public ItemAdapter itemAdapter;
     RecyclerView rvItems;
@@ -49,31 +45,14 @@ public class MainActivity extends AppCompatActivity {
             RecyclerView.ViewHolder viewHolder;
             viewHolder = (RecyclerView.ViewHolder) buttonView.getTag();
             int position = viewHolder.getAdapterPosition();
+            item = items.get(position);
             if(getTitle().equals("Master List for " + owner)){
-                if(isChecked){
-                    items.get(position).setOnShoppingList(true);
-                    ds.update(items.get(position));
-                    Log.i(TAG, "onCheckedChanged: " + items.get(position));
-                }
-                else {
-                    items.get(position).setOnShoppingList(false);
-                    ds.update(items.get(position));
-                    Log.i(TAG, "onCheckedChanged: " + items.get(position));
-                }
+                if(isChecked) item.setOnShoppingList(true);
+                else item.setOnShoppingList(false);
             }
             else if(getTitle().equals("Shopping List for " + owner)){
-                if(isChecked){
-                    Log.i(TAG, "onCheckedChanged: shopping list checked");
-                    items.get(position).setInCart(true);
-                    ds.update(items.get(position));
-                    Log.i(TAG, "onCheckedChanged: " + items.get(position));
-                }
-                else {
-                    Log.i(TAG, "onCheckedChanged: shopping list unchecked");
-                    items.get(position).setInCart(false);
-                    ds.update(items.get(position));
-                    Log.i(TAG, "onCheckedChanged: " + items.get(position));
-                }
+                if(isChecked) item.setInCart(true);
+                else item.setInCart(false);
             }
         }
     };
@@ -275,8 +254,8 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, "rebind: " + getTitle());
         if(getTitle().equals("Master List for " + owner)){
             Log.d(TAG, "rebind: hit master list");
-            if(!items.isEmpty()) items.removeAll(items);
-            if(items.isEmpty()) readFromAPI();
+            if(!items.isEmpty()) items.clear();
+            readFromAPI();
             itemAdapter = new ItemAdapter(items, this);
         }
         if(getTitle().equals("Shopping List for " + owner)){
@@ -336,7 +315,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private void fillShoppingList(){
-        if(!shoppingList.isEmpty()) shoppingList.removeAll(shoppingList);
+        if(!shoppingList.isEmpty()) shoppingList.clear();
         readFromAPI();
         for(Item item: items) {
             if(item.isOnShoppingList()) {
