@@ -54,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
                 if(isChecked) item.setInCart(true);
                 else item.setInCart(false);
             }
+            ds.update(item);
+            Log.i(TAG, "onCheckedChanged: " + item);
         }
     };
     private View.OnClickListener onClickListener = new View.OnClickListener() {
