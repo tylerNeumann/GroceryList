@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     public static String title;
     GroceryListDataSource ds;
     public static String owner = null;
+    Item item;
     private CompoundButton.OnCheckedChangeListener onCheckedChangedListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) v.getTag();
             int position = viewHolder.getAdapterPosition();
-            Item item = new Item();
+            item = new Item();
             if(getTitle().equals("Master List for " + owner)){
                 item = items.get(position);
                 Log.i(TAG, "onClick: " + item.getDescription());
@@ -234,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d(TAG, "onClick: OK");
                                 //get the new item
                                 EditText etAddItem = addItemView.findViewById(R.id.etAddItem);
-                                Item item = new Item();
+                                item = new Item();
                                 item.setId(items.size() + 1);
                                 item.setDescription(etAddItem.getText().toString());
                                 item.setInCart(false);
@@ -275,15 +276,10 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "deleteChecked: size: " + items.size());
         }
         if(getTitle().equals("Shopping List for " + owner) ){
-            //Log.d(TAG, "deleteChecked: item removed");
-            //set deleted items isInShoppingList == "0"
-            int i = 0;
-            Item item = new Item();
+            item = new Item();
 
             for(int count = 0; count < shoppingList.size(); count++){
-                //Log.d(TAG, "deleteChecked: entered loop");
                 if(shoppingList.get(count).isInCart()) {
-                    //Log.d(TAG, "deleteChecked: passed if");
                     item = shoppingList.get(count);
                     //Log.d(TAG, "deleteChecked: item: " + item);
                     i = item.getId();
@@ -342,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         if(getTitle().equals("Shopping List for " + owner) ){
-            Item item = new Item();
+            item = new Item();
             for(int count = 0; count < shoppingList.size(); count++){
                 item = shoppingList.get(count);
                 if(shoppingList.get(count).isInCart()) {
