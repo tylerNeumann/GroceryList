@@ -276,19 +276,16 @@ public class MainActivity extends AppCompatActivity {
         if(getTitle().equals("Master List for " + owner)){
             Log.d(TAG, "rebind: hit master list");
             if(!items.isEmpty()) items.removeAll(items);
-            if(items.isEmpty()) items = ds.get("Description", "ASC");
+            if(items.isEmpty()) readFromAPI();
             itemAdapter = new ItemAdapter(items, this);
-            itemAdapter.setOnItemCheckedChangeListener(onCheckedChangedListener);
-            itemAdapter.setOnItemClickListener(onClickListener);
         }
         if(getTitle().equals("Shopping List for " + owner)){
             Log.d(TAG, "rebind: hit shopping list");
-            if(!shoppingList.isEmpty()) shoppingList.removeAll(shoppingList);
-            if(shoppingList.isEmpty()) shoppingList = ds.getShoppingList("Description", "ASC");
+            fillShoppingList();
             itemAdapter = new ItemAdapter(shoppingList, this);
-            itemAdapter.setOnItemCheckedChangeListener(onCheckedChangedListener);
-            itemAdapter.setOnItemClickListener(onClickListener);
         }
+        itemAdapter.setOnItemCheckedChangeListener(onCheckedChangedListener);
+        itemAdapter.setOnItemClickListener(onClickListener);
         rvItems.setAdapter(itemAdapter);
         Log.i(TAG, "rebind: " + items.toString() + " " + items.size());
     }
@@ -323,5 +320,28 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         rebind();
+    }
+    private void readFromAPI(){
+        try {
+            Log.d(TAG, "readFromAPI: start");
+            RestClient.execGetRequest(getString(R.string.APIURL), this, new VolleyCallback() {
+                @Override
+                public void onSuccess(ArrayList<Item> result) {
+                    Log.d(TAG, "onSuccess: got here");
+                    items = result;
+                }
+            });
+        }catch (Exception e){
+            Log.e(TAG, "readFromAPI: Error" + e.getMessage() );
+        }
+    }
+    private void fillShoppingList(){
+        if(!shoppingList.isEmpty()) shoppingList.removeAll(shoppingList);
+        readFromAPI();
+        for(Item item: items) {
+            if(item.isOnShoppingList()) {
+                shoppingList.add(item);
+            }
+        }
     }
 }
