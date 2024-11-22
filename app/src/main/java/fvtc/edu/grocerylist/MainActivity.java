@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Item> shoppingList;
     private Context parentContext;
     public static String title;
-    GroceryListDataSource ds;
     public static String owner = null;
     private String APIEnd;
     Item item;
@@ -115,8 +114,6 @@ public class MainActivity extends AppCompatActivity {
         if(owner == null){
             startActivity(new Intent(MainActivity.this, SetOwner.class));
         }
-        ds = new GroceryListDataSource(this);
-        ds.open(false);
         rebind();
         Log.i(TAG, "initialSetup: end");
     }
