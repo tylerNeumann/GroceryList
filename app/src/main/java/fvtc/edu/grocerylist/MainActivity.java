@@ -292,10 +292,11 @@ public class MainActivity extends AppCompatActivity {
         if(getTitle().equals("Master List for " + owner) ){
             Log.i(TAG, "clearAll: master list");
             for(int count = 0; count < items.size(); count++) {
-                if (items.get(count).isOnShoppingList()) {
+                item = items.get(count);
+                if (item.isOnShoppingList()) {
                     Log.i(TAG, "clearAll: " + count);
-                    items.get(count).setOnShoppingList(false);
-                    ds.update(items.get(count));
+                    item.setOnShoppingList(false);
+                    ds.update(item);
                     Log.d(TAG, "clearAll: reset item: " + items.get(count));
                 } else {
                     Log.d(TAG, "clearAll: failed if on " + items.get(count));
@@ -303,15 +304,14 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         if(getTitle().equals("Shopping List for " + owner) ){
-            item = new Item();
             for(int count = 0; count < shoppingList.size(); count++){
                 item = shoppingList.get(count);
                 if(shoppingList.get(count).isInCart()) {
 
                     Log.i(TAG, "clearAll: item: " + item);
-                    items.get(item.getId()).setInCart(false);
+                    item.setInCart(false);
                     Log.i(TAG, "clearAll: reset item: " + items.get(item.getId()));
-                    ds.update(items.get(item.getId()));
+                    ds.update(item);
                 }
                 else {
                     Log.d(TAG, "clearAll: failed if on " + item);
