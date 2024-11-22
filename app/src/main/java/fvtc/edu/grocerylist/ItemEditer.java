@@ -102,7 +102,13 @@ public class ItemEditer extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 APIEnd = MainActivity.owner + "/" + item.getId();
+                RestClient.execPutRequest(item, getString(R.string.APIURL) + APIEnd, ItemEditer.this, new VolleyCallback() {
+                    @Override
+                    public void onSuccess(ArrayList<Item> result) {
 
+                        Log.d(TAG, "onSuccess: Put" + item.getId());
+                    }
+                });
                 startActivity(new Intent(ItemEditer.this, MainActivity.class));
             }
         });
