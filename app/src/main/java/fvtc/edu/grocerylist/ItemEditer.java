@@ -29,14 +29,12 @@ public class ItemEditer extends AppCompatActivity {
     int itemId;
     String itemDescription;
     ArrayList<Item> items;
-    GroceryListDataSource ds;
+    private String APIEnd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_item_editer);
-
-        ds = new GroceryListDataSource(this);
         Bundle extras = getIntent().getExtras();
         itemId = extras.getInt("itemId");
         itemDescription = extras.getString("itemDescription");
@@ -56,10 +54,6 @@ public class ItemEditer extends AppCompatActivity {
     }
     private void initItems(int itemId){
         try {
-            GroceryListDataSource ds = new GroceryListDataSource(ItemEditer.this);
-            ds.open();
-            item = ds.get(itemId);
-            ds.close();
             Log.i(TAG, "initItems: " + item.toString());
         }catch (Exception e){
             Log.d(TAG, "initItems: " + e.getMessage());
@@ -97,10 +91,8 @@ public class ItemEditer extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GroceryListDataSource ds = new GroceryListDataSource(ItemEditer.this);
-                ds.open();
-                ds.update(item);
-                ds.close();
+                APIEnd = MainActivity.owner + "/" + item.getId();
+
                 startActivity(new Intent(ItemEditer.this, MainActivity.class));
             }
         });
