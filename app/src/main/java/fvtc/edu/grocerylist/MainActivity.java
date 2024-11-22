@@ -194,7 +194,6 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d(TAG, "onClick: OK");
                                 //get the new item
                                 EditText etAddItem = addItemView.findViewById(R.id.etAddItem);
-                                item.setId(items.size() + 1);
                                 item.setDescription(etAddItem.getText().toString());
                                 item.setInCart(false);
                                 item.setImgId(R.drawable.photoicon);
@@ -207,7 +206,14 @@ public class MainActivity extends AppCompatActivity {
                                     rvItems.setAdapter(itemAdapter);
                                 }
                                 Log.d(TAG, "onClick: add item: " + item);
-                                ds.insert(item);
+                                RestClient.execPostRequest(item, getString(R.string.APIURL) + owner, parentContext,
+                                        new VolleyCallback() {
+                                            @Override
+                                            public void onSuccess(ArrayList<Item> result) {
+                                                item.setId(result.get(0).getId());
+                                                Log.d(TAG, "onSuccess: Post" + item.getId());
+                                            }
+                                        });
                                 rebind();
                             }
                         })
