@@ -238,6 +238,7 @@ public class MainActivity extends AppCompatActivity {
                                 item.setId(items.size() + 1);
                                 item.setDescription(etAddItem.getText().toString());
                                 item.setInCart(false);
+                                item.setImgId(R.drawable.photoicon);
                                 if(getTitle().equals("Master List for " + owner) ){
                                     item.setOnShoppingList(false);
                                 }
