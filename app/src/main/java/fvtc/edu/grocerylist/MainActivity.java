@@ -288,15 +288,17 @@ public class MainActivity extends AppCompatActivity {
             for(int count = 0; count < shoppingList.size(); count++){
                 if(shoppingList.get(count).isInCart()) {
                     item = shoppingList.get(count);
-                    //Log.d(TAG, "deleteChecked: item: " + item);
-                    i = item.getId();
-                    //Log.d(TAG, "deleteChecked: i = " + i);
-                    i -= 1;
-                    //Log.d(TAG, "deleteChecked: item id: " + i);
-                    items.get(i).setInCart(false);
-                    items.get(i).setOnShoppingList(false);
-                    //ds.update(item);
-                    Log.d(TAG, "deleteChecked: reset item: " + items.get(i));
+                    APIEnd = owner + "/" + item.getId();
+                    item.setOnShoppingList(false);
+                    item.setInCart(false);
+                    RestClient.execPutRequest(item, getString(R.string.APIURL) + owner + "/" + item.getId(), this,
+                            new VolleyCallback() {
+                                @Override
+                                public void onSuccess(ArrayList<Item> result) {
+                                    Log.i(TAG, "onSuccess: delete " + item.getDescription());
+                                }
+                            });
+                    Log.d(TAG, "deleteChecked: reset item: " + item.getDescription());
                 }
                 else Log.d(TAG, "deleteChecked: failed if");
             }
