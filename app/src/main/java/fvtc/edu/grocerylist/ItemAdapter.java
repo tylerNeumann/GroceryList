@@ -114,7 +114,7 @@ public class ItemAdapter extends RecyclerView.Adapter {
                 Log.d(TAG, "Unknown list title: " + MainActivity.title);
             }
 
-            String APIEnd = MainActivity.ownerName + "/" + currentItem.getId();
+            String APIEnd = MainActivity.owner + "/" + currentItem.getId();
             RestClient.execPutRequest(currentItem, parentContext.getString(R.string.APIURL) + APIEnd, parentContext, new VolleyCallback() {
                 @Override
                 public void onSuccess(ArrayList<Item> result) {
