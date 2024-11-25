@@ -88,9 +88,9 @@ public class ItemAdapter extends RecyclerView.Adapter {
 
         itemViewHolder.getChkSelector().setOnCheckedChangeListener(null);
 
-        if (MainActivity.title.equals("Master List for " + MainActivity.owner)) {
+        if (MainActivity.title.equals("Master List for " + MainActivity.ownerName)) {
             itemViewHolder.getChkSelector().setChecked(currentItem.isOnShoppingList());
-        } else if (MainActivity.title.equals("Shopping List for " + MainActivity.owner)) {
+        } else if (MainActivity.title.equals("Shopping List for " + MainActivity.ownerName)) {
             itemViewHolder.getChkSelector().setChecked(currentItem.isInCart());
             Log.i(TAG, "onBindViewHolder: isInCart hit");
         } else {
@@ -104,17 +104,17 @@ public class ItemAdapter extends RecyclerView.Adapter {
             Log.i(TAG, "onCheckedChanged: start");
             //itemViewHolder.chkSelector.setChecked(isChecked);
 
-            if (MainActivity.title.equals("Master List for " + MainActivity.owner)) {
+            if (MainActivity.title.equals("Master List for " + MainActivity.ownerName)) {
                 currentItem.setOnShoppingList(isChecked);
                 Log.d(TAG, "Item " + (isChecked ? "added to" : "removed from") + " Master List: " + currentItem.getDescription());
-            } else if (MainActivity.title.equals("Shopping List for " + MainActivity.owner)) {
+            } else if (MainActivity.title.equals("Shopping List for " + MainActivity.ownerName)) {
                 currentItem.setInCart(isChecked);
                 Log.i(TAG, "Item " + (isChecked ? "added to" : "removed from") + " Shopping List: " + currentItem.getDescription());
             } else {
                 Log.d(TAG, "Unknown list title: " + MainActivity.title);
             }
 
-            String APIEnd = MainActivity.owner + "/" + currentItem.getId();
+            String APIEnd = MainActivity.ownerName + "/" + currentItem.getId();
             RestClient.execPutRequest(currentItem, parentContext.getString(R.string.APIURL) + APIEnd, parentContext, new VolleyCallback() {
                 @Override
                 public void onSuccess(ArrayList<Item> result) {
@@ -133,12 +133,12 @@ public class ItemAdapter extends RecyclerView.Adapter {
     public int getItemCount() { return itemData.size(); }
     private boolean checkedState(){
         boolean checked = false;
-        if(MainActivity.title.equals("Master List for " + MainActivity.owner)){
+        if(MainActivity.title.equals("Master List for " + MainActivity.ownerName)){
             if(itemData.get(itemPosition).isOnShoppingList()) checked = true;
             else checked = false;
             Log.d(TAG, "checkedState masterList: " + checked);
         }
-        else if(MainActivity.title.equals("Shopping List for " + MainActivity.owner)){
+        else if(MainActivity.title.equals("Shopping List for " + MainActivity.ownerName)){
             if(itemData.get(itemPosition).isInCart()) checked = true;
             else checked = false;
             Log.d(TAG, "checkedState shoppingList: " + checked);

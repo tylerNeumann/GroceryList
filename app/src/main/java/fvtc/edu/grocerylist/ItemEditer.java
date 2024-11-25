@@ -101,7 +101,7 @@ public class ItemEditer extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                APIEnd = MainActivity.owner + "/" + item.getId();
+                APIEnd = MainActivity.ownerName + "/" + item.getId();
                 RestClient.execPutRequest(item, getString(R.string.APIURL) + APIEnd, ItemEditer.this, new VolleyCallback() {
                     @Override
                     public void onSuccess(ArrayList<Item> result) {
