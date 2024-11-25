@@ -116,7 +116,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, SetOwner.class));
         }
         rebind();
-        fillAPI();
+        //fillAPI();
+        fillItemsArray();
         owner = new Owner(ownerName, items.size());
         RestClient.execOwnerPostRequest(owner,getString(R.string.APIURL),this);
         Log.i(TAG, "initialSetup: end");
@@ -341,5 +342,13 @@ public class MainActivity extends AppCompatActivity {
     }
     private void fillAPI(){
 
+    }
+    private void fillItemsArray(){
+        items.add(new Item(1, "Protein Shake", false, false, ownerName, R.drawable.protein_shake));
+        items.add(new Item(2, "Pop Tarts", false, false, ownerName, R.drawable.pop_tarts));
+        items.add(new Item(3, "Mtn Dew", false, false, ownerName, R.drawable.mtn_dew));
+        items.add(new Item(4, "Pretzels", false, false, ownerName, R.drawable.pretzels));
+        items.add(new Item(5, "Shampoo", false, false, ownerName, R.drawable.shampoo));
+        items.add(new Item(6, "Cheese", false, false, ownerName, R.drawable.cheese));
     }
 }
