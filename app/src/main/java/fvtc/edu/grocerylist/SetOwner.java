@@ -34,9 +34,10 @@ public static final String TAG = "Owner";
                 SharedPreferences preferences = getApplication().getSharedPreferences("myprefs", MODE_PRIVATE);
 
                 SharedPreferences.Editor editor = preferences.edit();
-                editor.putString("owner", owner);
+                editor.putString("ownerName", owner);
                 editor.commit();
                 Log.d(TAG, "initSaveButton: " + owner);
+                MainActivity.owner.setName(owner);
                 startActivity(new Intent(SetOwner.this, MainActivity.class));
             }
         });

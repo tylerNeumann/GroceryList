@@ -1,0 +1,9 @@
+        Edit rest client to run using Owner which holds items array
+
+set up owner in onCreate()
+
+
+        NICE TO HAVES
+        Store shopping list in Owner class
+        replace local items array in MainActivity with Owner.Items array
+        repeat 2nd step with shopping list

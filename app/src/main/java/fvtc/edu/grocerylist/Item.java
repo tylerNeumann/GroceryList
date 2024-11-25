@@ -4,7 +4,7 @@ import android.util.Log;
 
 public class Item {
     public static final String TAG = "Item";
-    private String Owner;
+    private Owner Owner;
     private int Id;
     private String Description;
     private boolean IsOnShoppingList;
@@ -14,7 +14,7 @@ public class Item {
                 String description,
                 boolean isOnShoppingList,
                 boolean isInCart,
-                String owner,
+                Owner owner,
                 int imgId){
         Id = id;
         Description = description;
@@ -57,8 +57,8 @@ public class Item {
     }
     public void setId(int id) { Id = id; }
 
-    public String getOwner() { return Owner; }
-    public void setOwner(String owner) { Owner = owner; }
+    public Owner getOwner() { return Owner; }
+    public void setOwner(Owner owner) { Owner = owner; }
 
     public int getImgId() {
         return ImgId;

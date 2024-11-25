@@ -33,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Item> shoppingList;
     private Context parentContext;
     public static String title;
-    public static String owner = null;
+    public static String ownerName = null;
+    public static Owner owner = null;
     private String APIEnd;
     Item item;
     private CompoundButton.OnCheckedChangeListener onCheckedChangedListener = new CompoundButton.OnCheckedChangeListener() {
@@ -44,15 +45,15 @@ public class MainActivity extends AppCompatActivity {
             viewHolder = (RecyclerView.ViewHolder) buttonView.getTag();
             int position = viewHolder.getAdapterPosition();
             item = items.get(position);
-            if(getTitle().equals("Master List for " + owner)){
+            if(getTitle().equals("Master List for " + ownerName)){
                 if(isChecked) item.setOnShoppingList(true);
                 else item.setOnShoppingList(false);
             }
-            else if(getTitle().equals("Shopping List for " + owner)){
+            else if(getTitle().equals("Shopping List for " + ownerName)){
                 if(isChecked) item.setInCart(true);
                 else item.setInCart(false);
             }
-            APIEnd = owner + "/" + item.getId();
+            APIEnd = ownerName + "/" + item.getId();
             RestClient.execPutRequest(item, getString(R.string.APIURL) + APIEnd, parentContext, new VolleyCallback() {
                 @Override
                 public void onSuccess(ArrayList<Item> result) {
@@ -69,11 +70,11 @@ public class MainActivity extends AppCompatActivity {
             RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) v.getTag();
             int position = viewHolder.getAdapterPosition();
             item = new Item();
-            if(getTitle().equals("Master List for " + owner)){
+            if(getTitle().equals("Master List for " + ownerName)){
                 item = items.get(position);
                 Log.i(TAG, "onClick: " + item.getDescription());
             }
-            if(getTitle().equals("Shopping List for " + owner)){
+            if(getTitle().equals("Shopping List for " + ownerName)){
                 item = shoppingList.get(position);
                 Log.i(TAG, "onClick: " + item.getDescription());
             }
@@ -106,14 +107,11 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, "initialSetup: start");
         items = new ArrayList<Item>();
         shoppingList = new ArrayList<>();
-        SharedPreferences preferences = getApplication().getSharedPreferences("myprefs", MODE_PRIVATE);
-        owner = preferences.getString("owner", "");
-        setTitle("Master List for " + owner);
-        title = "Master List for " + owner;
+
+        setTitle("Master List for " + ownerName);
+        title = "Master List for " + ownerName;
         parentContext = this;
-        if(owner == null){
-            startActivity(new Intent(MainActivity.this, SetOwner.class));
-        }
+
         rebind();
         Log.i(TAG, "initialSetup: end");
     }
@@ -136,14 +134,14 @@ public class MainActivity extends AppCompatActivity {
         if(id == R.id.action_ShowMasterList)
         {
             Log.d(TAG, "onOptionsItemSelected: master list");
-            setTitle("Master List for " + owner);
-            title = "Master List for " + owner;
+            setTitle("Master List for " + ownerName);
+            title = "Master List for " + ownerName;
             rebind();
         }
         else if (id == R.id.action_ShowShoppingList) {
             //Log.d(TAG, "onOptionsItemSelected: shopping list " + shoppingList.size());
-            setTitle("Shopping List for " + owner);
-            title = "Shopping List for " + owner;
+            setTitle("Shopping List for " + ownerName);
+            title = "Shopping List for " + ownerName;
             rebind();
             Log.d(TAG, "ShowShoppingList: " + shoppingList.size());
         }
@@ -164,7 +162,6 @@ public class MainActivity extends AppCompatActivity {
     private void addItem() {
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         final View addItemView = layoutInflater.inflate(R.layout.additem,null);
-
         //show dialogue to user modularly.
         new AlertDialog.Builder(this)
                 .setTitle(R.string.add_item)
@@ -179,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
                                 item.setDescription(etAddItem.getText().toString());
                                 item.setInCart(false);
                                 item.setImgId(R.drawable.photoicon);
-                                if(getTitle().equals("Master List for " + owner) ){
+                                if(getTitle().equals("Master List for " + ownerName) ){
                                     item.setOnShoppingList(false);
                                 }
                                 else{
@@ -188,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
                                     rvItems.setAdapter(itemAdapter);
                                 }
                                 Log.d(TAG, "onClick: add item: " + item);
-                                RestClient.execPostRequest(item, getString(R.string.APIURL) + owner, parentContext,
+                                RestClient.execPostRequest(item, getString(R.string.APIURL) + ownerName, parentContext,
                                         new VolleyCallback() {
                                             @Override
                                             public void onSuccess(ArrayList<Item> result) {
@@ -209,9 +206,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void deleteChecked(){
-        if(getTitle().equals("Master List for " + owner) ){
+        if(getTitle().equals("Master List for " + ownerName) ){
             for(Item currentItem : items){
-                APIEnd = owner + "/" + currentItem.getId();
+                APIEnd = ownerName + "/" + currentItem.getId();
                 if(currentItem.isOnShoppingList()){
                     RestClient.execDeleteRequest(currentItem, getString(R.string.APIURL) + APIEnd, this,
                             new VolleyCallback() {
@@ -223,15 +220,15 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-        if(getTitle().equals("Shopping List for " + owner) ){
+        if(getTitle().equals("Shopping List for " + ownerName) ){
 
             for(int count = 0; count < shoppingList.size(); count++){
                 if(shoppingList.get(count).isInCart()) {
                     item = shoppingList.get(count);
-                    APIEnd = owner + "/" + item.getId();
+                    APIEnd = ownerName + "/" + item.getId();
                     item.setOnShoppingList(false);
                     item.setInCart(false);
-                    RestClient.execPutRequest(item, getString(R.string.APIURL) + owner + "/" + item.getId(), this,
+                    RestClient.execPutRequest(item, getString(R.string.APIURL) + ownerName + "/" + item.getId(), this,
                             new VolleyCallback() {
                                 @Override
                                 public void onSuccess(ArrayList<Item> result) {
@@ -252,13 +249,13 @@ public class MainActivity extends AppCompatActivity {
         rvItems.setLayoutManager(layoutManager);
 
         Log.i(TAG, "rebind: " + getTitle());
-        if(getTitle().equals("Master List for " + owner)){
+        if(getTitle().equals("Master List for " + ownerName)){
             Log.d(TAG, "rebind: hit master list");
             if(!items.isEmpty()) items.clear();
             readFromAPI();
             itemAdapter = new ItemAdapter(items, this);
         }
-        if(getTitle().equals("Shopping List for " + owner)){
+        if(getTitle().equals("Shopping List for " + ownerName)){
             Log.d(TAG, "rebind: hit shopping list");
             fillShoppingList();
             itemAdapter = new ItemAdapter(shoppingList, this);
@@ -269,13 +266,13 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, "rebind: " + items.toString() + " " + items.size());
     }
     public void clearAll(){
-        if(getTitle().equals("Master List for " + owner) ){
+        if(getTitle().equals("Master List for " + ownerName) ){
             Log.i(TAG, "clearAll: master list");
             for(int count = 0; count < items.size(); count++) {
                 item = items.get(count);
                 if (item.isOnShoppingList()) {
                     item.setOnShoppingList(false);
-                    APIEnd = owner + "/" + item.getId();
+                    APIEnd = ownerName + "/" + item.getId();
                     RestClient.execPutRequest(item, getString(R.string.APIURL) + APIEnd, parentContext, new VolleyCallback() {
                         @Override
                         public void onSuccess(ArrayList<Item> result) {
@@ -289,14 +286,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-        if(getTitle().equals("Shopping List for " + owner) ){
+        if(getTitle().equals("Shopping List for " + ownerName) ){
             for(int count = 0; count < shoppingList.size(); count++){
                 item = shoppingList.get(count);
                 if(shoppingList.get(count).isInCart()) {
 
                     Log.i(TAG, "clearAll: item: " + item);
                     item.setInCart(false);
-                    APIEnd = owner + "/" + item.getId();
+                    APIEnd = ownerName + "/" + item.getId();
                     RestClient.execPutRequest(item, getString(R.string.APIURL) + APIEnd, parentContext, new VolleyCallback() {
                         @Override
                         public void onSuccess(ArrayList<Item> result) {
@@ -315,7 +312,7 @@ public class MainActivity extends AppCompatActivity {
     private void readFromAPI(){
         try {
             Log.d(TAG, "readFromAPI: start");
-            RestClient.execGetRequest(getString(R.string.APIURL), this, new VolleyCallback() {
+            RestClient.execGetRequest(getString(R.string.APIURL) + ownerName, this, new VolleyCallback() {
                 @Override
                 public void onSuccess(ArrayList<Item> result) {
                     Log.d(TAG, "onSuccess: got here");
@@ -334,5 +331,38 @@ public class MainActivity extends AppCompatActivity {
                 shoppingList.add(item);
             }
         }
+    }
+    private void fillAPI(){
+        ArrayList<Item> GroceryList = new ArrayList<>();
+        GroceryList.add(new Item(1, "Protein Shake", false, false, owner, R.drawable.protein_shake));
+        GroceryList.add(new Item(2, "Pop Tarts", false, false, owner, R.drawable.pop_tarts));
+        GroceryList.add(new Item(3, "Mtn Dew", false, false, owner, R.drawable.mtn_dew));
+        GroceryList.add(new Item(4, "Pretzels", false, false, owner, R.drawable.pretzels));
+        GroceryList.add(new Item(5, "Shampoo", false, false, owner, R.drawable.shampoo));
+        GroceryList.add(new Item(6, "Cheese", false, false, owner, R.drawable.cheese));
+        for (int i = 0; i < GroceryList.size(); i++) {
+            item = GroceryList.get(i);
+            RestClient.execPostRequest(item, getString(R.string.APIURL) + APIEnd, this, new VolleyCallback() {
+                        @Override
+                        public void onSuccess(ArrayList<Item> result) {
+                            item.setId(result.get(0).getId());
+                            Log.d(TAG, "onSuccess: Post" + item.getId());
+                        }
+                    });
+        }
+    }
+    private void fillOwnerItemList(){
+        fillAPI();
+        readFromAPI();
+    }
+    private void SetUpOwner(){
+        owner = new Owner();
+        SharedPreferences preferences = getApplication().getSharedPreferences("myprefs", MODE_PRIVATE);
+        ownerName = preferences.getString("ownerName", "");
+        if(ownerName == null) startActivity(new Intent(MainActivity.this, SetOwner.class));
+        else owner.setName(ownerName);
+        items = owner.getItems();
+        if(items.isEmpty()) fillOwnerItemList();
+        rebind();
     }
 }
