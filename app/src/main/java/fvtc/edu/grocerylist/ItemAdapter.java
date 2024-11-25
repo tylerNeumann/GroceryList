@@ -114,7 +114,16 @@ public class ItemAdapter extends RecyclerView.Adapter {
                 Log.d(TAG, "Unknown list title: " + MainActivity.title);
             }
 
-            ds.update(currentItem);
+            String APIEnd = MainActivity.ownerName + "/" + currentItem.getId();
+            RestClient.execPutRequest(currentItem, parentContext.getString(R.string.APIURL) + APIEnd, parentContext, new VolleyCallback() {
+                @Override
+                public void onSuccess(ArrayList<Item> result) {
+
+                    Log.d(TAG, "onSuccess: Put" + currentItem.getId());
+                }
+            });
+            Log.i(TAG, "onCheckedChanged: " + currentItem);
+            notifyItemChanged(position);
             notifyItemChanged(position);
 
             onItemCheckedChangeListener.onCheckedChanged(buttonView, checkedState());
