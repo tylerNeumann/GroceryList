@@ -4,11 +4,11 @@ import android.util.Log;
 
 public class Item {
     public static final String TAG = "Item";
-    private String Owner;
     private int Id;
     private String Description;
     private boolean IsOnShoppingList;
     private boolean IsInCart;
+    private String Owner;
     private int ImgId;
     public Item(int id,
                 String description,
