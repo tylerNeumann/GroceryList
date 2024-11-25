@@ -241,7 +241,7 @@ public class RestClient {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
             JSONObject object = new JSONObject();
-
+            Log.i(TAG, "executeOwnerRequest: object.getString(\"Name\") = " + object.getString("Name"));
             owner.setName(object.getString("Name"));
             owner.setItemCount(object.getInt("ItemCount"));
 
@@ -293,6 +293,7 @@ public class RestClient {
         try {
             executeOwnerRequest(owner, url, context, Request.Method.POST);
         } catch (Exception e) {
+            Log.i(TAG, "execOwnerPostRequest error: name = " + owner.Name);
             throw new RuntimeException(e);
         }
     }
