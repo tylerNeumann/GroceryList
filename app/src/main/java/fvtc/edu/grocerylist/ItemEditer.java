@@ -54,7 +54,7 @@ public class ItemEditer extends AppCompatActivity {
     }
     private void initItems(int itemId){
         try {
-            APIEnd = MainActivity.owner + "/" + item.getId();
+            APIEnd = MainActivity.ownerName + "/" + item.getId();
             RestClient.execGetOneRequest(getString(R.string.APIURL) + APIEnd,
                     this,
                     new VolleyCallback() {
