@@ -83,7 +83,7 @@ public class ItemAdapter extends RecyclerView.Adapter {
         Item currentItem = itemData.get(position);
         Log.i(TAG, "onBindViewHolder: " + itemData.get(position));
         ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
-        itemViewHolder.getTvDescription().setText(itemData.get(position).getDescription());
+        itemViewHolder.getTvDescription().setText(itemData.get(position).getItem());
 
         Bitmap teamPhoto = currentItem.getPhoto();
         if(teamPhoto != null){
@@ -96,10 +96,10 @@ public class ItemAdapter extends RecyclerView.Adapter {
         itemViewHolder.getChkSelector().setOnCheckedChangeListener(null);
 
         if (MainActivity.title.equals("Master List for " + MainActivity.ownerName)) {
-            itemViewHolder.getChkSelector().setChecked(currentItem.isOnShoppingList());
+            itemViewHolder.getChkSelector().setChecked(currentItem.getIsOnShoppingList());
         } else if (MainActivity.title.equals("Shopping List for " + MainActivity.ownerName)) {
-            itemViewHolder.getChkSelector().setChecked(currentItem.isInCart());
-            Log.i(TAG, "onBindViewHolder: isInCart hit");
+            itemViewHolder.getChkSelector().setChecked(currentItem.getIsInCart());
+            Log.i(TAG, "onBindViewHolder: getIsInCart hit");
         } else {
             itemViewHolder.getChkSelector().setChecked(false);
         }
@@ -112,10 +112,10 @@ public class ItemAdapter extends RecyclerView.Adapter {
 
             if (MainActivity.title.equals("Master List for " + MainActivity.ownerName)) {
                 currentItem.setOnShoppingList(isChecked);
-                Log.d(TAG, "Item " + (isChecked ? "added to" : "removed from") + " Master List: " + currentItem.getDescription());
+                Log.d(TAG, "Item " + (isChecked ? "added to" : "removed from") + " Master List: " + currentItem.getItem());
             } else if (MainActivity.title.equals("Shopping List for " + MainActivity.ownerName)) {
                 currentItem.setInCart(isChecked);
-                Log.i(TAG, "Item " + (isChecked ? "added to" : "removed from") + " Shopping List: " + currentItem.getDescription());
+                Log.i(TAG, "Item " + (isChecked ? "added to" : "removed from") + " Shopping List: " + currentItem.getItem());
             } else {
                 Log.d(TAG, "Unknown list title: " + MainActivity.title);
             }
@@ -139,12 +139,12 @@ public class ItemAdapter extends RecyclerView.Adapter {
     private boolean checkedState(){
         boolean checked = false;
         if(MainActivity.title.equals("Master List for " + MainActivity.ownerName)){
-            if(itemData.get(itemPosition).isOnShoppingList()) checked = true;
+            if(itemData.get(itemPosition).getIsOnShoppingList()) checked = true;
             else checked = false;
             Log.d(TAG, "checkedState masterList: " + checked);
         }
         else if(MainActivity.title.equals("Shopping List for " + MainActivity.ownerName)){
-            if(itemData.get(itemPosition).isInCart()) checked = true;
+            if(itemData.get(itemPosition).getIsInCart()) checked = true;
             else checked = false;
             Log.d(TAG, "checkedState shoppingList: " + checked);
         }

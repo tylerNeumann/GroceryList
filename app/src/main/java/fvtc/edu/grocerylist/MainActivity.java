@@ -213,12 +213,12 @@ public class MainActivity extends AppCompatActivity {
     public void deleteChecked(){
         if(getTitle().equals("Master List for " + ownerName) ){
             for(Item currentItem : items){
-                if(currentItem.isOnShoppingList()){
+                if(currentItem.getIsOnShoppingList()){
                     RestClient.execDeleteRequest(currentItem, getString(R.string.APIURL) + currentItem.getId(), this,
                             new VolleyCallback() {
                                 @Override
                                 public void onSuccess(ArrayList<Item> result) {
-                                    Log.i(TAG, "onSuccess: delete " + currentItem.getDescription());
+                                    Log.i(TAG, "onSuccess: delete " + currentItem.getItem());
                                 }
                             });
                 }
@@ -227,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
         if(getTitle().equals("Shopping List for " + ownerName) ){
 
             for(int count = 0; count < shoppingList.size(); count++){
-                if(shoppingList.get(count).isInCart()) {
+                if(shoppingList.get(count).getIsInCart()) {
                     item = shoppingList.get(count);
                     item.setOnShoppingList(false);
                     item.setInCart(false);
@@ -273,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i(TAG, "clearAll: master list");
             for(int count = 0; count < items.size(); count++) {
                 item = items.get(count);
-                if (item.isOnShoppingList()) {
+                if (item.getIsOnShoppingList()) {
                     item.setOnShoppingList(false);
                     RestClient.execPutRequest(item, getString(R.string.APIURL) + item.getId(), parentContext, new VolleyCallback() {
                         @Override
@@ -291,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
         if(getTitle().equals("Shopping List for " + ownerName) ){
             for(int count = 0; count < shoppingList.size(); count++){
                 item = shoppingList.get(count);
-                if(shoppingList.get(count).isInCart()) {
+                if(shoppingList.get(count).getIsInCart()) {
 
                     Log.i(TAG, "clearAll: item: " + item);
                     item.setInCart(false);
@@ -330,7 +330,7 @@ public class MainActivity extends AppCompatActivity {
     private void fillShoppingList(){
         readFromAPI();
         for(Item item: items) {
-            if(item.isOnShoppingList()) {
+            if(item.getIsOnShoppingList()) {
                 shoppingList.add(item);
             }
         }

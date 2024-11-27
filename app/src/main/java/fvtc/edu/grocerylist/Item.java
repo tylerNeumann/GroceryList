@@ -45,18 +45,18 @@ public class Item {
     public String getItem() {
         return item;
     }
-    public void setDescription(String description) {
-        this.description = description;
+    public void setItem(String description) {
+        this.item = description;
     }
 
-    public boolean isOnShoppingList() {
+    public boolean getIsOnShoppingList() {
         return isOnShoppingList;
     }
     public void setOnShoppingList(boolean onShoppingList) {
         this.isOnShoppingList = onShoppingList;
     }
 
-    public boolean isInCart() {
+    public boolean getIsInCart() {
         return isInCart;
     }
     public void setInCart(boolean inCart) { this.isInCart = inCart; }
