@@ -29,7 +29,6 @@ public class ItemEditer extends AppCompatActivity {
     int itemId;
     String itemDescription;
     ArrayList<Item> items;
-    private String APIEnd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,8 +53,7 @@ public class ItemEditer extends AppCompatActivity {
     }
     private void initItems(int itemId){
         try {
-            APIEnd = MainActivity.ownerName + "/" + item.getId();
-            RestClient.execGetOneRequest(getString(R.string.APIURL) + APIEnd,
+            RestClient.execGetOneRequest(getString(R.string.APIURL) + item.getId(),
                     this,
                     new VolleyCallback() {
                         @Override
@@ -101,8 +99,7 @@ public class ItemEditer extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                APIEnd = MainActivity.ownerName + "/" + item.getId();
-                RestClient.execPutRequest(item, getString(R.string.APIURL) + APIEnd, ItemEditer.this, new VolleyCallback() {
+                RestClient.execPutRequest(item, getString(R.string.APIURL) + item.getId(), ItemEditer.this, new VolleyCallback() {
                     @Override
                     public void onSuccess(ArrayList<Item> result) {
 
