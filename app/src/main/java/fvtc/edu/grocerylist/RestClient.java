@@ -56,7 +56,7 @@ public class RestClient {
                                     byte[] bytePhoto = null;
                                     bytePhoto = Base64.decode(jsonPhoto, Base64.DEFAULT);
                                     Bitmap bmp = BitmapFactory.decodeByteArray(bytePhoto, 0, bytePhoto.length);
-                                    //item.setImgId(bmp);
+                                    item.setPhoto(bmp);
                                 }
 
                                 items.add(item);
@@ -120,7 +120,7 @@ public class RestClient {
                                         byte[] bytePhoto = null;
                                         bytePhoto = Base64.decode(jsonPhoto, Base64.DEFAULT);
                                         Bitmap bmp = BitmapFactory.decodeByteArray(bytePhoto, 0, bytePhoto.length);
-                                        //item.setImgId(bmp);
+                                        item.setPhoto(bmp);
                                     }
 
                                     items.add(item);
