@@ -53,7 +53,7 @@ public class ItemEditer extends AppCompatActivity {
     }
     private void initItems(int itemId){
         try {
-            RestClient.execGetOneRequest(getString(R.string.APIURL) + item.getId(),
+            RestClient.execGetOneRequest(getString(R.string.APIURL) + itemId,
                     this,
                     new VolleyCallback() {
                         @Override
