@@ -337,6 +337,20 @@ public class MainActivity extends AppCompatActivity {
         items.add(new Item(3, "Mtn Dew", false, false, ownerName, R.drawable.mtn_dew));
         items.add(new Item(4, "Pretzels", false, false, ownerName, R.drawable.pretzels));
         items.add(new Item(5, "Shampoo", false, false, ownerName, R.drawable.shampoo));
-        items.add(new Item(6, "Cheese", false, false, ownerName, R.drawable.cheese));
+        items.add(new Item(6, "Cheese", false, false, ownerName, R.drawable.protein_shake));
+    }
+    private void fillAPI(){
+        fillItemsArray();
+        for (int i = 0; i < items.size(); i++) {
+            item = items.get(i);
+            RestClient.execPostRequest(item, getString(R.string.APIURL), this, new VolleyCallback() {
+                @Override
+                public void onSuccess(ArrayList<Item> result) {
+                    item.setId(result.get(0).getId());
+                    Log.d(TAG, "onSuccess: Post" + item.getId());
+                }
+            });
+        }
+        rebind();
     }
 }
