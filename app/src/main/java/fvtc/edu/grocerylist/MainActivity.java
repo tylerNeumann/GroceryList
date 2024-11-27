@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
+        readFromAPI();
         rebind();
     }
     private void initialSetup() {
@@ -137,12 +138,14 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "onOptionsItemSelected: master list");
             setTitle("Master List for " + ownerName);
             title = "Master List for " + ownerName;
+            readFromAPI();
             rebind();
         }
         else if (id == R.id.action_ShowShoppingList) {
             //Log.d(TAG, "onOptionsItemSelected: shopping list " + shoppingList.size());
             setTitle("Shopping List for " + ownerName);
             title = "Shopping List for " + ownerName;
+            readFromAPI();
             rebind();
             Log.d(TAG, "ShowShoppingList: " + shoppingList.size());
         }
@@ -194,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
                                                 Log.d(TAG, "onSuccess: Post" + item.getId());
                                             }
                                         });
+                                readFromAPI();
                                 rebind();
                             }
                         })
@@ -239,6 +243,7 @@ public class MainActivity extends AppCompatActivity {
                 else Log.d(TAG, "deleteChecked: failed if");
             }
         }
+        readFromAPI();
         rebind();
         Log.d(TAG, "deleteChecked: size: " + items.size());
     }
@@ -250,8 +255,6 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, "rebind: " + getTitle());
         if(getTitle().equals("Master List for " + ownerName)){
             Log.d(TAG, "rebind: hit master list");
-            if(!items.isEmpty()) items.clear();
-            readFromAPI();
             itemAdapter = new ItemAdapter(items, this);
             Log.i(TAG, "rebind: " + items.toString());
         }
@@ -305,6 +308,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+        readFromAPI();
         rebind();
     }
     private void readFromAPI(){
@@ -315,6 +319,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onSuccess(ArrayList<Item> result) {
                     Log.d(TAG, "onSuccess: got here");
                     items = result;
+                    rebind();
                     Log.i(TAG, "onSuccess: " + items.toString());
                 }
             });
@@ -351,6 +356,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+        readFromAPI();
         rebind();
     }
 }
