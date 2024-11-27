@@ -1,6 +1,9 @@
 package fvtc.edu.grocerylist;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -14,6 +17,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
@@ -44,17 +48,15 @@ public class RestClient {
                                 item.setOnShoppingList(object.getBoolean("IsOnShoppingList"));
                                 item.setInCart(object.getBoolean("IsInCart"));
                                 item.setOwner(object.getString("Owner"));
-                                item.setImgId(object.getInt("ImgId"));
 
-                                /*String jsonPhoto = object.getString("photo");
-
+                                String jsonPhoto = object.getString("photo");
                                 if(jsonPhoto != null)
                                 {
                                     byte[] bytePhoto = null;
                                     bytePhoto = Base64.decode(jsonPhoto, Base64.DEFAULT);
                                     Bitmap bmp = BitmapFactory.decodeByteArray(bytePhoto, 0, bytePhoto.length);
                                     //item.setImgId(bmp);
-                                }*/
+                                }
 
                                 items.add(item);
 
@@ -109,7 +111,15 @@ public class RestClient {
                                     item.setOnShoppingList(object.getBoolean("IsOnShoppingList"));
                                     item.setInCart(object.getBoolean("IsInCart"));
                                     item.setOwner(object.getString("Owner"));
-                                    item.setImgId(object.getInt("ImgId"));
+
+                                    String jsonPhoto = object.getString("photo");
+                                    if(jsonPhoto != null)
+                                    {
+                                        byte[] bytePhoto = null;
+                                        bytePhoto = Base64.decode(jsonPhoto, Base64.DEFAULT);
+                                        Bitmap bmp = BitmapFactory.decodeByteArray(bytePhoto, 0, bytePhoto.length);
+                                        //item.setImgId(bmp);
+                                    }
 
                                     items.add(item);
                                 }
@@ -150,9 +160,8 @@ public class RestClient {
             item.setOnShoppingList(object.getBoolean("IsOnShoppingList"));
             item.setInCart(object.getBoolean("IsInCart"));
             item.setOwner(object.getString("Owner"));
-            item.setImgId(object.getInt("ImgId"));
 
-            /*if(item.getPhoto() != null)
+            if(item.getPhoto() != null)
             {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 Bitmap bitmap = Bitmap.createScaledBitmap(item.getPhoto(), 144, 144, false);
@@ -164,7 +173,7 @@ public class RestClient {
             else
             {
                 object.put("photo", null);
-            }*/
+            }
             final String requestBody = object.toString();
             Log.d(TAG, "executeRequest: " + requestBody);
 
