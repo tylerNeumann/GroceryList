@@ -70,8 +70,7 @@ public class RestClient {
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Log.d(TAG, "onErrorResponse: " + error.getMessage());
-                            Log.i(TAG, "onResponse: error1");
+                            Log.d(TAG, "onErrorResponse: error1 = " + error.getMessage());
                         }
                     });
 
@@ -79,11 +78,9 @@ public class RestClient {
             requestQueue.add(stringRequest);
 
         } catch (Exception e) {
-            Log.d(TAG, "execGetOneRequest: Error" + e.getMessage());
-            Log.i(TAG, "onResponse: error2");
+            Log.d(TAG, "execGetOneRequest: Error2 = " + e.getMessage());
         }
     }
-
     public static void execGetRequest(String url,
                                       Context context,
                                       VolleyCallback volleyCallback)
@@ -134,7 +131,7 @@ public class RestClient {
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Log.d(TAG, "onErrorResponse: " + error.getMessage());
+                            Log.d(TAG, "onErrorResponse: get " + error.getMessage());
                         }
                     });
 
@@ -189,9 +186,10 @@ public class RestClient {
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.d(TAG, "onErrorResponse: " + error.getMessage());
-                    Log.d(TAG, "onResponse: error2");
-                    Log.i(TAG, "onErrorResponse: url = " + url);
+                    Log.d(TAG, "onErrorResponse: error2 exec = " + error.getMessage());
+                    Log.i(TAG, "onErrorResponse: item = " + item);
+                    Log.i(TAG, "onErrorResponse: item = " + object);
+                    //Log.i(TAG, "onErrorResponse: url = " + url);
                 }
             })
             {
@@ -239,7 +237,7 @@ public class RestClient {
         try {
             executeRequest(item, url, context, volleyCallback, Request.Method.POST);
         } catch (Exception e) {
-            Log.i(TAG, "execPostRequest: id = " + item.getId());
+            Log.i(TAG, "execPostRequest: ");
             throw new RuntimeException(e);
         }
     }
