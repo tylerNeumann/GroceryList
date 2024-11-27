@@ -1,7 +1,12 @@
 package fvtc.edu.grocerylist;
 
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -11,14 +16,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.ToggleButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -29,6 +39,9 @@ public class ItemEditer extends AppCompatActivity {
     int itemId;
     String itemDescription;
     ArrayList<Item> items;
+    public static final int PERMISSION_REQUEST_PHONE = 102;
+    public static final int PERMISSION_REQUEST_CAMERA = 103;
+    public static final int CAMERA_REQUEST = 1888;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +57,10 @@ public class ItemEditer extends AppCompatActivity {
         initToggleButton();
         initSaveButton();
         initTextChanged();
+        initImgBtn();
         SetForEditing(false);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.activity_item_editer), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -155,5 +170,61 @@ public class ItemEditer extends AppCompatActivity {
         }
         startActivity(new Intent(ItemEditer.this, MainActivity.class));
         return super.onOptionsItemSelected(item);
+    }
+    private void initImgBtn() {
+        ImageButton imageTeam = findViewById(R.id.imgItem);
+        imageTeam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(Build.VERSION.SDK_INT >= 23){
+                    // Check for the manifest permission
+                    if(ContextCompat.checkSelfPermission(ItemEditer.this, android.Manifest.permission.CAMERA) != PERMISSION_GRANTED){
+                        if(ActivityCompat.shouldShowRequestPermissionRationale(ItemEditer.this, android.Manifest.permission.CAMERA)){
+                            Snackbar.make(findViewById(R.id.activity_item_editer), "Teams requires this permission to take a photo.",
+                                    Snackbar.LENGTH_INDEFINITE).setAction("OK", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Log.d(TAG, "onClick: snackBar");
+                                    ActivityCompat.requestPermissions(ItemEditer.this,
+                                            new String[] {android.Manifest.permission.CAMERA},PERMISSION_REQUEST_PHONE);
+                                }
+                            }).show();
+                        }
+                        else {
+                            Log.d(TAG, "onClick: 1st else");
+                            ActivityCompat.requestPermissions(ItemEditer.this,
+                                    new String[] {android.Manifest.permission.CAMERA},PERMISSION_REQUEST_PHONE);
+                            takePhoto();
+                        }
+                    }
+                    else{
+                        Log.d(TAG, "onClick: 2nd else");
+                        takePhoto();
+                    }
+                }
+                else{
+                    // Only rely on the previous permissions
+                    Log.d(TAG, "onClick: 3rd else");
+                    takePhoto();
+                }
+            }
+        });
+    }
+    private void takePhoto() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, CAMERA_REQUEST);
+    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
+
+        if(requestCode == CAMERA_REQUEST){
+            if(resultCode == RESULT_OK){
+                Bitmap photo = (Bitmap) data.getExtras().get("data");
+                Bitmap scaledPhoto = Bitmap.createScaledBitmap(photo,144,144,true);
+                ImageButton imageButton = findViewById(R.id.imgItem);
+                imageButton.setImageBitmap(scaledPhoto);
+                item.setPhoto(scaledPhoto);
+            }
+        }
     }
 }
