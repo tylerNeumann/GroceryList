@@ -6,7 +6,7 @@ import android.util.Log;
 public class Item {
     public static final String TAG = "Item";
     private int id;
-    private String description;
+    private String item;
     private boolean isOnShoppingList;
     private boolean isInCart;
     private String owner;
@@ -14,7 +14,7 @@ public class Item {
     private Double longitude;
     private Bitmap photo;
     public Item(int id,
-                String description,
+                String item,
                 boolean isOnShoppingList,
                 boolean isInCart,
                 String owner,
@@ -22,7 +22,7 @@ public class Item {
                 Double longitude,
                 Bitmap photo){
         this.id = id;
-        this.description = description;
+        this.item = item;
         this.isOnShoppingList = isOnShoppingList;
         this.isInCart = isInCart;
         this.owner = owner;
@@ -32,7 +32,7 @@ public class Item {
     }
     public Item(){
         this.id = -1;
-        this.description = "";
+        this.item = "";
         this.isOnShoppingList = false;
         this.isInCart = false;
         this.owner = null;
@@ -40,10 +40,10 @@ public class Item {
         this.longitude = 0.0;
         this.photo = null;
     }
-    public String toString(){ return id + "|" + description + "|" + isOnShoppingList + "|" + isInCart;}
+    public String toString(){ return id + "|" + item + "|" + isOnShoppingList + "|" + isInCart + "|" + owner + "|" + latitude + "|" + longitude + "|" + photo;}
 
-    public String getDescription() {
-        return description;
+    public String getItem() {
+        return item;
     }
     public void setDescription(String description) {
         this.description = description;
