@@ -5,14 +5,14 @@ import android.util.Log;
 
 public class Item {
     public static final String TAG = "Item";
-    private int Id;
-    private String Description;
-    private boolean IsOnShoppingList;
-    private boolean IsInCart;
-    private String Owner;
+    private int id;
+    private String description;
+    private boolean isOnShoppingList;
+    private boolean isInCart;
+    private String owner;
     private Double latitude;
     private Double longitude;
-    private Bitmap Photo;
+    private Bitmap photo;
     public Item(int id,
                 String description,
                 boolean isOnShoppingList,
@@ -20,48 +20,54 @@ public class Item {
                 String owner,
                 Double latitude,
                 Double longitude,
-                Bitmap Photo){
-        Id = id;
-        Description = description;
-        IsOnShoppingList = isOnShoppingList;
-        IsInCart = isInCart;
-        Owner = owner;
+                Bitmap photo){
+        this.id = id;
+        this.description = description;
+        this.isOnShoppingList = isOnShoppingList;
+        this.isInCart = isInCart;
+        this.owner = owner;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.photo = photo;
     }
     public Item(){
-        Id = -1;
-        Description = "";
-        IsOnShoppingList = false;
-        IsInCart = false;
-        Owner = null;
+        this.id = -1;
+        this.description = "";
+        this.isOnShoppingList = false;
+        this.isInCart = false;
+        this.owner = null;
+        this.latitude = 0.0;
+        this.longitude = 0.0;
+        this.photo = null;
     }
-    public String toString(){ return Id + "|" + Description + "|" + IsOnShoppingList + "|" + IsInCart;}
+    public String toString(){ return id + "|" + description + "|" + isOnShoppingList + "|" + isInCart;}
 
     public String getDescription() {
-        return Description;
+        return description;
     }
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
     public boolean isOnShoppingList() {
-        return IsOnShoppingList;
+        return isOnShoppingList;
     }
     public void setOnShoppingList(boolean onShoppingList) {
-        IsOnShoppingList = onShoppingList;
+        this.isOnShoppingList = onShoppingList;
     }
 
     public boolean isInCart() {
-        return IsInCart;
+        return isInCart;
     }
-    public void setInCart(boolean inCart) { IsInCart = inCart; }
+    public void setInCart(boolean inCart) { this.isInCart = inCart; }
 
     public int getId() {
-        return Id;
+        return id;
     }
-    public void setId(int id) { Id = id; }
+    public void setId(int id) { this.id = id; }
 
-    public String getOwner() { return Owner; }
-    public void setOwner(String owner) { Owner = owner; }
+    public String getOwner() { return owner; }
+    public void setOwner(String owner) { this.owner = owner; }
 
     public Double getLatitude() {
         return latitude;
@@ -77,6 +83,6 @@ public class Item {
         this.longitude = longitude;
     }
 
-    public Bitmap getPhoto() { return Photo; }
-    public void setPhoto(Bitmap photo) { Photo = photo; }
+    public Bitmap getPhoto() { return photo; }
+    public void setPhoto(Bitmap photo) { this.photo = photo; }
 }

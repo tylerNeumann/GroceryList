@@ -43,14 +43,14 @@ public class RestClient {
                             try {
                                 JSONObject object = new JSONObject(response);
                                 Item item = new Item();
-                                item.setId(object.getInt("Id"));
-                                item.setDescription(object.getString("Description"));
-                                item.setOnShoppingList(object.getBoolean("IsOnShoppingList"));
-                                item.setInCart(object.getBoolean("IsInCart"));
-                                item.setOwner(object.getString("Owner"));
+                                item.setId(object.getInt("id"));
+                                item.setDescription(object.getString("description"));
+                                item.setOnShoppingList(object.getBoolean("isOnShoppingList"));
+                                item.setInCart(object.getBoolean("isInCart"));
+                                item.setOwner(object.getString("owner"));
                                 item.setLatitude(object.getDouble("latitude"));
                                 item.setLongitude(object.getDouble("longitude"));
-                                String jsonPhoto = object.getString("Photo");
+                                String jsonPhoto = object.getString("photo");
                                 if(jsonPhoto != null)
                                 {
                                     byte[] bytePhoto = null;
@@ -107,14 +107,14 @@ public class RestClient {
                                 {
                                     JSONObject object = JSONitems.getJSONObject(i);
                                     Item item = new Item();
-                                    item.setId(object.getInt("Id"));
-                                    item.setDescription(object.getString("Description"));
-                                    item.setOnShoppingList(object.getBoolean("IsOnShoppingList"));
-                                    item.setInCart(object.getBoolean("IsInCart"));
-                                    item.setOwner(object.getString("Owner"));
+                                    item.setId(object.getInt("id"));
+                                    item.setDescription(object.getString("description"));
+                                    item.setOnShoppingList(object.getBoolean("isOnShoppingList"));
+                                    item.setInCart(object.getBoolean("isInCart"));
+                                    item.setOwner(object.getString("owner"));
                                     item.setLatitude(object.getDouble("latitude"));
                                     item.setLongitude(object.getDouble("longitude"));
-                                    String jsonPhoto = object.getString("Photo");
+                                    String jsonPhoto = object.getString("photo");
                                     if(jsonPhoto != null)
                                     {
                                         byte[] bytePhoto = null;
@@ -157,11 +157,11 @@ public class RestClient {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
             JSONObject object = new JSONObject();
 
-            item.setId(object.getInt("Id"));
-            item.setDescription(object.getString("Description"));
-            item.setOnShoppingList(object.getBoolean("IsOnShoppingList"));
-            item.setInCart(object.getBoolean("IsInCart"));
-            item.setOwner(object.getString("Owner"));
+            item.setId(object.getInt("id"));
+            item.setDescription(object.getString("description"));
+            item.setOnShoppingList(object.getBoolean("isOnShoppingList"));
+            item.setInCart(object.getBoolean("isInCart"));
+            item.setOwner(object.getString("owner"));
             object.put("latitude", item.getLatitude());
             object.put("longitude", item.getLongitude());
             if(item.getPhoto() != null)
@@ -171,11 +171,11 @@ public class RestClient {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 byte[] imageBytes = baos.toByteArray();
                 String jsonPhoto = Base64.encodeToString(imageBytes, Base64.NO_WRAP);
-                object.put("Photo", jsonPhoto);
+                object.put("photo", jsonPhoto);
             }
             else
             {
-                object.put("Photo", null);
+                object.put("photo", null);
             }
             final String requestBody = object.toString();
             Log.d(TAG, "executeRequest: " + requestBody);
