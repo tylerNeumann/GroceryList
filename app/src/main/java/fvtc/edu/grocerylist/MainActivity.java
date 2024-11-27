@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         setTitle("Master List for " + ownerName);
         title = "Master List for " + ownerName;
         parentContext = this;
-        if(ownerName == null){
+        if(ownerName == ""){
             startActivity(new Intent(MainActivity.this, SetOwner.class));
         }
         readFromAPI();
