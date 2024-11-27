@@ -34,9 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private Context parentContext;
     public static String title;
     public static String ownerName = null;
-    private String APIEnd;
     Item item;
-    Owner owner;
     private CompoundButton.OnCheckedChangeListener onCheckedChangedListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -116,10 +114,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, SetOwner.class));
         }
         rebind();
-        //fillAPI();
-        fillItemsArray();
-        owner = new Owner(ownerName, items.size());
-        RestClient.execOwnerPostRequest(owner,getString(R.string.APIURL),this);
         Log.i(TAG, "initialSetup: end");
     }
     public static String[] createDataArray(ArrayList<Item> items){
@@ -339,9 +333,6 @@ public class MainActivity extends AppCompatActivity {
                 shoppingList.add(item);
             }
         }
-    }
-    private void fillAPI(){
-
     }
     private void fillItemsArray(){
         items.add(new Item(1, "Protein Shake", false, false, ownerName, R.drawable.protein_shake));
