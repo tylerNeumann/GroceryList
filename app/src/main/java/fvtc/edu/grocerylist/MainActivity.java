@@ -341,9 +341,7 @@ public class MainActivity extends AppCompatActivity {
     private void fillAPI(){
         fillItemsArray();
         for (int i = 0; i < items.size(); i++) {
-            item = items.get(i);
-            Log.i(TAG, "fillAPI: item = " + item);
-            RestClient.execPostRequest(item, getString(R.string.APIURL), this, new VolleyCallback() {
+            RestClient.execPostRequest(items.get(i), getString(R.string.APIURL), this, new VolleyCallback() {
                 @Override
                 public void onSuccess(ArrayList<Item> result) {
                     item.setId(result.get(0).getId());
