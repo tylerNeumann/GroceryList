@@ -1,4 +1,4 @@
-use grocerylist erd on desktop
-owner table with name and item count link to item class table by owner name
-    https://fvtcdp.azurewebsites.net/api/GroceryList contains string of name and int of items count
-    https://fvtcdp.azurewebsites.net/api/GroceryList/[user] handles all item api interaction for owner
+add java to allow editor and add item to take pics
+    start with editor
+    copy and paste to add item
+        potentially make changes
