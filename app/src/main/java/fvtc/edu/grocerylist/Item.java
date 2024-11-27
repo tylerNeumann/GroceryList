@@ -1,7 +1,6 @@
 package fvtc.edu.grocerylist;
 
 import android.graphics.Bitmap;
-import android.util.Log;
 
 public class Item {
     public static final String TAG = "Item";
