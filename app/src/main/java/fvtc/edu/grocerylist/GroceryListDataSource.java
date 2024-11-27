@@ -31,7 +31,7 @@ public class GroceryListDataSource {
         boolean freshApp = true;
         db = dbHelper.getWritableDatabase();
         Log.d(TAG, "open: " + db.isOpen());
-        if(!freshApp) refreshData();
+       // if(!freshApp) refreshData();
         //if(refresh) refreshData();
 
     }
@@ -40,7 +40,7 @@ public class GroceryListDataSource {
     {
         dbHelper.close();
     }
-    public void refreshData()
+   /* public void refreshData()
     {
         if(!GroceryList.isEmpty()){
             deleteAll();
@@ -59,7 +59,7 @@ public class GroceryListDataSource {
             }
             Log.d(TAG, "refreshData: End: " + results + " rows...");
         }
-    }
+    }*/
 
     public Item get(int id)
     {
