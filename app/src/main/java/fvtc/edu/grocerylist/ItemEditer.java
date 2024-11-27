@@ -71,7 +71,10 @@ public class ItemEditer extends AppCompatActivity {
 
     private void rebindItem() {
         EditText etDescription = findViewById(R.id.etDescription);
-        etDescription.setText(item.getDescription());
+        if(item != null) {
+            etDescription.setText(item.getItem());
+        }
+
     }
 
     private void initToggleButton() {
@@ -125,7 +128,7 @@ public class ItemEditer extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                item.setDescription(s.toString());
+                item.setItem(s.toString());
             }
         });
     }
