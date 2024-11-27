@@ -332,12 +332,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private void fillItemsArray(){
-        items.add(new Item(1, "Protein Shake", false, false, ownerName, R.drawable.protein_shake));
-        items.add(new Item(2, "Pop Tarts", false, false, ownerName, R.drawable.pop_tarts));
-        items.add(new Item(3, "Mtn Dew", false, false, ownerName, R.drawable.mtn_dew));
-        items.add(new Item(4, "Pretzels", false, false, ownerName, R.drawable.pretzels));
-        items.add(new Item(5, "Shampoo", false, false, ownerName, R.drawable.shampoo));
-        items.add(new Item(6, "Cheese", false, false, ownerName, R.drawable.protein_shake));
+        items.add(new Item(1, "Protein Shake", false, false, ownerName, 0.0, 0.0, null));
+        items.add(new Item(2, "Pop Tarts", false, false, ownerName, 0.0, 0.0, null));
+        items.add(new Item(3, "Mtn Dew", false, false, ownerName, 0.0, 0.0, null));
+        items.add(new Item(4, "Pretzels", false, false, ownerName, 0.0, 0.0, null));
+        items.add(new Item(5, "Shampoo", false, false, ownerName, 0.0, 0.0, null));
+        items.add(new Item(6, "Cheese", false, false, ownerName, 0.0, 0.0, null));
     }
     private void fillAPI(){
         fillItemsArray();
