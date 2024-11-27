@@ -46,8 +46,8 @@ public class RestClient {
                                 Item item = new Item();
                                 item.setId(object.getInt("id"));
                                 item.setItem(object.getString("item"));
-                                item.setOnShoppingList(boolConverterOnList(object));
-                                item.setInCart(boolConverterInCart(object));
+                                item.setOnShoppingList(RestClientUtil.intToBoolOnList(object));
+                                item.setInCart(RestClientUtil.intToBoolInCart(object));
                                 item.setOwner(object.getString("owner"));
                                 item.setLatitude(object.getDouble("latitude"));
                                 item.setLongitude(object.getDouble("longitude"));
@@ -107,8 +107,8 @@ public class RestClient {
                                     Item item = new Item();
                                     item.setId(object.getInt("id"));
                                     item.setItem(object.getString("item"));
-                                    item.setOnShoppingList(boolConverterOnList(object));
-                                    item.setInCart(boolConverterInCart(object));
+                                    item.setOnShoppingList(RestClientUtil.intToBoolOnList(object));
+                                    item.setInCart(RestClientUtil.intToBoolInCart(object));
                                     item.setOwner(object.getString("owner"));
                                     item.setLatitude(object.getDouble("latitude"));
                                     item.setLongitude(object.getDouble("longitude"));
@@ -156,8 +156,8 @@ public class RestClient {
             JSONObject object = new JSONObject();
             object.put("id", item.getId());
             object.put("item", item.getItem());
-            object.put("isOnShoppingList", item.getIsOnShoppingList());
-            object.put("isInCart", item.getIsInCart());
+            object.put("isOnShoppingList", RestClientUtil.boolToIntOnList(item));
+            object.put("isInCart", RestClientUtil.boolToIntInCart(item));
             object.put("owner", item.getOwner());
             object.put("latitude", item.getLatitude());
             object.put("longitude", item.getLongitude());
@@ -188,7 +188,7 @@ public class RestClient {
                 public void onErrorResponse(VolleyError error) {
                     Log.d(TAG, "onErrorResponse: error2 exec = " + error.getMessage());
                     Log.i(TAG, "onErrorResponse: item = " + item);
-                    Log.i(TAG, "onErrorResponse: item = " + object);
+                    Log.i(TAG, "onErrorResponse: object = " + object);
                     //Log.i(TAG, "onErrorResponse: url = " + url);
                 }
             })
@@ -224,8 +224,10 @@ public class RestClient {
                                       VolleyCallback volleyCallback)
     {
         try {
+            Log.i(TAG, "execPutRequest: ");
             executeRequest(item, url, context, volleyCallback, Request.Method.PUT);
         } catch (Exception e) {
+            Log.i(TAG, "execPutRequest: error");
             throw new RuntimeException(e);
         }
     }
@@ -240,13 +242,5 @@ public class RestClient {
             Log.i(TAG, "execPostRequest: ");
             throw new RuntimeException(e);
         }
-    }
-    public static boolean boolConverterOnList(JSONObject object) throws JSONException {
-        if (object.getInt("isOnShoppingList") == 1) return true;
-        else return false;
-    }
-    private static boolean boolConverterInCart(JSONObject object) throws JSONException {
-        if (object.getInt("isInCart") == 1) return true;
-        else return false;
     }
 }
