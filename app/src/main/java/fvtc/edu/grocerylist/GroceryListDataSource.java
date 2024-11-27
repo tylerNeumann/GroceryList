@@ -81,7 +81,6 @@ public class GroceryListDataSource {
                 item.setOnShoppingList(onShoppingList);
                 boolean inCart = cursor.getInt(3) == 1;
                 item.setInCart(inCart);
-                item.setImgId(cursor.getInt(4));
 
 
                 //item.setLatitude(cursor.getDouble(7));
@@ -121,8 +120,6 @@ public class GroceryListDataSource {
                 item.setOnShoppingList(onShoppingList);
                 boolean inCart = cursor.getInt(3) == 1;
                 item.setInCart(inCart);
-                item.setImgId(cursor.getInt(4));
-                if(item.getImgId() == 0) item.setImgId(R.drawable.photoicon);
 
                 GroceryList.add(item);
                 Log.d(TAG, "get: " + item.toString());
@@ -219,7 +216,6 @@ public class GroceryListDataSource {
             values.put("description", item.getDescription());
             values.put("isOnShoppingList", item.isOnShoppingList());
             values.put("isInCart", item.isInCart());
-            values.put("imgId", item.getImgId());
 
 
             String where = "id = " + item.getId();
@@ -246,7 +242,6 @@ public class GroceryListDataSource {
                 values.put("description", item.getDescription());
                 values.put("isOnShoppingList", item.isOnShoppingList());
                 values.put("isInCart", item.isInCart());
-                values.put("imgId", item.getImgId());
 
                 rowsaffected = (int)db.insert("tblGroceryList", null, values);
             }
@@ -280,7 +275,6 @@ public class GroceryListDataSource {
                 item.setOnShoppingList(true);
                 boolean inCart = (cursor.getInt(3) == 1);
                 item.setInCart(inCart);
-                item.setImgId(cursor.getInt(4));
                 Log.d(TAG, "get: " + item.toString());
 
                 shoppingList.add(item);
