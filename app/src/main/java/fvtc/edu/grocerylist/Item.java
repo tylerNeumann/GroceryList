@@ -10,13 +10,17 @@ public class Item {
     private boolean IsOnShoppingList;
     private boolean IsInCart;
     private String Owner;
-    private Bitmap photo;
+    private Double latitude;
+    private Double longitude;
+    private Bitmap Photo;
     public Item(int id,
                 String description,
                 boolean isOnShoppingList,
                 boolean isInCart,
                 String owner,
-                int imgId){
+                Double latitude,
+                Double longitude,
+                Bitmap Photo){
         Id = id;
         Description = description;
         IsOnShoppingList = isOnShoppingList;
@@ -59,6 +63,20 @@ public class Item {
     public String getOwner() { return Owner; }
     public void setOwner(String owner) { Owner = owner; }
 
-    public Bitmap getPhoto() { return photo; }
-    public void setPhoto(Bitmap photo) { this.photo = photo; }
+    public Double getLatitude() {
+        return latitude;
+    }
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Bitmap getPhoto() { return Photo; }
+    public void setPhoto(Bitmap photo) { Photo = photo; }
 }

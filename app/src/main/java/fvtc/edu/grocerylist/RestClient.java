@@ -48,8 +48,9 @@ public class RestClient {
                                 item.setOnShoppingList(object.getBoolean("IsOnShoppingList"));
                                 item.setInCart(object.getBoolean("IsInCart"));
                                 item.setOwner(object.getString("Owner"));
-
-                                String jsonPhoto = object.getString("photo");
+                                item.setLatitude(object.getDouble("latitude"));
+                                item.setLongitude(object.getDouble("longitude"));
+                                String jsonPhoto = object.getString("Photo");
                                 if(jsonPhoto != null)
                                 {
                                     byte[] bytePhoto = null;
@@ -111,8 +112,9 @@ public class RestClient {
                                     item.setOnShoppingList(object.getBoolean("IsOnShoppingList"));
                                     item.setInCart(object.getBoolean("IsInCart"));
                                     item.setOwner(object.getString("Owner"));
-
-                                    String jsonPhoto = object.getString("photo");
+                                    item.setLatitude(object.getDouble("latitude"));
+                                    item.setLongitude(object.getDouble("longitude"));
+                                    String jsonPhoto = object.getString("Photo");
                                     if(jsonPhoto != null)
                                     {
                                         byte[] bytePhoto = null;
@@ -160,7 +162,8 @@ public class RestClient {
             item.setOnShoppingList(object.getBoolean("IsOnShoppingList"));
             item.setInCart(object.getBoolean("IsInCart"));
             item.setOwner(object.getString("Owner"));
-
+            object.put("latitude", item.getLatitude());
+            object.put("longitude", item.getLongitude());
             if(item.getPhoto() != null)
             {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -168,11 +171,11 @@ public class RestClient {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                 byte[] imageBytes = baos.toByteArray();
                 String jsonPhoto = Base64.encodeToString(imageBytes, Base64.NO_WRAP);
-                object.put("photo", jsonPhoto);
+                object.put("Photo", jsonPhoto);
             }
             else
             {
-                object.put("photo", null);
+                object.put("Photo", null);
             }
             final String requestBody = object.toString();
             Log.d(TAG, "executeRequest: " + requestBody);
