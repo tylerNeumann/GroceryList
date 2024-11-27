@@ -323,7 +323,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private void fillShoppingList(){
-        readFromAPI();
         for(Item item: items) {
             if(item.getIsOnShoppingList()) {
                 shoppingList.add(item);
