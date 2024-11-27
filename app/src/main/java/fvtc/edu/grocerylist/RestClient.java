@@ -227,73 +227,7 @@ public class RestClient {
         try {
             executeRequest(item, url, context, volleyCallback, Request.Method.POST);
         } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private static void executeOwnerRequest(Owner owner,
-                                       String url,
-                                       Context context,
-                                       int method)
-    {
-        Log.d(TAG, "executeRequest: " + method + ":" + url);
-
-        try {
-            RequestQueue requestQueue = Volley.newRequestQueue(context);
-            JSONObject object = new JSONObject();
-            Log.i(TAG, "executeOwnerRequest: object.getString(\"Name\") = " + object.getString("Name"));
-            owner.setName(object.getString("Name"));
-            owner.setItemCount(object.getInt("ItemCount"));
-
-            final String requestBody = object.toString();
-            Log.d(TAG, "executeRequest: " + requestBody);
-
-            JsonObjectRequest request = new JsonObjectRequest(method, url, object,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            Log.d(TAG, "onResponse: " + response);
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.d(TAG, "onErrorResponse: " + error.getMessage());
-                    Log.d(TAG, "onResponse: error2");
-                    Log.i(TAG, "onErrorResponse: url = " + url);
-                }
-            })
-            {
-                @Override
-                public byte[] getBody(){
-                    Log.i(TAG, "getBody: " + object.toString());
-                    return object.toString().getBytes(StandardCharsets.UTF_8);
-                }
-            };
-
-            requestQueue.add(request);
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public static void execOwnerPutRequest(Owner owner,
-                                      String url,
-                                      Context context)
-    {
-        try {
-            executeOwnerRequest(owner, url, context, Request.Method.PUT);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public static void execOwnerPostRequest(Owner owner,
-                                       String url,
-                                       Context context)
-    {
-        try {
-            executeOwnerRequest(owner, url, context, Request.Method.POST);
-        } catch (Exception e) {
-            Log.i(TAG, "execOwnerPostRequest error: name = " + owner.Name);
+            Log.i(TAG, "execPostRequest: id = " + item.getId());
             throw new RuntimeException(e);
         }
     }
