@@ -69,15 +69,15 @@ public class MainActivity extends AppCompatActivity {
             item = new Item();
             if(getTitle().equals("Master List for " + ownerName)){
                 item = items.get(position);
-                Log.i(TAG, "onClick: " + item.getDescription());
+                Log.i(TAG, "onClick: " + item.getItem());
             }
             if(getTitle().equals("Shopping List for " + ownerName)){
                 item = shoppingList.get(position);
-                Log.i(TAG, "onClick: " + item.getDescription());
+                Log.i(TAG, "onClick: " + item.getItem());
             }
             Intent intent = new Intent(MainActivity.this, ItemEditer.class);
             intent.putExtra("itemId", item.getId());
-            intent.putExtra("itemDescription", item.getDescription());
+            intent.putExtra("itemDescription", item.getItem());
             startActivity(intent);
         }
     };
@@ -113,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, SetOwner.class));
         }
         readFromAPI();
-        if(items.isEmpty()) fillAPI();
         rebind();
         Log.i(TAG, "initialSetup: end");
     }
@@ -176,9 +175,8 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d(TAG, "onClick: OK");
                                 //get the new item
                                 EditText etAddItem = addItemView.findViewById(R.id.etAddItem);
-                                item.setDescription(etAddItem.getText().toString());
+                                item.setItem(etAddItem.getText().toString());
                                 item.setInCart(false);
-                                item.setImgId(R.drawable.photoicon);
                                 if(getTitle().equals("Master List for " + ownerName) ){
                                     item.setOnShoppingList(false);
                                 }
@@ -233,10 +231,10 @@ public class MainActivity extends AppCompatActivity {
                             new VolleyCallback() {
                                 @Override
                                 public void onSuccess(ArrayList<Item> result) {
-                                    Log.i(TAG, "onSuccess: delete " + item.getDescription());
+                                    Log.i(TAG, "onSuccess: delete " + item.getItem());
                                 }
                             });
-                    Log.d(TAG, "deleteChecked: reset item: " + item.getDescription());
+                    Log.d(TAG, "deleteChecked: reset item: " + item.getItem());
                 }
                 else Log.d(TAG, "deleteChecked: failed if");
             }
@@ -255,6 +253,7 @@ public class MainActivity extends AppCompatActivity {
             if(!items.isEmpty()) items.clear();
             readFromAPI();
             itemAdapter = new ItemAdapter(items, this);
+            Log.i(TAG, "rebind: " + items.toString());
         }
         if(getTitle().equals("Shopping List for " + ownerName)){
             Log.d(TAG, "rebind: hit shopping list");
@@ -316,6 +315,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onSuccess(ArrayList<Item> result) {
                     Log.d(TAG, "onSuccess: got here");
                     items = result;
+                    Log.i(TAG, "onSuccess: " + items.toString());
                 }
             });
         }catch (Exception e){
@@ -323,7 +323,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private void fillShoppingList(){
-        if(!shoppingList.isEmpty()) shoppingList.clear();
         readFromAPI();
         for(Item item: items) {
             if(item.isOnShoppingList()) {
@@ -343,6 +342,7 @@ public class MainActivity extends AppCompatActivity {
         fillItemsArray();
         for (int i = 0; i < items.size(); i++) {
             item = items.get(i);
+            Log.i(TAG, "fillAPI: item = " + item);
             RestClient.execPostRequest(item, getString(R.string.APIURL), this, new VolleyCallback() {
                 @Override
                 public void onSuccess(ArrayList<Item> result) {
