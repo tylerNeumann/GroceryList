@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
     private void addItem() {
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         final View addItemView = layoutInflater.inflate(R.layout.additem,null);
-
+        Item addItem = new Item();
         //show dialogue to user modularly.
         new AlertDialog.Builder(this)
                 .setTitle(R.string.add_item)
@@ -175,27 +175,33 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d(TAG, "onClick: OK");
                                 //get the new item
                                 EditText etAddItem = addItemView.findViewById(R.id.etAddItem);
-                                item.setItem(etAddItem.getText().toString());
-                                item.setInCart(false);
+                                addItem.setId(items.size());
+                                addItem.setItem(etAddItem.getText().toString());
                                 if(getTitle().equals("Master List for " + ownerName) ){
-                                    item.setOnShoppingList(false);
+                                    addItem.setOnShoppingList(false);
                                 }
                                 else{
-                                    item.setOnShoppingList(true);
-                                    shoppingList.add(item);
+                                    addItem.setOnShoppingList(true);
+                                    shoppingList.add(addItem);
                                     rvItems.setAdapter(itemAdapter);
                                 }
-                                Log.d(TAG, "onClick: add item: " + item);
-                                RestClient.execPostRequest(item, getString(R.string.APIURL), parentContext,
+                                addItem.setInCart(false);
+                                addItem.setOwner(ownerName);
+                                addItem.setLatitude(0.0);
+                                addItem.setLongitude(0.0);
+
+                                addItem.setPhoto(null);
+
+                                Log.d(TAG, "onClick: add item: " + addItem);
+                                RestClient.execPostRequest(addItem, getString(R.string.APIURL), parentContext,
                                         new VolleyCallback() {
                                             @Override
                                             public void onSuccess(ArrayList<Item> result) {
-                                                item.setId(result.get(0).getId());
-                                                Log.d(TAG, "onSuccess: Post" + item.getId());
+                                                addItem.setId(result.get(0).getId());
+                                                Log.d(TAG, "onSuccess: Post" + addItem.getId());
                                             }
                                         });
-                                readFromAPI();
-                                rebind();
+                                reloadScreen();
                             }
                         })
                 .setNegativeButton(getString(R.string.cancel),
