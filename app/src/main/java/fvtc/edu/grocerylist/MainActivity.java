@@ -51,8 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 if(isChecked) item.setInCart(true);
                 else item.setInCart(false);
             }
-            APIEnd = ownerName + "/" + item.getId();
-            RestClient.execPutRequest(item, getString(R.string.APIURL) + APIEnd, parentContext, new VolleyCallback() {
+            RestClient.execPutRequest(item, getString(R.string.APIURL) + item.getId(), parentContext, new VolleyCallback() {
                 @Override
                 public void onSuccess(ArrayList<Item> result) {
 
@@ -189,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
                                     rvItems.setAdapter(itemAdapter);
                                 }
                                 Log.d(TAG, "onClick: add item: " + item);
-                                RestClient.execPostRequest(item, getString(R.string.APIURL) + ownerName, parentContext,
+                                RestClient.execPostRequest(item, getString(R.string.APIURL), parentContext,
                                         new VolleyCallback() {
                                             @Override
                                             public void onSuccess(ArrayList<Item> result) {
@@ -212,9 +211,8 @@ public class MainActivity extends AppCompatActivity {
     public void deleteChecked(){
         if(getTitle().equals("Master List for " + ownerName) ){
             for(Item currentItem : items){
-                APIEnd = ownerName + "/" + currentItem.getId();
                 if(currentItem.isOnShoppingList()){
-                    RestClient.execDeleteRequest(currentItem, getString(R.string.APIURL) + APIEnd, this,
+                    RestClient.execDeleteRequest(currentItem, getString(R.string.APIURL) + currentItem.getId(), this,
                             new VolleyCallback() {
                                 @Override
                                 public void onSuccess(ArrayList<Item> result) {
@@ -229,10 +227,9 @@ public class MainActivity extends AppCompatActivity {
             for(int count = 0; count < shoppingList.size(); count++){
                 if(shoppingList.get(count).isInCart()) {
                     item = shoppingList.get(count);
-                    APIEnd = ownerName + "/" + item.getId();
                     item.setOnShoppingList(false);
                     item.setInCart(false);
-                    RestClient.execPutRequest(item, getString(R.string.APIURL) + ownerName + "/" + item.getId(), this,
+                    RestClient.execPutRequest(item, getString(R.string.APIURL) + item.getId(), this,
                             new VolleyCallback() {
                                 @Override
                                 public void onSuccess(ArrayList<Item> result) {
@@ -276,8 +273,7 @@ public class MainActivity extends AppCompatActivity {
                 item = items.get(count);
                 if (item.isOnShoppingList()) {
                     item.setOnShoppingList(false);
-                    APIEnd = ownerName + "/" + item.getId();
-                    RestClient.execPutRequest(item, getString(R.string.APIURL) + APIEnd, parentContext, new VolleyCallback() {
+                    RestClient.execPutRequest(item, getString(R.string.APIURL) + item.getId(), parentContext, new VolleyCallback() {
                         @Override
                         public void onSuccess(ArrayList<Item> result) {
 
@@ -297,8 +293,7 @@ public class MainActivity extends AppCompatActivity {
 
                     Log.i(TAG, "clearAll: item: " + item);
                     item.setInCart(false);
-                    APIEnd = ownerName + "/" + item.getId();
-                    RestClient.execPutRequest(item, getString(R.string.APIURL) + APIEnd, parentContext, new VolleyCallback() {
+                    RestClient.execPutRequest(item, getString(R.string.APIURL) + item.getId(), parentContext, new VolleyCallback() {
                         @Override
                         public void onSuccess(ArrayList<Item> result) {
 
@@ -316,7 +311,7 @@ public class MainActivity extends AppCompatActivity {
     private void readFromAPI(){
         try {
             Log.d(TAG, "readFromAPI: start");
-            RestClient.execGetRequest(getString(R.string.APIURL), this, new VolleyCallback() {
+            RestClient.execGetRequest(getString(R.string.APIURL) + ownerName, this, new VolleyCallback() {
                 @Override
                 public void onSuccess(ArrayList<Item> result) {
                     Log.d(TAG, "onSuccess: got here");
