@@ -15,6 +15,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -44,9 +45,9 @@ public class RestClient {
                                 JSONObject object = new JSONObject(response);
                                 Item item = new Item();
                                 item.setId(object.getInt("id"));
-                                item.setDescription(object.getString("description"));
-                                item.setOnShoppingList(object.getBoolean("isOnShoppingList"));
-                                item.setInCart(object.getBoolean("isInCart"));
+                                item.setItem(object.getString("item"));
+                                item.setOnShoppingList(boolConverterOnList(object));
+                                item.setInCart(boolConverterInCart(object));
                                 item.setOwner(object.getString("owner"));
                                 item.setLatitude(object.getDouble("latitude"));
                                 item.setLongitude(object.getDouble("longitude"));
@@ -105,9 +106,9 @@ public class RestClient {
                                     JSONObject object = JSONitems.getJSONObject(i);
                                     Item item = new Item();
                                     item.setId(object.getInt("id"));
-                                    item.setDescription(object.getString("description"));
-                                    item.setOnShoppingList(object.getBoolean("isOnShoppingList"));
-                                    item.setInCart(object.getBoolean("isInCart"));
+                                    item.setItem(object.getString("item"));
+                                    item.setOnShoppingList(boolConverterOnList(object));
+                                    item.setInCart(boolConverterInCart(object));
                                     item.setOwner(object.getString("owner"));
                                     item.setLatitude(object.getDouble("latitude"));
                                     item.setLongitude(object.getDouble("longitude"));
@@ -153,12 +154,11 @@ public class RestClient {
         try {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
             JSONObject object = new JSONObject();
-
-            item.setId(object.getInt("id"));
-            item.setDescription(object.getString("description"));
-            item.setOnShoppingList(object.getBoolean("isOnShoppingList"));
-            item.setInCart(object.getBoolean("isInCart"));
-            item.setOwner(object.getString("owner"));
+            object.put("id", item.getId());
+            object.put("item", item.getItem());
+            object.put("isOnShoppingList", item.getIsOnShoppingList());
+            object.put("isInCart", item.getIsInCart());
+            object.put("owner", item.getOwner());
             object.put("latitude", item.getLatitude());
             object.put("longitude", item.getLongitude());
             if(item.getPhoto() != null)
@@ -240,5 +240,13 @@ public class RestClient {
             Log.i(TAG, "execPostRequest: ");
             throw new RuntimeException(e);
         }
+    }
+    public static boolean boolConverterOnList(JSONObject object) throws JSONException {
+        if (object.getInt("isOnShoppingList") == 1) return true;
+        else return false;
+    }
+    private static boolean boolConverterInCart(JSONObject object) throws JSONException {
+        if (object.getInt("isInCart") == 1) return true;
+        else return false;
     }
 }
