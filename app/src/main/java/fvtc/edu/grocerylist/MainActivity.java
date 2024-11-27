@@ -113,6 +113,8 @@ public class MainActivity extends AppCompatActivity {
         if(ownerName == null){
             startActivity(new Intent(MainActivity.this, SetOwner.class));
         }
+        readFromAPI();
+        if(items.isEmpty()) fillAPI();
         rebind();
         Log.i(TAG, "initialSetup: end");
     }
