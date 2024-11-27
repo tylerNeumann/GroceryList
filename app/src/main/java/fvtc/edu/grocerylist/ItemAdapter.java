@@ -1,6 +1,7 @@
 package fvtc.edu.grocerylist;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -83,7 +84,14 @@ public class ItemAdapter extends RecyclerView.Adapter {
         Log.i(TAG, "onBindViewHolder: " + itemData.get(position));
         ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
         itemViewHolder.getTvDescription().setText(itemData.get(position).getDescription());
-        itemViewHolder.getImageButtonPhoto().setImageResource(itemData.get(position).getImgId());
+
+        Bitmap teamPhoto = currentItem.getPhoto();
+        if(teamPhoto != null){
+            itemViewHolder.getImageButtonPhoto().setImageBitmap(teamPhoto);
+        }
+        else {
+            itemViewHolder.getImageButtonPhoto().setImageResource(R.drawable.photoicon);
+        }
 
         itemViewHolder.getChkSelector().setOnCheckedChangeListener(null);
 
@@ -98,7 +106,6 @@ public class ItemAdapter extends RecyclerView.Adapter {
 
         itemViewHolder.getChkSelector().setTag(holder);
 
-        GroceryListDataSource ds = new GroceryListDataSource(parentContext);
         itemViewHolder.chkSelector.setOnCheckedChangeListener((buttonView, isChecked) -> {
             Log.i(TAG, "onCheckedChanged: start");
             //itemViewHolder.chkSelector.setChecked(isChecked);
