@@ -98,8 +98,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
-        readFromAPI();
-        rebind();
+        reloadScreen();
     }
     private void initialSetup() {
         Log.i(TAG, "initialSetup: start");
@@ -113,8 +112,8 @@ public class MainActivity extends AppCompatActivity {
         if(ownerName == ""){
             startActivity(new Intent(MainActivity.this, SetOwner.class));
         }
-        readFromAPI();
-        rebind();
+        //fillAPI();
+        reloadScreen();
         Log.i(TAG, "initialSetup: end");
     }
     public static String[] createDataArray(ArrayList<Item> items){
@@ -138,15 +137,13 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "onOptionsItemSelected: master list");
             setTitle("Master List for " + ownerName);
             title = "Master List for " + ownerName;
-            readFromAPI();
-            rebind();
+            reloadScreen();
         }
         else if (id == R.id.action_ShowShoppingList) {
             //Log.d(TAG, "onOptionsItemSelected: shopping list " + shoppingList.size());
             setTitle("Shopping List for " + ownerName);
             title = "Shopping List for " + ownerName;
-            readFromAPI();
-            rebind();
+            reloadScreen();
             Log.d(TAG, "ShowShoppingList: " + shoppingList.size());
         }
         else if (id == R.id.action_AddItem) {
@@ -243,8 +240,7 @@ public class MainActivity extends AppCompatActivity {
                 else Log.d(TAG, "deleteChecked: failed if");
             }
         }
-        readFromAPI();
-        rebind();
+        reloadScreen();
         Log.d(TAG, "deleteChecked: size: " + items.size());
     }
     public void rebind(){
@@ -308,8 +304,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-        readFromAPI();
-        rebind();
+        reloadScreen();
     }
     private void readFromAPI(){
         try {
@@ -356,7 +351,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+    private void reloadScreen() {
+        Log.i(TAG, "reloadScreen: start");
         readFromAPI();
         rebind();
+        readFromAPI();
+        rebind();
+        Log.i(TAG, "reloadScreen: end");
     }
 }
