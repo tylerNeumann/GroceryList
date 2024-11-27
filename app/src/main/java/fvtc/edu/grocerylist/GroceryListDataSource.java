@@ -76,7 +76,7 @@ public class GroceryListDataSource {
             {
                 item = new Item();
                 item.setId(cursor.getInt(0));
-                item.setDescription(cursor.getString(1));
+                item.setItem(cursor.getString(1));
                 boolean onShoppingList = cursor.getInt(2) == 1;
                 item.setOnShoppingList(onShoppingList);
                 boolean inCart = cursor.getInt(3) == 1;
@@ -115,7 +115,7 @@ public class GroceryListDataSource {
                 Log.d(TAG, "get: entered while loop");
                 item = new Item();
                 item.setId(cursor.getInt(0));
-                item.setDescription(cursor.getString(1));
+                item.setItem(cursor.getString(1));
                 boolean onShoppingList = cursor.getInt(2) == 1;
                 item.setOnShoppingList(onShoppingList);
                 boolean inCart = cursor.getInt(3) == 1;
@@ -213,9 +213,9 @@ public class GroceryListDataSource {
 
         try{
             ContentValues values = new ContentValues();
-            values.put("description", item.getDescription());
-            values.put("isOnShoppingList", item.isOnShoppingList());
-            values.put("isInCart", item.isInCart());
+            values.put("description", item.getItem());
+            values.put("getIsOnShoppingList", item.getIsOnShoppingList());
+            values.put("getIsInCart", item.getIsInCart());
 
 
             String where = "id = " + item.getId();
@@ -239,9 +239,9 @@ public class GroceryListDataSource {
         try{
             if(db != null) {
                 ContentValues values = new ContentValues();
-                values.put("description", item.getDescription());
-                values.put("isOnShoppingList", item.isOnShoppingList());
-                values.put("isInCart", item.isInCart());
+                values.put("description", item.getItem());
+                values.put("getIsOnShoppingList", item.getIsOnShoppingList());
+                values.put("getIsInCart", item.getIsInCart());
 
                 rowsaffected = (int)db.insert("tblGroceryList", null, values);
             }
@@ -271,7 +271,7 @@ public class GroceryListDataSource {
                 Log.d(TAG, "getShoppingList: entered while loop");
                 item = new Item();
                 item.setId(cursor.getInt(0));
-                item.setDescription(cursor.getString(1));
+                item.setItem(cursor.getString(1));
                 item.setOnShoppingList(true);
                 boolean inCart = (cursor.getInt(3) == 1);
                 item.setInCart(inCart);
