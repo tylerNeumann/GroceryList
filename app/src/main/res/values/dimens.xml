@@ -5,4 +5,7 @@
     <dimen name="_32dp">32dp</dimen>
     <dimen name="_16dp">16dp</dimen>
     <dimen name="_24dp">24dp</dimen>
+    <dimen name="_150dp">150dp</dimen>
+    <dimen name="_75dp">75dp</dimen>
+    <dimen name="_5dp">5dp</dimen>
 </resources>

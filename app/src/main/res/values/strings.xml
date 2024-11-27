@@ -15,4 +15,5 @@
     <string name="enter_description">enter description</string>
     <string name="description">Description</string>
     <string name="APIURL">https://fvtcdp.azurewebsites.net/api/GroceryList/</string>
+    <string name="click_the_photo_icon_to_add_a_photo">Click the photo icon to add a photo</string>
 </resources>
