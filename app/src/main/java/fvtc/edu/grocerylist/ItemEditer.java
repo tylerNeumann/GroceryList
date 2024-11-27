@@ -128,7 +128,7 @@ public class ItemEditer extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                item.setItem(s.toString());
+                if(item != null)item.setItem(s.toString());
             }
         });
     }
