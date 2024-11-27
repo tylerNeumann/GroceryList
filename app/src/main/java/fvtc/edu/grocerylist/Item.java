@@ -1,5 +1,6 @@
 package fvtc.edu.grocerylist;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 public class Item {
@@ -9,7 +10,7 @@ public class Item {
     private boolean IsOnShoppingList;
     private boolean IsInCart;
     private String Owner;
-    private int ImgId;
+    private Bitmap photo;
     public Item(int id,
                 String description,
                 boolean isOnShoppingList,
@@ -21,7 +22,6 @@ public class Item {
         IsOnShoppingList = isOnShoppingList;
         IsInCart = isInCart;
         Owner = owner;
-        ImgId = imgId;
     }
     public Item(){
         Id = -1;
@@ -29,7 +29,6 @@ public class Item {
         IsOnShoppingList = false;
         IsInCart = false;
         Owner = null;
-        ImgId = 0;
     }
     public String toString(){ return Id + "|" + Description + "|" + IsOnShoppingList + "|" + IsInCart;}
 
@@ -60,8 +59,6 @@ public class Item {
     public String getOwner() { return Owner; }
     public void setOwner(String owner) { Owner = owner; }
 
-    public int getImgId() {
-        return ImgId;
-    }
-    public void setImgId(int imgId) { ImgId = imgId; }
+    public Bitmap getPhoto() { return photo; }
+    public void setPhoto(Bitmap photo) { this.photo = photo; }
 }
