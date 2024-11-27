@@ -27,7 +27,6 @@ public class ItemAdapter extends RecyclerView.Adapter {
     public static final String TAG = "ItemAdapter";
     private Context parentContext;
     int itemPosition;
-    //FileIO fileIO;
 
     public class ItemViewHolder extends RecyclerView.ViewHolder{
         public TextView tvDescription;
@@ -114,8 +113,7 @@ public class ItemAdapter extends RecyclerView.Adapter {
                 Log.d(TAG, "Unknown list title: " + MainActivity.title);
             }
 
-            String APIEnd = MainActivity.ownerName + "/" + currentItem.getId();
-            RestClient.execPutRequest(currentItem, parentContext.getString(R.string.APIURL) + APIEnd, parentContext, new VolleyCallback() {
+            RestClient.execPutRequest(currentItem, parentContext.getString(R.string.APIURL) + currentItem.getId(), parentContext, new VolleyCallback() {
                 @Override
                 public void onSuccess(ArrayList<Item> result) {
 
