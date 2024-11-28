@@ -38,10 +38,10 @@ public class ItemEditer extends AppCompatActivity {
     Item item;
     int itemId;
     String itemDescription;
-    ArrayList<Item> items;
     public static final int PERMISSION_REQUEST_PHONE = 102;
     public static final int PERMISSION_REQUEST_CAMERA = 103;
     public static final int CAMERA_REQUEST = 1888;
+    EditText etDescription;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,13 +52,16 @@ public class ItemEditer extends AppCompatActivity {
         itemDescription = extras.getString("itemDescription");
         Log.i(TAG, "onCreate: id = " + itemId);
         this.setTitle(itemDescription);
-        initItems(itemId);
+        if(itemId != -1) initItems(itemId);
+        else item = new Item();
 
         initToggleButton();
         initSaveButton();
         initTextChanged();
         initImgBtn();
         SetForEditing(false);
+
+        etDescription = findViewById(R.id.etDescription);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.activity_item_editer), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -88,6 +91,8 @@ public class ItemEditer extends AppCompatActivity {
         EditText etDescription = findViewById(R.id.etDescription);
         if(item != null) {
             etDescription.setText(item.getItem());
+            ImageButton imageTeam = findViewById(R.id.imgItem);
+            if(item.getPhoto() != null) imageTeam.setImageBitmap(item.getPhoto());
         }
 
     }
@@ -117,13 +122,26 @@ public class ItemEditer extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RestClient.execPutRequest(item, getString(R.string.APIURL) + item.getId(), ItemEditer.this, new VolleyCallback() {
-                    @Override
-                    public void onSuccess(ArrayList<Item> result) {
+                if(itemDescription != "" && itemId != -1){
+                    RestClient.execPutRequest(item, getString(R.string.APIURL) + item.getId(), ItemEditer.this, new VolleyCallback() {
+                        @Override
+                        public void onSuccess(ArrayList<Item> result) {
 
-                        Log.d(TAG, "onSuccess: Put" + item.getId());
-                    }
-                });
+                            Log.d(TAG, "onSuccess: Put" + item.getId());
+                        }
+                    });
+                }
+                else {
+                    Log.d(TAG, "onClick: add item: " + item);
+                    RestClient.execPostRequest(item, getString(R.string.APIURL), ItemEditer.this,
+                            new VolleyCallback() {
+                                @Override
+                                public void onSuccess(ArrayList<Item> result) {
+                                    item.setId(result.get(0).getId());
+                                    Log.d(TAG, "onSuccess: Post" + item.getId());
+                                }
+                            });
+                }
                 startActivity(new Intent(ItemEditer.this, MainActivity.class));
             }
         });

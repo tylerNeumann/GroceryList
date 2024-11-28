@@ -30,14 +30,12 @@ public class Item {
         this.photo = photo;
     }
     public Item(){
-        this.id = -1;
         this.item = "";
-        this.isOnShoppingList = false;
+        this.isOnShoppingList = newItemOnShoppingList();
         this.isInCart = false;
-        this.owner = null;
+        this.owner = MainActivity.ownerName;
         this.latitude = 0.0;
         this.longitude = 0.0;
-        this.photo = null;
     }
     public String toString(){ return id + "|" + item + "|" + isOnShoppingList + "|" + isInCart + "|" + owner + "|" + latitude + "|" + longitude + "|" + photo;}
 
@@ -84,4 +82,8 @@ public class Item {
 
     public Bitmap getPhoto() { return photo; }
     public void setPhoto(Bitmap photo) { this.photo = photo; }
+
+    private boolean newItemOnShoppingList(){
+        return MainActivity.title.equals("Master List for " + MainActivity.ownerName) ? false : true;
+    }
 }

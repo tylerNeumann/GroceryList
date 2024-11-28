@@ -1,11 +1,16 @@
 package fvtc.edu.grocerylist;
 
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,14 +18,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -29,12 +39,12 @@ public class MainActivity extends AppCompatActivity {
 
     public ItemAdapter itemAdapter;
     RecyclerView rvItems;
-    ArrayList<Item> items;
+    public static ArrayList<Item> items;
     ArrayList<Item> shoppingList;
     private Context parentContext;
     public static String title;
     public static String ownerName = null;
-    Item item;
+    public static Item item;
     private CompoundButton.OnCheckedChangeListener onCheckedChangedListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -148,7 +158,10 @@ public class MainActivity extends AppCompatActivity {
         }
         else if (id == R.id.action_AddItem) {
             Log.d(TAG, "onOptionsItemSelected: add");
-            addItem();
+            Intent intent = new Intent(MainActivity.this, ItemEditer.class);
+            intent.putExtra("itemId", -1);
+            intent.putExtra("itemDescription", "");
+            startActivity(intent);
         }
         else if(id == R.id.action_ClearAll){
             Log.d(TAG, "onOptionsItemSelected: clear");
@@ -159,59 +172,6 @@ public class MainActivity extends AppCompatActivity {
             deleteChecked();
         }
         return super.onOptionsItemSelected(item);
-    }
-    private void addItem() {
-        LayoutInflater layoutInflater = LayoutInflater.from(this);
-        final View addItemView = layoutInflater.inflate(R.layout.additem,null);
-        Item addItem = new Item();
-        //show dialogue to user modularly.
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.add_item)
-                .setView(addItemView)
-                .setPositiveButton(getString(R.string.ok),
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Log.d(TAG, "onClick: OK");
-                                //get the new item
-                                EditText etAddItem = addItemView.findViewById(R.id.etAddItem);
-                                addItem.setId(items.size());
-                                addItem.setItem(etAddItem.getText().toString());
-                                if(getTitle().equals("Master List for " + ownerName) ){
-                                    addItem.setOnShoppingList(false);
-                                }
-                                else{
-                                    addItem.setOnShoppingList(true);
-                                    shoppingList.add(addItem);
-                                    rvItems.setAdapter(itemAdapter);
-                                }
-                                addItem.setInCart(false);
-                                addItem.setOwner(ownerName);
-                                addItem.setLatitude(0.0);
-                                addItem.setLongitude(0.0);
-
-                                addItem.setPhoto(null);
-
-                                Log.d(TAG, "onClick: add item: " + addItem);
-                                RestClient.execPostRequest(addItem, getString(R.string.APIURL), parentContext,
-                                        new VolleyCallback() {
-                                            @Override
-                                            public void onSuccess(ArrayList<Item> result) {
-                                                addItem.setId(result.get(0).getId());
-                                                Log.d(TAG, "onSuccess: Post" + addItem.getId());
-                                            }
-                                        });
-                                reloadScreen();
-                            }
-                        })
-                .setNegativeButton(getString(R.string.cancel),
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Log.d(TAG, "onClick: Cancel");
-                            }
-                        }).show();
-
     }
     public void deleteChecked(){
         if(getTitle().equals("Master List for " + ownerName) ){
