@@ -153,7 +153,9 @@ public class MainActivity extends AppCompatActivity {
             //Log.d(TAG, "onOptionsItemSelected: shopping list " + shoppingList.size());
             setTitle("Shopping List for " + ownerName);
             title = "Shopping List for " + ownerName;
+            fillShoppingList();
             Log.d(TAG, "ShowShoppingList: " + shoppingList.size());
+            reloadScreen();
         }
         else if (id == R.id.action_AddItem) {
             Log.d(TAG, "onOptionsItemSelected: add");
@@ -221,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if(getTitle().equals("Shopping List for " + ownerName)){
             Log.d(TAG, "rebind: hit shopping list");
-            loadShoppingList();
+            fillShoppingList();
             itemAdapter = new ItemAdapter(shoppingList, this);
         }
         itemAdapter.setOnItemCheckedChangeListener(onCheckedChangedListener);
@@ -287,14 +289,14 @@ public class MainActivity extends AppCompatActivity {
             Log.e(TAG, "readFromAPI: Error" + e.getMessage() );
         }
     }
-    private void loadShoppingList(){
+    private void fillShoppingList(){
         shoppingList.clear();
         for(Item item: items) {
+            Log.i(TAG, "loadShoppingList: item = " + item.toString());
             if(item.getIsOnShoppingList()) {
                 shoppingList.add(item);
             }
         }
-        reloadScreen();
     }
     private void fillItemsArray(){
         items.add(new Item(1, "Protein Shake", false, false, ownerName, 0.0, 0.0, null));
